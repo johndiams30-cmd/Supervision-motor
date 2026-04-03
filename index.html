@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>🔥 IoT Firebase - Contrôle Moteur</title>
+
+    <!-- SDK Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 550px;
+            margin: 0 auto;
+            background: #1e1e2f;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            color: #e0e0e0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ffaa00;
+            font-size: 22px;
+        }
+
+        .status-card {
+            background: linear-gradient(135deg, #ffaa00, #ff6600);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            color: #1a1a2e;
+            margin-bottom: 20px;
+        }
+
+        .led {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 20px auto;
+            transition: all 0.3s;
+        }
+
+        .led-on {
+            background: radial-gradient(circle at 30% 30%, #ffffff, #ffeb3b);
+            box-shadow: 0 0 30px #ffeb3b;
+            animation: pulse 1s infinite;
+        }
+
+        .led-off {
+            background: radial-gradient(circle at 30% 30%, #555, #222);
+            box-shadow: none;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .btn-on {
+            background: #00b09b;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-off {
+            background: #ff6b6b;
+            color: white;
+            flex: 1;
+        }
+
+        .info-card {
+            background: #2a2a3a;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #444;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #aaa;
+        }
+
+        .info-value {
+            color: #ffaa00;
+            font-weight: bold;
+        }
+
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            background: #2a2a3a;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-on {
+            color: #00b09b;
+            font-weight: bold;
+        }
+
+        .history-off {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .timestamp {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .connection-status {
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
+            background: #333;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔥 IoT Firebase - Contrôle Moteur</h1>
+
+        <div class="status-card">
+            <h3>État du Moteur</h3>
+            <div class="led led-off" id="led"></div>
+            <h2 id="motorStatus">ARRÊT</h2>
+            <div class="control-buttons">
+                <button class="btn-on" id="btnOn">🟢 MARCHE</button>
+                <button class="btn-off" id="btnOff">🔴 ARRÊT</button>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div class="info-row">
+                <span class="info-label">📱 Dernière commande</span>
+                <span class="info-value" id="lastCommand">-</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">💻 Appareil</span>
+                <span class="info-value" id="lastDevice">-</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">⏰ Date/Heure</span>
+                <span class="info-value" id="lastTime">-</span>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h3 style="margin-bottom: 10px;">📜 Historique (10 dernières)</h3>
+            <div class="history-list" id="historyList">
+                <div style="text-align:center;padding:20px;">Chargement...</div>
+            </div>
+        </div>
+
+        <div class="connection-status" id="connectionStatus">
+            🔌 Connexion à Firebase...
+        </div>
+    </div>
+
+    <script>
+        // 🔥 VOTRE CONFIGURATION FIREBASE (AVEC L'URL QUE VOUS AVEZ COPIÉE)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDly3kKY6Hh0mOL07hfAT57ULiuE3fXnk8",
+            authDomain: "iot-moteur-controle.firebaseapp.com",
+            databaseURL: "https://iot-moteur-controle-default-rtdb.europe-west1.firebasedatabase.app", // ← REMPLACEZ PAR VOTRE URL
+            projectId: "iot-moteur-controle",
+            storageBucket: "iot-moteur-controle.firebasestorage.app",
+            messagingSenderId: "36220333719",
+            appId: "1:36220333719:web:483313a74a280096d983d2"
+        };
+
+        // Initialiser Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Détecter le type d'appareil
+        function getDeviceType() {
+            const ua = navigator.userAgent.toLowerCase();
+            if (ua.includes('mobile') || ua.includes('android') || ua.includes('iphone')) {
+                return '📱 Mobile';
+            }
+            return '💻 PC';
+        }
+
+        // Notification
+        function showNotification(message, isError = false) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            notification.style.background = isError ? '#ff6b6b' : '#00b09b';
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        // Mettre à jour la LED
+        function updateLED(state) {
+            const led = document.getElementById('led');
+            const motorStatus = document.getElementById('motorStatus');
+
+            if (state === 1) {
+                led.className = 'led led-on';
+                motorStatus.innerHTML = 'MARCHE ✅';
+            } else {
+                led.className = 'led led-off';
+                motorStatus.innerHTML = 'ARRÊT ❌';
+            }
+        }
+
+        // Formater la date
+        function formatDate(timestamp) {
+            if (!timestamp) return '-';
+            const date = new Date(timestamp);
+            return date.toLocaleString('fr-FR');
+        }
+
+        // Envoyer une commande
+        async function sendCommand(value) {
+            const device = getDeviceType();
+            const commandText = value === 1 ? 'MARCHE' : 'ARRÊT';
+
+            try {
+                // Sauvegarder l'état actuel
+                await database.ref('moteur/etat').set({
+                    valeur: value,
+                    appareil: device,
+                    timestamp: Date.now()
+                });
+
+                // Ajouter à l'historique
+                await database.ref('historique').push({
+                    valeur: value,
+                    appareil: device,
+                    timestamp: Date.now()
+                });
+
+                showNotification(`✅ ${commandText} envoyé depuis ${device}`);
+
+            } catch (error) {
+                console.error('Erreur:', error);
+                showNotification(`❌ Erreur: ${error.message}`, true);
+            }
+        }
+
+        // Écouter l'état du moteur (temps réel)
+        function listenToMotorState() {
+            database.ref('moteur/etat').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    updateLED(data.valeur);
+                    document.getElementById('lastCommand').innerHTML =
+                        data.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT';
+                    document.getElementById('lastDevice').innerHTML = data.appareil;
+                    document.getElementById('lastTime').innerHTML = formatDate(data.timestamp);
+                }
+            });
+        }
+
+        // Écouter l'historique (temps réel)
+        function listenToHistory() {
+            database.ref('historique').limitToLast(10).on('value', (snapshot) => {
+                const data = snapshot.val();
+                const historyDiv = document.getElementById('historyList');
+
+                if (!data) {
+                    historyDiv.innerHTML = '<div style="text-align:center;padding:20px;">Aucune commande</div>';
+                    return;
+                }
+
+                const historyArray = Object.entries(data).map(([key, value]) => value);
+                historyArray.reverse();
+
+                historyDiv.innerHTML = historyArray.map(item => `
+                    <div class="history-item">
+                        <div>
+                            <span class="${item.valeur === 1 ? 'history-on' : 'history-off'}">
+                                ${item.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}
+                            </span>
+                            <div class="timestamp">${item.appareil}</div>
+                        </div>
+                        <div class="timestamp">${formatDate(item.timestamp)}</div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        // Vérifier l'état de la connexion
+        function checkConnection() {
+            const connectedRef = database.ref('.info/connected');
+            connectedRef.on('value', (snap) => {
+                const statusDiv = document.getElementById('connectionStatus');
+                if (snap.val() === true) {
+                    statusDiv.innerHTML = '✅ Connecté à Firebase - Temps réel actif';
+                    statusDiv.style.color = '#00b09b';
+                } else {
+                    statusDiv.innerHTML = '⚠️ Hors ligne - Mode cache actif';
+                    statusDiv.style.color = '#ffaa00';
+                }
+            });
+        }
+
+        // Initialiser l'application
+        function init() {
+            document.getElementById('btnOn').onclick = () => sendCommand(1);
+            document.getElementById('btnOff').onclick = () => sendCommand(0);
+
+            listenToMotorState();
+            listenToHistory();
+            checkConnection();
+
+            showNotification('🔥 Firebase prêt ! Contrôle en temps réel');
+        }
+
+        // Démarrer au chargement
+        init();
+    </script>
+</body>
+
+</html>
