@@ -9,7 +9,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-storage-compat.js"></script>
 
     <style>
         * {
@@ -118,41 +117,6 @@
             border-radius: 8px;
             color: white;
             cursor: pointer;
-        }
-
-        /* ===== PHOTO DE PROFIL ===== */
-        .profile-photo-container {
-            position: relative;
-            cursor: pointer;
-        }
-
-        .profile-photo {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #2b7be4;
-            transition: transform 0.2s;
-        }
-
-        .profile-photo:hover {
-            transform: scale(1.05);
-            opacity: 0.9;
-        }
-
-        .photo-edit-badge {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            background: #2b7be4;
-            border-radius: 50%;
-            width: 16px;
-            height: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: white;
         }
 
         /* ===== CARTES ===== */
@@ -366,29 +330,6 @@
             display: block;
         }
 
-        /* ===== PAGE PROFIL ===== */
-        .profile-card {
-            text-align: center;
-        }
-
-        .profile-big-photo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #2b7be4;
-            margin: 20px auto;
-            cursor: pointer;
-        }
-
-        .profile-info {
-            margin: 20px 0;
-        }
-
-        .file-input {
-            display: none;
-        }
-
         /* ===== CONNEXION ===== */
         .login-container {
             max-width: 400px;
@@ -567,7 +508,8 @@
             <h2 id="pageTitle">Tableau de bord</h2>
             <div class="user-info">
                 <div class="profile-photo-container" id="headerProfileContainer">
-                    <img id="headerProfilePhoto" class="profile-photo" src="https://via.placeholder.com/45" alt="Photo">
+                    <img id="headerProfilePhoto" class="profile-photo" src="https://via.placeholder.com/45" alt="Photo"
+                        style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #2b7be4;">
                     <div class="photo-edit-badge">📷</div>
                     <input type="file" id="photoUpload" accept="image/*" style="display: none;">
                 </div>
@@ -719,7 +661,8 @@
             <div class="card profile-card">
                 <h3>👤 Mon profil</h3>
                 <img id="profileBigPhoto" class="profile-big-photo" src="https://via.placeholder.com/150"
-                    alt="Photo de profil">
+                    alt="Photo de profil"
+                    style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #2b7be4; margin: 20px auto; cursor: pointer;">
                 <div class="profile-info">
                     <div class="info-row">
                         <span class="info-label">📧 Email</span>
@@ -760,6 +703,11 @@
     <!-- ÉCRANS DE CONNEXION -->
     <div class="login-container" id="loginScreen">
         <div class="login-card">
+            <!-- LOGO ENTREPRISE -->
+            <div style="text-align:center; margin-bottom:15px;">
+                <img src="https://i.ibb.co/TDZ1fMW/IMG-20250121-220704.jpg" alt="Logo Entreprise"
+                    style="max-width:120px;">
+            </div>
             <h2>🔐 Accès sécurisé</h2>
             <input type="email" id="loginEmail" class="login-input" placeholder="Email">
             <input type="password" id="loginPassword" class="login-input" placeholder="Mot de passe">
@@ -781,6 +729,7 @@
     </div>
 
     <script>
+        // Configuration Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDLy3kKY6Hh0mOL07hfAT57ULiuE3fXnk8",
             authDomain: "iot-moteur-controle.firebaseapp.com",
@@ -810,7 +759,6 @@
             document.getElementById('pageTitle').textContent = titles[page];
             if (window.innerWidth <= 768) closeMenu();
 
-            // Mettre à jour les infos du profil si on est sur la page profil
             if (page === 'profile') {
                 updateProfilePage();
             }
@@ -824,7 +772,7 @@
         function closeMenu() { document.getElementById('sidebar').classList.remove('open'); }
         document.getElementById('menuToggle').onclick = () => document.getElementById('sidebar').classList.toggle('open');
 
-        // ===== GESTION PHOTO DE PROFIL =====
+        // Gestion photo de profil
         async function uploadProfilePhoto(file) {
             const user = auth.currentUser;
             if (!user) return;
@@ -845,7 +793,6 @@
                         email: user.email
                     });
 
-                    // Mettre à jour les affichages
                     document.getElementById('headerProfilePhoto').src = reader.result;
                     document.getElementById('profileBigPhoto').src = reader.result;
                     showNotification("✅ Photo mise à jour !");
@@ -881,18 +828,15 @@
             document.getElementById('profileEmail').textContent = user.email;
             document.getElementById('profileUid').textContent = user.uid.substring(0, 20) + '...';
 
-            // Date de création (metadata)
             if (user.metadata.creationTime) {
                 const date = new Date(user.metadata.creationTime);
                 document.getElementById('profileSince').textContent = date.toLocaleDateString('fr-FR');
             }
 
-            // Total des commandes de l'utilisateur
             const total = onCount + offCount;
             document.getElementById('profileTotalCommands').textContent = total;
         }
 
-        // Événements photo
         document.getElementById('headerProfileContainer').onclick = () => {
             document.getElementById('photoUpload').click();
         };
