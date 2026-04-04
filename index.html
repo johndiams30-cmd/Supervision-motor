@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>🔥 IoT Firebase - Contrôle Moteur</title>
+    <title>🔐 IoT Firebase - Contrôle Moteur</title>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
 
     <style>
         * {
@@ -17,7 +18,6 @@
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
-        /* ===== THÈME CLAIR (DÉFAUT) ===== */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #e8f0fe 0%, #d4e4fc 100%);
@@ -57,6 +57,73 @@
             background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
         }
 
+        /* ===== ÉCRAN DE CONNEXION ===== */
+        .auth-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .auth-card h2 {
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .auth-card p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .auth-switch {
+            margin-top: 20px;
+            color: var(--accent);
+            cursor: pointer;
+        }
+
+        .error-msg {
+            color: #ff6b6b;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
         /* ===== MENU ===== */
         .menu-header {
             position: fixed;
@@ -86,6 +153,27 @@
             font-size: 18px;
             font-weight: bold;
             color: var(--accent);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .logout-btn {
+            background: var(--accent-light);
+            border: none;
+            border-radius: 20px;
+            padding: 6px 12px;
+            cursor: pointer;
+            color: var(--accent);
+            font-size: 12px;
         }
 
         .theme-toggle {
@@ -161,16 +249,19 @@
             transform: translateX(5px);
         }
 
-        .menu-item:active {
-            background: var(--accent);
-            color: white;
-        }
-
         /* ===== CONTENEUR PRINCIPAL ===== */
         .container {
             max-width: 600px;
             margin: 70px auto 20px;
             padding: 20px;
+        }
+
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.show {
+            display: block;
         }
 
         /* ===== CARTES ===== */
@@ -186,12 +277,8 @@
         .card h3 {
             color: var(--accent);
             margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        /* ===== CARTE ÉTAT MOTEUR ===== */
         .motor-card {
             background: var(--accent-gradient);
             color: white;
@@ -200,7 +287,6 @@
 
         .motor-card h3 {
             color: white;
-            justify-content: center;
         }
 
         .led {
@@ -227,16 +313,13 @@
             0%,
             100% {
                 transform: scale(1);
-                opacity: 1;
             }
 
             50% {
                 transform: scale(1.08);
-                opacity: 0.9;
             }
         }
 
-        /* ===== BOUTONS ===== */
         .control-buttons {
             display: flex;
             gap: 20px;
@@ -265,11 +348,6 @@
             color: white;
         }
 
-        .btn:active {
-            transform: scale(0.96);
-        }
-
-        /* ===== GRILLE STATS ===== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -283,13 +361,6 @@
             color: var(--accent);
         }
 
-        .stat-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 5px;
-        }
-
-        /* ===== INFO ROW ===== */
         .info-row {
             display: flex;
             justify-content: space-between;
@@ -297,16 +368,11 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .info-label {
-            color: var(--text-secondary);
-        }
-
         .info-value {
             color: var(--accent);
             font-weight: bold;
         }
 
-        /* ===== FILTRES ===== */
         .filter-buttons {
             display: flex;
             gap: 10px;
@@ -321,7 +387,6 @@
             cursor: pointer;
             font-size: 12px;
             color: var(--text-primary);
-            transition: all 0.2s;
         }
 
         .filter-btn.active {
@@ -329,7 +394,6 @@
             color: white;
         }
 
-        /* ===== HISTORIQUE ===== */
         .history-list {
             max-height: 300px;
             overflow-y: auto;
@@ -355,18 +419,6 @@
             font-weight: bold;
         }
 
-        .history-device {
-            font-size: 10px;
-            opacity: 0.6;
-            margin-left: 8px;
-        }
-
-        .timestamp {
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-
-        /* ===== SECTION CACHÉE ===== */
         .section {
             display: none;
         }
@@ -375,7 +427,6 @@
             display: block;
         }
 
-        /* ===== NOTIFICATION ===== */
         .notification {
             position: fixed;
             bottom: 20px;
@@ -389,7 +440,6 @@
             animation: slideUp 0.3s ease;
             z-index: 2000;
             font-weight: bold;
-            white-space: nowrap;
         }
 
         @keyframes slideUp {
@@ -404,219 +454,178 @@
             }
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 500px) {
-            .container {
-                padding: 15px;
-            }
-
             .control-buttons {
                 flex-direction: column;
             }
 
             .stats-grid {
                 grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .notification {
-                white-space: normal;
-                text-align: center;
-                max-width: 90%;
             }
         }
     </style>
 </head>
 
 <body class="light">
-    <!-- Barre de menu fixe -->
-    <div class="menu-header">
-        <button class="menu-icon" id="menuIcon">☰</button>
-        <div class="menu-title">⚙️ IoT Moteur</div>
-        <button class="theme-toggle" id="themeToggle">🌙 Sombre</button>
-    </div>
+    <!-- Écran de connexion -->
+    <div id="authContainer" class="auth-container">
+        <div class="auth-card">
+            <h2>🔐 IoT Firebase</h2>
+            <p>Connectez-vous pour contrôler le moteur</p>
 
-    <!-- Menu latéral -->
-    <div class="menu-overlay" id="menuOverlay"></div>
-    <div class="side-menu" id="sideMenu">
-        <div class="menu-header-drawer">
-            <h3>🔧 MENU PRINCIPAL</h3>
-        </div>
-        <div class="menu-item" data-section="dashboard">
-            <span>📊</span> Tableau de bord
-        </div>
-        <div class="menu-item" data-section="stats">
-            <span>📈</span> Statistiques détaillées
-        </div>
-        <div class="menu-item" data-section="history">
-            <span>📜</span> Historique complet
-        </div>
-        <div class="menu-item" data-section="export">
-            <span>💾</span> Exporter les données
-        </div>
-        <div class="menu-item" data-section="about">
-            <span>ℹ️</span> À propos
-        </div>
-        <div class="menu-item" data-section="help">
-            <span>❓</span> Aide
-        </div>
-        <div class="menu-item" id="refreshData">
-            <span>🔄</span> Rafraîchir
+            <input type="email" id="loginEmail" class="auth-input" placeholder="Email" autocomplete="email">
+            <input type="password" id="loginPassword" class="auth-input" placeholder="Mot de passe"
+                autocomplete="current-password">
+            <button id="loginBtn" class="auth-btn">Se connecter</button>
+
+            <div class="auth-switch" id="showRegister">
+                Pas de compte ? Créer un compte
+            </div>
+            <div class="error-msg" id="authError"></div>
         </div>
     </div>
 
-    <div class="container">
-        <!-- Section Dashboard -->
-        <div id="dashboardSection" class="section active">
-            <!-- Carte moteur -->
-            <div class="card motor-card">
-                <h3>⚙️ État du Moteur</h3>
-                <div class="led led-off" id="led"></div>
-                <h2 id="motorStatus" style="font-size: 28px;">ARRÊT</h2>
-                <div class="control-buttons">
-                    <button class="btn btn-on" id="btnOn">🟢 MARCHE</button>
-                    <button class="btn btn-off" id="btnOff">🔴 ARRÊT</button>
-                </div>
-            </div>
+    <div id="registerContainer" class="auth-container" style="display: none;">
+        <div class="auth-card">
+            <h2>📝 Créer un compte</h2>
+            <p>Inscrivez-vous pour accéder au contrôle</p>
 
-            <!-- Infos rapides -->
-            <div class="card">
-                <h3>📱 Dernière activité</h3>
-                <div class="info-row">
-                    <span class="info-label">Commande</span>
-                    <span class="info-value" id="lastCommand">-</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Appareil</span>
-                    <span class="info-value" id="lastDevice">-</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Date/Heure</span>
-                    <span class="info-value" id="lastTime">-</span>
-                </div>
-            </div>
+            <input type="email" id="registerEmail" class="auth-input" placeholder="Email">
+            <input type="password" id="registerPassword" class="auth-input" placeholder="Mot de passe (6+ caractères)">
+            <button id="registerBtn" class="auth-btn">Créer le compte</button>
 
-            <!-- Stats rapides -->
-            <div class="card">
-                <h3>📊 Aperçu</h3>
-                <div class="stats-grid">
-                    <div>
-                        <div class="stat-number" id="totalCommands">0</div>
-                        <div class="stat-label">Total</div>
-                    </div>
-                    <div>
-                        <div class="stat-number" id="onCount">0</div>
-                        <div class="stat-label">MARCHE</div>
-                    </div>
-                    <div>
-                        <div class="stat-number" id="offCount">0</div>
-                        <div class="stat-label">ARRÊT</div>
-                    </div>
-                </div>
+            <div class="auth-switch" id="showLogin">
+                Déjà un compte ? Se connecter
             </div>
+            <div class="error-msg" id="registerError"></div>
+        </div>
+    </div>
 
-            <!-- Statut connexion -->
-            <div class="card" style="text-align: center;">
-                <span id="connectionStatus">✅ Connecté à Firebase</span>
+    <!-- Dashboard principal -->
+    <div id="mainApp" style="display: none;">
+        <div class="menu-header">
+            <button class="menu-icon" id="menuIcon">☰</button>
+            <div class="menu-title">⚙️ IoT Moteur</div>
+            <div class="user-info">
+                <span class="user-email" id="userEmail"></span>
+                <button class="logout-btn" id="logoutBtn">🚪 Quitter</button>
+                <button class="theme-toggle" id="themeToggle">🌙 Sombre</button>
             </div>
         </div>
 
-        <!-- Section Statistiques détaillées -->
-        <div id="statsSection" class="section">
-            <div class="card">
-                <h3>📈 Statistiques détaillées</h3>
-                <div class="info-row">
-                    <span class="info-label">Commandes MARCHE</span>
-                    <span class="info-value" id="statsOn">0</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Commandes ARRÊT</span>
-                    <span class="info-value" id="statsOff">0</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Total commandes</span>
-                    <span class="info-value" id="statsTotal">0</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">PC</span>
-                    <span class="info-value" id="statsPC">0</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Mobile</span>
-                    <span class="info-value" id="statsMobile">0</span>
-                </div>
+        <div class="menu-overlay" id="menuOverlay"></div>
+        <div class="side-menu" id="sideMenu">
+            <div class="menu-header-drawer">
+                <h3>🔧 MENU PRINCIPAL</h3>
+            </div>
+            <div class="menu-item" data-section="dashboard">
+                <span>📊</span> Tableau de bord
+            </div>
+            <div class="menu-item" data-section="history">
+                <span>📜</span> Historique
+            </div>
+            <div class="menu-item" data-section="export">
+                <span>💾</span> Exporter
+            </div>
+            <div class="menu-item" data-section="about">
+                <span>ℹ️</span> À propos
+            </div>
+            <div class="menu-item" id="refreshData">
+                <span>🔄</span> Rafraîchir
             </div>
         </div>
 
-        <!-- Section Historique complet -->
-        <div id="historySection" class="section">
-            <div class="card">
-                <div
-                    style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
-                    <h3>📜 Historique complet</h3>
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" data-filter="all">Tous</button>
-                        <button class="filter-btn" data-filter="on">MARCHE</button>
-                        <button class="filter-btn" data-filter="off">ARRÊT</button>
+        <div class="container">
+            <div id="dashboardSection" class="section active">
+                <div class="card motor-card">
+                    <h3>⚙️ État du Moteur</h3>
+                    <div class="led led-off" id="led"></div>
+                    <h2 id="motorStatus" style="font-size: 28px;">ARRÊT</h2>
+                    <div class="control-buttons">
+                        <button class="btn btn-on" id="btnOn">🟢 MARCHE</button>
+                        <button class="btn btn-off" id="btnOff">🔴 ARRÊT</button>
                     </div>
                 </div>
-                <div class="history-list" id="historyList">
-                    <div style="text-align:center;padding:30px;">Chargement...</div>
+
+                <div class="card">
+                    <h3>📱 Dernière activité</h3>
+                    <div class="info-row">
+                        <span>Commande</span>
+                        <span class="info-value" id="lastCommand">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span>Appareil</span>
+                        <span class="info-value" id="lastDevice">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span>Date/Heure</span>
+                        <span class="info-value" id="lastTime">-</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Statistiques</h3>
+                    <div class="stats-grid">
+                        <div>
+                            <div class="stat-number" id="totalCommands">0</div>
+                            <div>Total</div>
+                        </div>
+                        <div>
+                            <div class="stat-number" id="onCount">0</div>
+                            <div>MARCHE</div>
+                        </div>
+                        <div>
+                            <div class="stat-number" id="offCount">0</div>
+                            <div>ARRÊT</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="text-align: center;">
+                    <span id="connectionStatus">✅ Connecté</span>
                 </div>
             </div>
-        </div>
 
-        <!-- Section Export -->
-        <div id="exportSection" class="section">
-            <div class="card" style="text-align: center;">
-                <h3>💾 Exporter les données</h3>
-                <div class="control-buttons" style="flex-direction: column;">
-                    <button class="btn" id="exportCSVBtn" style="background: var(--accent);">📥 Exporter en CSV</button>
-                    <button class="btn" id="exportJSONBtn" style="background: var(--accent);">📄 Exporter en
-                        JSON</button>
+            <div id="historySection" class="section">
+                <div class="card">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+                        <h3>📜 Historique</h3>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">Tous</button>
+                            <button class="filter-btn" data-filter="on">MARCHE</button>
+                            <button class="filter-btn" data-filter="off">ARRÊT</button>
+                        </div>
+                    </div>
+                    <div class="history-list" id="historyList">
+                        <div style="text-align:center;padding:30px;">Chargement...</div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Section À propos -->
-        <div id="aboutSection" class="section">
-            <div class="card" style="text-align: center;">
-                <h3>ℹ️ À propos</h3>
-                <p style="margin: 15px 0;">Projet IoT - Contrôle moteur à distance</p>
-                <p style="margin: 15px 0;">Technologies utilisées :</p>
-                <p>🔥 Firebase Realtime Database</p>
-                <p>📱 HTML5 / CSS3 / JavaScript</p>
-                <p>🔧 ESP32</p>
-                <p style="margin-top: 20px; color: var(--accent);">Version 2.0</p>
+            <div id="exportSection" class="section">
+                <div class="card" style="text-align: center;">
+                    <h3>💾 Exporter</h3>
+                    <div class="control-buttons" style="flex-direction: column;">
+                        <button class="btn" id="exportCSVBtn" style="background: var(--accent);">📥 CSV</button>
+                        <button class="btn" id="exportJSONBtn" style="background: var(--accent);">📄 JSON</button>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- Section Aide -->
-        <div id="helpSection" class="section">
-            <div class="card">
-                <h3>❓ Aide</h3>
-                <div class="info-row">
-                    <span class="info-label">❓ Comment utiliser ?</span>
-                    <span class="info-value">Appuyez sur MARCHE/ARRÊT</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">🔗 Connexion</span>
-                    <span class="info-value">Vérifiez le statut en bas</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">📜 Historique</span>
-                    <span class="info-value">Filtrez par type de commande</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">🎨 Thème</span>
-                    <span class="info-value">Cliquez sur le bouton en haut</span>
+            <div id="aboutSection" class="section">
+                <div class="card" style="text-align: center;">
+                    <h3>ℹ️ À propos</h3>
+                    <p style="margin: 15px 0;">Projet IoT - Contrôle moteur sécurisé</p>
+                    <p>🔥 Firebase Auth + Realtime Database</p>
+                    <p>📱 Interface responsive</p>
+                    <p style="margin-top: 20px; color: var(--accent);">Version 3.0 avec authentification</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Configuration Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDly3kKY6Hh0mOL07hfAT57ULiuE3fXnk8",
             authDomain: "iot-moteur-controle.firebaseapp.com",
@@ -628,81 +637,79 @@
         };
 
         firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
         const database = firebase.database();
 
-        // Variables
         let currentFilter = "all";
         let commandHistory = [];
-        let onCount = 0, offCount = 0, pcCount = 0, mobileCount = 0;
+        let onCount = 0, offCount = 0;
 
-        // Menu
-        const menuIcon = document.getElementById('menuIcon');
-        const menuOverlay = document.getElementById('menuOverlay');
-        const sideMenu = document.getElementById('sideMenu');
+        // ===== AUTHENTIFICATION =====
+        const authContainer = document.getElementById('authContainer');
+        const registerContainer = document.getElementById('registerContainer');
+        const mainApp = document.getElementById('mainApp');
 
-        function closeMenu() {
-            sideMenu.classList.remove('open');
-            menuOverlay.classList.remove('show');
-        }
-
-        function openMenu() {
-            sideMenu.classList.add('open');
-            menuOverlay.classList.add('show');
-        }
-
-        menuIcon.onclick = openMenu;
-        menuOverlay.onclick = closeMenu;
-
-        // Navigation entre sections
-        function showSection(sectionId) {
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById(sectionId + 'Section').classList.add('active');
-            closeMenu();
-        }
-
-        document.querySelectorAll('.menu-item[data-section]').forEach(item => {
-            item.onclick = () => showSection(item.dataset.section);
+        // Vérifier si l'utilisateur est déjà connecté
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                authContainer.style.display = 'none';
+                registerContainer.style.display = 'none';
+                mainApp.style.display = 'block';
+                document.getElementById('userEmail').textContent = user.email;
+                initApp();
+            } else {
+                authContainer.style.display = 'block';
+                registerContainer.style.display = 'none';
+                mainApp.style.display = 'none';
+            }
         });
 
-        // Rafraîchir
-        document.getElementById('refreshData').onclick = () => {
-            loadHistory();
-            showNotification('🔄 Données rafraîchies');
-            closeMenu();
+        // Connexion
+        document.getElementById('loginBtn').onclick = async () => {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorDiv = document.getElementById('authError');
+
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                errorDiv.textContent = '';
+            } catch (error) {
+                errorDiv.textContent = 'Erreur: ' + error.message;
+            }
         };
 
-        // Thème clair/sombre
-        const themeToggle = document.getElementById('themeToggle');
-        function toggleTheme() {
-            if (document.body.classList.contains('light')) {
-                document.body.classList.remove('light');
-                document.body.classList.add('dark');
-                themeToggle.innerHTML = '☀️ Clair';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                document.body.classList.remove('dark');
-                document.body.classList.add('light');
-                themeToggle.innerHTML = '🌙 Sombre';
-                localStorage.setItem('theme', 'light');
+        // Inscription
+        document.getElementById('registerBtn').onclick = async () => {
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const errorDiv = document.getElementById('registerError');
+
+            try {
+                await auth.createUserWithEmailAndPassword(email, password);
+                errorDiv.textContent = '';
+            } catch (error) {
+                errorDiv.textContent = 'Erreur: ' + error.message;
             }
-        }
-        themeToggle.onclick = toggleTheme;
+        };
 
-        // Charger thème sauvegardé
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            document.body.classList.remove('light');
-            document.body.classList.add('dark');
-            themeToggle.innerHTML = '☀️ Clair';
-        }
+        // Basculer vers inscription
+        document.getElementById('showRegister').onclick = () => {
+            authContainer.style.display = 'none';
+            registerContainer.style.display = 'block';
+        };
 
-        // Fonctions utilitaires
-        function getDeviceType() {
-            return /mobile|android|iphone/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
-        }
+        // Basculer vers connexion
+        document.getElementById('showLogin').onclick = () => {
+            authContainer.style.display = 'block';
+            registerContainer.style.display = 'none';
+        };
 
+        // Déconnexion
+        document.getElementById('logoutBtn').onclick = async () => {
+            await auth.signOut();
+        };
+
+        // ===== FONCTIONS PRINCIPALES =====
         function showNotification(msg, isError = false) {
             const div = document.createElement('div');
             div.className = 'notification';
@@ -710,6 +717,10 @@
             div.style.background = isError ? '#ff6b6b' : '#2b7be4';
             document.body.appendChild(div);
             setTimeout(() => div.remove(), 3000);
+        }
+
+        function getDeviceType() {
+            return /mobile|android|iphone/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
         }
 
         function updateLED(state) {
@@ -726,8 +737,7 @@
 
         function formatDate(timestamp) {
             if (!timestamp) return '-';
-            const date = new Date(timestamp);
-            return date.toLocaleString('fr-FR');
+            return new Date(timestamp).toLocaleString('fr-FR');
         }
 
         async function sendCommand(value) {
@@ -738,16 +748,18 @@
                 await database.ref('moteur/etat').set({
                     valeur: value,
                     appareil: device,
-                    timestamp: Date.now()
+                    timestamp: Date.now(),
+                    utilisateur: auth.currentUser?.email
                 });
                 await database.ref('historique').push({
                     valeur: value,
                     appareil: device,
-                    timestamp: Date.now()
+                    timestamp: Date.now(),
+                    utilisateur: auth.currentUser?.email
                 });
-                showNotification(`✅ ${commandText} envoyé depuis ${device}`);
+                showNotification(`✅ ${commandText} envoyé`);
             } catch (error) {
-                showNotification(`❌ Erreur: ${error.message}`, true);
+                showNotification(`❌ Erreur`, true);
             }
         }
 
@@ -770,33 +782,19 @@
                 commandHistory = [];
                 onCount = 0;
                 offCount = 0;
-                pcCount = 0;
-                mobileCount = 0;
 
                 if (data) {
                     commandHistory = Object.entries(data).map(([key, value]) => value);
                     commandHistory.reverse();
-
                     commandHistory.forEach(item => {
                         if (item.valeur === 1) onCount++;
                         else offCount++;
-
-                        if (item.appareil && item.appareil.includes('PC')) pcCount++;
-                        else if (item.appareil && item.appareil.includes('Mobile')) mobileCount++;
                     });
                 }
 
-                const total = onCount + offCount;
-                document.getElementById('totalCommands').textContent = total;
+                document.getElementById('totalCommands').textContent = onCount + offCount;
                 document.getElementById('onCount').textContent = onCount;
                 document.getElementById('offCount').textContent = offCount;
-
-                document.getElementById('statsOn').textContent = onCount;
-                document.getElementById('statsOff').textContent = offCount;
-                document.getElementById('statsTotal').textContent = total;
-                document.getElementById('statsPC').textContent = pcCount;
-                document.getElementById('statsMobile').textContent = mobileCount;
-
                 updateHistoryDisplay();
             } catch (error) {
                 console.error(error);
@@ -814,69 +812,100 @@
                 return;
             }
 
-            list.innerHTML = filtered.map(item => `
+            list.innerHTML = filtered.slice(0, 20).map(item => `
                 <div class="history-item">
                     <div>
                         <span class="${item.valeur === 1 ? 'history-on' : 'history-off'}">
                             ${item.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}
                         </span>
-                        <span class="history-device">${item.appareil || 'Inconnu'}</span>
                     </div>
                     <div class="timestamp">${formatDate(item.timestamp)}</div>
                 </div>
             `).join('');
         }
 
-        function checkConnection() {
-            database.ref('.info/connected').on('value', (snap) => {
-                const statusDiv = document.getElementById('connectionStatus');
-                if (snap.val() === true) {
-                    statusDiv.innerHTML = '✅ Connecté à Firebase - Temps réel actif';
-                } else {
-                    statusDiv.innerHTML = '⚠️ Hors ligne - Mode cache';
-                }
-            });
-        }
-
-        // Export
         function exportCSV() {
             if (commandHistory.length === 0) {
-                showNotification('Aucune donnée à exporter', true);
+                showNotification('Aucune donnée', true);
                 return;
             }
             let csv = "Date,Heure,Commande,Appareil\n";
             commandHistory.forEach(item => {
                 const date = new Date(item.timestamp);
-                csv += `${date.toLocaleDateString()},${date.toLocaleTimeString()},${item.valeur === 1 ? 'MARCHE' : 'ARRÊT'},${item.appareil || 'Inconnu'}\n`;
+                csv += `${date.toLocaleDateString()},${date.toLocaleTimeString()},${item.valeur === 1 ? 'MARCHE' : 'ARRÊT'},${item.appareil}\n`;
             });
             const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = `historique_moteur_${Date.now()}.csv`;
+            link.download = `historique_${Date.now()}.csv`;
             link.click();
-            URL.revokeObjectURL(link.href);
             showNotification('✅ CSV exporté');
         }
 
         function exportJSON() {
             if (commandHistory.length === 0) {
-                showNotification('Aucune donnée à exporter', true);
+                showNotification('Aucune donnée', true);
                 return;
             }
-            const data = JSON.stringify(commandHistory, null, 2);
-            const blob = new Blob([data], { type: 'application/json' });
+            const blob = new Blob([JSON.stringify(commandHistory, null, 2)], { type: 'application/json' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = `historique_moteur_${Date.now()}.json`;
+            link.download = `historique_${Date.now()}.json`;
             link.click();
-            URL.revokeObjectURL(link.href);
             showNotification('✅ JSON exporté');
         }
 
-        document.getElementById('exportCSVBtn').onclick = exportCSV;
-        document.getElementById('exportJSONBtn').onclick = exportJSON;
+        // ===== MENU =====
+        function closeMenu() {
+            document.getElementById('sideMenu').classList.remove('open');
+            document.getElementById('menuOverlay').classList.remove('show');
+        }
 
-        // Filtres
+        document.getElementById('menuIcon').onclick = () => {
+            document.getElementById('sideMenu').classList.add('open');
+            document.getElementById('menuOverlay').classList.add('show');
+        };
+        document.getElementById('menuOverlay').onclick = closeMenu;
+
+        document.querySelectorAll('.menu-item[data-section]').forEach(item => {
+            item.onclick = () => {
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                document.getElementById(item.dataset.section + 'Section').classList.add('active');
+                closeMenu();
+            };
+        });
+
+        document.getElementById('refreshData').onclick = () => {
+            loadHistory();
+            showNotification('🔄 Actualisé');
+            closeMenu();
+        };
+
+        // ===== THÈME =====
+        const themeToggle = document.getElementById('themeToggle');
+        function toggleTheme() {
+            if (document.body.classList.contains('light')) {
+                document.body.classList.remove('light');
+                document.body.classList.add('dark');
+                themeToggle.innerHTML = '☀️ Clair';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.classList.remove('dark');
+                document.body.classList.add('light');
+                themeToggle.innerHTML = '🌙 Sombre';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+        themeToggle.onclick = toggleTheme;
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.remove('light');
+            document.body.classList.add('dark');
+            themeToggle.innerHTML = '☀️ Clair';
+        }
+
+        // ===== FILTRES =====
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.onclick = () => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -886,16 +915,17 @@
             };
         });
 
-        // Initialisation
-        document.getElementById('btnOn').onclick = () => sendCommand(1);
-        document.getElementById('btnOff').onclick = () => sendCommand(0);
+        // ===== INITIALISATION =====
+        function initApp() {
+            document.getElementById('btnOn').onclick = () => sendCommand(1);
+            document.getElementById('btnOff').onclick = () => sendCommand(0);
+            document.getElementById('exportCSVBtn').onclick = exportCSV;
+            document.getElementById('exportJSONBtn').onclick = exportJSON;
 
-        listenToMotorState();
-        loadHistory();
-        checkConnection();
-
-        // Rafraîchir périodiquement
-        setInterval(loadHistory, 5000);
+            listenToMotorState();
+            loadHistory();
+            setInterval(loadHistory, 5000);
+        }
     </script>
 </body>
 
