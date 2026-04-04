@@ -445,7 +445,8 @@
             gap: 10px;
         }
 
-        .row-2 select {
+        .row-2 select,
+        .row-2 input {
             flex: 1;
         }
 
@@ -785,7 +786,7 @@
             </div>
         </div>
 
-        <!-- MODAL PROGRAMMATION -->
+        <!-- MODAL PROGRAMMATION AVEC CHAMPS LIBRES -->
         <div id="scheduleModal" class="modal">
             <div class="modal-content">
                 <h3 id="modalTitle" style="color: #2b7be4; margin-bottom: 15px;">Ajouter un horaire</h3>
@@ -824,48 +825,10 @@
                 </div>
 
                 <div class="row-2">
-                    <select id="scheduleHour">
-                        <option value="">Heure</option>
-                        <option value="0">00</option>
-                        <option value="1">01</option>
-                        <option value="2">02</option>
-                        <option value="3">03</option>
-                        <option value="4">04</option>
-                        <option value="5">05</option>
-                        <option value="6">06</option>
-                        <option value="7">07</option>
-                        <option value="8">08</option>
-                        <option value="9">09</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
-                    </select>
-                    <select id="scheduleMinute">
-                        <option value="">Min</option>
-                        <option value="0">00</option>
-                        <option value="5">05</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
-                        <option value="25">25</option>
-                        <option value="30">30</option>
-                        <option value="35">35</option>
-                        <option value="40">40</option>
-                        <option value="45">45</option>
-                        <option value="50">50</option>
-                        <option value="55">55</option>
-                    </select>
+                    <input type="number" id="scheduleHour" placeholder="Heure (0-23)" min="0" max="23"
+                        style="flex:1; padding:10px; border-radius:10px; border:1px solid #ddd;">
+                    <input type="number" id="scheduleMinute" placeholder="Minute (0-59)" min="0" max="59"
+                        style="flex:1; padding:10px; border-radius:10px; border:1px solid #ddd;">
                 </div>
 
                 <select id="scheduleAction">
@@ -873,20 +836,16 @@
                     <option value="0">🔴 ARRÊT</option>
                 </select>
 
-                <select id="scheduleDuration">
-                    <option value="">Durée de marche (optionnel)</option>
-                    <option value="1">1 minute</option>
-                    <option value="5">5 minutes</option>
-                    <option value="10">10 minutes</option>
-                    <option value="15">15 minutes</option>
-                    <option value="30">30 minutes</option>
-                    <option value="45">45 minutes</option>
-                    <option value="60">1 heure</option>
-                    <option value="120">2 heures</option>
-                    <option value="180">3 heures</option>
-                    <option value="240">4 heures</option>
-                    <option value="480">8 heures</option>
-                </select>
+                <div class="row-2">
+                    <input type="number" id="scheduleDurationValue" placeholder="Durée" min="0" step="1"
+                        style="flex:2; padding:10px; border-radius:10px; border:1px solid #ddd;">
+                    <select id="scheduleDurationUnit"
+                        style="flex:1; padding:10px; border-radius:10px; border:1px solid #ddd;">
+                        <option value="seconds">Secondes</option>
+                        <option value="minutes">Minutes</option>
+                        <option value="hours">Heures</option>
+                    </select>
+                </div>
 
                 <div style="display: flex; gap: 10px; margin-top: 15px;">
                     <button id="saveScheduleBtn" class="btn btn-secondary" style="flex:1;">Enregistrer</button>
@@ -921,7 +880,8 @@
                 <p>🔐 Authentification sécurisée</p>
                 <p>📱 Interface responsive</p>
                 <p>⏰ Programmation horaire avancée</p>
-                <p style="margin-top: 20px;">Version 5.0 - Professional</p>
+                <p>⏱️ Durée en secondes/minutes/heures</p>
+                <p style="margin-top: 20px;">Version 6.0 - Professional</p>
             </div>
         </div>
     </div>
@@ -1049,13 +1009,11 @@
             displaySchedules();
         }
 
-        function formatDuree(minutes) {
-            if (!minutes) return '';
-            if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''}`;
-            const heures = Math.floor(minutes / 60);
-            const reste = minutes % 60;
-            if (reste === 0) return `${heures} heure${heures > 1 ? 's' : ''}`;
-            return `${heures}h${reste}`;
+        function formatDuree(seconds) {
+            if (!seconds) return '';
+            if (seconds >= 3600 && seconds % 3600 === 0) return `${seconds / 3600} heure${seconds / 3600 > 1 ? 's' : ''}`;
+            if (seconds >= 60 && seconds % 60 === 0) return `${seconds / 60} minute${seconds / 60 > 1 ? 's' : ''}`;
+            return `${seconds} seconde${seconds > 1 ? 's' : ''}`;
         }
 
         function getPeriodLabel(type) {
@@ -1102,6 +1060,22 @@
         async function saveSchedule(id, data) {
             const user = auth.currentUser;
             if (!user) return;
+
+            // Convertir la durée en secondes
+            if (data.dureeValue && data.dureeValue > 0) {
+                const value = parseInt(data.dureeValue);
+                const unit = data.dureeUnit;
+                if (unit === 'seconds') data.duree = value;
+                else if (unit === 'minutes') data.duree = value * 60;
+                else if (unit === 'hours') data.duree = value * 3600;
+                delete data.dureeValue;
+                delete data.dureeUnit;
+            } else {
+                data.duree = null;
+                delete data.dureeValue;
+                delete data.dureeUnit;
+            }
+
             if (id) {
                 await database.ref(`users/${user.uid}/schedules/${id}`).update(data);
             } else {
@@ -1127,7 +1101,25 @@
                 document.getElementById('scheduleHour').value = schedule.heure || '';
                 document.getElementById('scheduleMinute').value = schedule.minute || '';
                 document.getElementById('scheduleAction').value = schedule.action;
-                document.getElementById('scheduleDuration').value = schedule.duree || '';
+
+                // Gérer la durée
+                if (schedule.duree) {
+                    const duree = schedule.duree;
+                    if (duree >= 3600 && duree % 3600 === 0) {
+                        document.getElementById('scheduleDurationValue').value = duree / 3600;
+                        document.getElementById('scheduleDurationUnit').value = 'hours';
+                    } else if (duree >= 60 && duree % 60 === 0) {
+                        document.getElementById('scheduleDurationValue').value = duree / 60;
+                        document.getElementById('scheduleDurationUnit').value = 'minutes';
+                    } else {
+                        document.getElementById('scheduleDurationValue').value = duree;
+                        document.getElementById('scheduleDurationUnit').value = 'seconds';
+                    }
+                } else {
+                    document.getElementById('scheduleDurationValue').value = '';
+                    document.getElementById('scheduleDurationUnit').value = 'minutes';
+                }
+
                 document.getElementById('modalTitle').textContent = 'Modifier l\'horaire';
                 window.currentEditId = id;
                 document.getElementById('scheduleModal').style.display = 'flex';
@@ -1173,7 +1165,8 @@
             document.getElementById('scheduleHour').value = '';
             document.getElementById('scheduleMinute').value = '';
             document.getElementById('scheduleAction').value = '1';
-            document.getElementById('scheduleDuration').value = '';
+            document.getElementById('scheduleDurationValue').value = '';
+            document.getElementById('scheduleDurationUnit').value = 'minutes';
             document.getElementById('modalTitle').textContent = 'Ajouter un horaire';
             window.currentEditId = null;
             document.getElementById('scheduleModal').style.display = 'flex';
@@ -1188,14 +1181,32 @@
             const heure = document.getElementById('scheduleHour').value;
             const minute = document.getElementById('scheduleMinute').value;
             const action = document.getElementById('scheduleAction').value;
-            const duree = document.getElementById('scheduleDuration').value;
+            const dureeValue = document.getElementById('scheduleDurationValue').value;
+            const dureeUnit = document.getElementById('scheduleDurationUnit').value;
 
-            if (!heure || !minute) {
-                showNotification('❌ Veuillez sélectionner une heure', true);
+            if (heure === '' || minute === '') {
+                showNotification('❌ Veuillez saisir une heure et une minute', true);
                 return;
             }
 
-            let scheduleData = { type, heure: parseInt(heure), minute: parseInt(minute), action: parseInt(action), duree: duree ? parseInt(duree) : null };
+            if (heure < 0 || heure > 23) {
+                showNotification('❌ Heure doit être entre 0 et 23', true);
+                return;
+            }
+
+            if (minute < 0 || minute > 59) {
+                showNotification('❌ Minute doit être entre 0 et 59', true);
+                return;
+            }
+
+            let scheduleData = {
+                type,
+                heure: parseInt(heure),
+                minute: parseInt(minute),
+                action: parseInt(action),
+                dureeValue: dureeValue ? parseInt(dureeValue) : null,
+                dureeUnit: dureeUnit
+            };
 
             if (type === 'once') {
                 const year = document.getElementById('scheduleYear').value;
@@ -1249,7 +1260,7 @@
                     showNotification(`⏰ Programmé: ${schedule.action === 1 ? 'MARCHE' : 'ARRÊT'}`);
 
                     if (schedule.action === 1 && schedule.duree && schedule.duree > 0) {
-                        const stopTime = currentTimestamp + (schedule.duree * 60 * 1000);
+                        const stopTime = currentTimestamp + (schedule.duree * 1000);
                         scheduledStops[schedule.id] = stopTime;
                         showNotification(`⏱️ Arrêt auto dans ${formatDuree(schedule.duree)}`);
                     }
