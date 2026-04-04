@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>🔥 IoT Firebase - Contrôle Moteur</title>
 
-    <!-- SDK Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
 
@@ -15,57 +14,211 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
+        /* ===== THÈME CLAIR (DÉFAUT) ===== */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, #e8f0fe 0%, #d4e4fc 100%);
             min-height: 100vh;
             padding: 20px;
         }
 
+        body.light {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f0f4fa;
+            --text-primary: #1a2a4f;
+            --text-secondary: #4a627a;
+            --accent: #2b7be4;
+            --accent-light: #e8f0fe;
+            --accent-gradient: linear-gradient(135deg, #2b7be4, #1a5bc4);
+            --border: #dce4ec;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --card-bg: #ffffff;
+            --history-bg: #f8fafd;
+        }
+
+        body.dark {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --text-primary: #e8f0fe;
+            --text-secondary: #a0b4d0;
+            --accent: #2b7be4;
+            --accent-light: #1e3a5f;
+            --accent-gradient: linear-gradient(135deg, #2b7be4, #1a5bc4);
+            --border: #2a3a5a;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --card-bg: #1e1e2f;
+            --history-bg: #2a2a3a;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        }
+
+        /* ===== MENU ===== */
+        .menu-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .menu-icon {
+            font-size: 28px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--accent);
+        }
+
+        .menu-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .theme-toggle {
+            background: var(--accent-light);
+            border: none;
+            border-radius: 30px;
+            padding: 8px 16px;
+            cursor: pointer;
+            color: var(--accent);
+            font-size: 14px;
+        }
+
+        /* ===== MENU LATÉRAL ===== */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100vh;
+            background: var(--card-bg);
+            z-index: 1001;
+            transition: left 0.3s ease;
+            box-shadow: var(--shadow);
+            overflow-y: auto;
+            border-right: 1px solid var(--border);
+        }
+
+        .side-menu.open {
+            left: 0;
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+
+        .menu-overlay.show {
+            display: block;
+        }
+
+        .menu-header-drawer {
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .menu-header-drawer h3 {
+            color: var(--accent);
+            font-size: 20px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            margin: 5px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-primary);
+        }
+
+        .menu-item:hover {
+            background: var(--accent-light);
+            transform: translateX(5px);
+        }
+
+        .menu-item:active {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* ===== CONTENEUR PRINCIPAL ===== */
         .container {
-            max-width: 550px;
-            margin: 0 auto;
-            background: #1e1e2f;
-            border-radius: 20px;
+            max-width: 600px;
+            margin: 70px auto 20px;
             padding: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            color: #e0e0e0;
         }
 
-        h1 {
-            text-align: center;
+        /* ===== CARTES ===== */
+        .card {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 25px;
             margin-bottom: 20px;
-            color: #ffaa00;
-            font-size: 22px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
         }
 
-        .status-card {
-            background: linear-gradient(135deg, #ffaa00, #ff6600);
-            border-radius: 15px;
-            padding: 30px;
+        .card h3 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ===== CARTE ÉTAT MOTEUR ===== */
+        .motor-card {
+            background: var(--accent-gradient);
+            color: white;
             text-align: center;
-            color: #1a1a2e;
-            margin-bottom: 20px;
+        }
+
+        .motor-card h3 {
+            color: white;
+            justify-content: center;
         }
 
         .led {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             margin: 20px auto;
             transition: all 0.3s;
         }
 
         .led-on {
-            background: radial-gradient(circle at 30% 30%, #ffffff, #ffeb3b);
-            box-shadow: 0 0 30px #ffeb3b;
+            background: radial-gradient(circle at 30% 30%, #fff, #ffeb3b, #ffaa00);
+            box-shadow: 0 0 40px #ffeb3b;
             animation: pulse 1s infinite;
         }
 
         .led-off {
-            background: radial-gradient(circle at 30% 30%, #555, #222);
+            background: radial-gradient(circle at 30% 30%, #555, #333);
             box-shadow: none;
         }
 
@@ -74,87 +227,126 @@
             0%,
             100% {
                 transform: scale(1);
+                opacity: 1;
             }
 
             50% {
-                transform: scale(1.05);
+                transform: scale(1.08);
+                opacity: 0.9;
             }
         }
 
+        /* ===== BOUTONS ===== */
         .control-buttons {
             display: flex;
             gap: 20px;
             justify-content: center;
-            margin: 20px 0;
+            margin: 25px 0 10px;
         }
 
-        button {
-            padding: 15px 30px;
+        .btn {
+            padding: 16px 30px;
             font-size: 18px;
             font-weight: bold;
             border: none;
-            border-radius: 50px;
+            border-radius: 60px;
             cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        button:active {
-            transform: scale(0.95);
+            transition: all 0.3s;
+            flex: 1;
         }
 
         .btn-on {
-            background: #00b09b;
+            background: linear-gradient(135deg, #00b09b, #00d4a0);
             color: white;
-            flex: 1;
         }
 
         .btn-off {
-            background: #ff6b6b;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
             color: white;
-            flex: 1;
         }
 
-        .info-card {
-            background: #2a2a3a;
-            border-radius: 15px;
-            padding: 15px;
-            margin: 15px 0;
+        .btn:active {
+            transform: scale(0.96);
         }
 
+        /* ===== GRILLE STATS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        /* ===== INFO ROW ===== */
         .info-row {
             display: flex;
             justify-content: space-between;
-            padding: 10px;
-            border-bottom: 1px solid #444;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
         }
 
         .info-label {
-            font-weight: bold;
-            color: #aaa;
+            color: var(--text-secondary);
         }
 
         .info-value {
-            color: #ffaa00;
+            color: var(--accent);
             font-weight: bold;
         }
 
+        /* ===== FILTRES ===== */
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .filter-btn {
+            padding: 6px 18px;
+            border: 1px solid var(--accent);
+            border-radius: 30px;
+            background: transparent;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* ===== HISTORIQUE ===== */
         .history-list {
             max-height: 300px;
             overflow-y: auto;
         }
 
         .history-item {
-            background: #2a2a3a;
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 8px;
+            background: var(--history-bg);
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .history-on {
-            color: #00b09b;
+            color: #00d4a0;
             font-weight: bold;
         }
 
@@ -163,127 +355,366 @@
             font-weight: bold;
         }
 
+        .history-device {
+            font-size: 10px;
+            opacity: 0.6;
+            margin-left: 8px;
+        }
+
         .timestamp {
             font-size: 11px;
-            color: #888;
+            color: var(--text-secondary);
         }
 
-        .connection-status {
-            text-align: center;
-            padding: 10px;
-            font-size: 12px;
-            margin-top: 10px;
+        /* ===== SECTION CACHÉE ===== */
+        .section {
+            display: none;
         }
 
+        .section.active {
+            display: block;
+        }
+
+        /* ===== NOTIFICATION ===== */
         .notification {
             position: fixed;
             bottom: 20px;
-            right: 20px;
-            left: 20px;
-            background: #333;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
             color: white;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 12px 24px;
+            border-radius: 50px;
             text-align: center;
-            animation: slideIn 0.3s ease;
-            z-index: 1000;
+            animation: slideUp 0.3s ease;
+            z-index: 2000;
+            font-weight: bold;
+            white-space: nowrap;
         }
 
-        @keyframes slideIn {
+        @keyframes slideUp {
             from {
-                transform: translateX(100%);
+                transform: translateX(-50%) translateY(100px);
                 opacity: 0;
             }
 
             to {
-                transform: translateX(0);
+                transform: translateX(-50%) translateY(0);
                 opacity: 1;
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 500px) {
+            .container {
+                padding: 15px;
+            }
+
+            .control-buttons {
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .notification {
+                white-space: normal;
+                text-align: center;
+                max-width: 90%;
             }
         }
     </style>
 </head>
 
-<body>
+<body class="light">
+    <!-- Barre de menu fixe -->
+    <div class="menu-header">
+        <button class="menu-icon" id="menuIcon">☰</button>
+        <div class="menu-title">⚙️ IoT Moteur</div>
+        <button class="theme-toggle" id="themeToggle">🌙 Sombre</button>
+    </div>
+
+    <!-- Menu latéral -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+    <div class="side-menu" id="sideMenu">
+        <div class="menu-header-drawer">
+            <h3>🔧 MENU PRINCIPAL</h3>
+        </div>
+        <div class="menu-item" data-section="dashboard">
+            <span>📊</span> Tableau de bord
+        </div>
+        <div class="menu-item" data-section="stats">
+            <span>📈</span> Statistiques détaillées
+        </div>
+        <div class="menu-item" data-section="history">
+            <span>📜</span> Historique complet
+        </div>
+        <div class="menu-item" data-section="export">
+            <span>💾</span> Exporter les données
+        </div>
+        <div class="menu-item" data-section="about">
+            <span>ℹ️</span> À propos
+        </div>
+        <div class="menu-item" data-section="help">
+            <span>❓</span> Aide
+        </div>
+        <div class="menu-item" id="refreshData">
+            <span>🔄</span> Rafraîchir
+        </div>
+    </div>
+
     <div class="container">
-        <h1>🔥 IoT Firebase - Contrôle Moteur</h1>
+        <!-- Section Dashboard -->
+        <div id="dashboardSection" class="section active">
+            <!-- Carte moteur -->
+            <div class="card motor-card">
+                <h3>⚙️ État du Moteur</h3>
+                <div class="led led-off" id="led"></div>
+                <h2 id="motorStatus" style="font-size: 28px;">ARRÊT</h2>
+                <div class="control-buttons">
+                    <button class="btn btn-on" id="btnOn">🟢 MARCHE</button>
+                    <button class="btn btn-off" id="btnOff">🔴 ARRÊT</button>
+                </div>
+            </div>
 
-        <div class="status-card">
-            <h3>État du Moteur</h3>
-            <div class="led led-off" id="led"></div>
-            <h2 id="motorStatus">ARRÊT</h2>
-            <div class="control-buttons">
-                <button class="btn-on" id="btnOn">🟢 MARCHE</button>
-                <button class="btn-off" id="btnOff">🔴 ARRÊT</button>
+            <!-- Infos rapides -->
+            <div class="card">
+                <h3>📱 Dernière activité</h3>
+                <div class="info-row">
+                    <span class="info-label">Commande</span>
+                    <span class="info-value" id="lastCommand">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Appareil</span>
+                    <span class="info-value" id="lastDevice">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Date/Heure</span>
+                    <span class="info-value" id="lastTime">-</span>
+                </div>
+            </div>
+
+            <!-- Stats rapides -->
+            <div class="card">
+                <h3>📊 Aperçu</h3>
+                <div class="stats-grid">
+                    <div>
+                        <div class="stat-number" id="totalCommands">0</div>
+                        <div class="stat-label">Total</div>
+                    </div>
+                    <div>
+                        <div class="stat-number" id="onCount">0</div>
+                        <div class="stat-label">MARCHE</div>
+                    </div>
+                    <div>
+                        <div class="stat-number" id="offCount">0</div>
+                        <div class="stat-label">ARRÊT</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statut connexion -->
+            <div class="card" style="text-align: center;">
+                <span id="connectionStatus">✅ Connecté à Firebase</span>
             </div>
         </div>
 
-        <div class="info-card">
-            <div class="info-row">
-                <span class="info-label">📱 Dernière commande</span>
-                <span class="info-value" id="lastCommand">-</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">💻 Appareil</span>
-                <span class="info-value" id="lastDevice">-</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">⏰ Date/Heure</span>
-                <span class="info-value" id="lastTime">-</span>
+        <!-- Section Statistiques détaillées -->
+        <div id="statsSection" class="section">
+            <div class="card">
+                <h3>📈 Statistiques détaillées</h3>
+                <div class="info-row">
+                    <span class="info-label">Commandes MARCHE</span>
+                    <span class="info-value" id="statsOn">0</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Commandes ARRÊT</span>
+                    <span class="info-value" id="statsOff">0</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Total commandes</span>
+                    <span class="info-value" id="statsTotal">0</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">PC</span>
+                    <span class="info-value" id="statsPC">0</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Mobile</span>
+                    <span class="info-value" id="statsMobile">0</span>
+                </div>
             </div>
         </div>
 
-        <div class="info-card">
-            <h3 style="margin-bottom: 10px;">📜 Historique (10 dernières)</h3>
-            <div class="history-list" id="historyList">
-                <div style="text-align:center;padding:20px;">Chargement...</div>
+        <!-- Section Historique complet -->
+        <div id="historySection" class="section">
+            <div class="card">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+                    <h3>📜 Historique complet</h3>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">Tous</button>
+                        <button class="filter-btn" data-filter="on">MARCHE</button>
+                        <button class="filter-btn" data-filter="off">ARRÊT</button>
+                    </div>
+                </div>
+                <div class="history-list" id="historyList">
+                    <div style="text-align:center;padding:30px;">Chargement...</div>
+                </div>
             </div>
         </div>
 
-        <div class="connection-status" id="connectionStatus">
-            🔌 Connexion à Firebase...
+        <!-- Section Export -->
+        <div id="exportSection" class="section">
+            <div class="card" style="text-align: center;">
+                <h3>💾 Exporter les données</h3>
+                <div class="control-buttons" style="flex-direction: column;">
+                    <button class="btn" id="exportCSVBtn" style="background: var(--accent);">📥 Exporter en CSV</button>
+                    <button class="btn" id="exportJSONBtn" style="background: var(--accent);">📄 Exporter en
+                        JSON</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section À propos -->
+        <div id="aboutSection" class="section">
+            <div class="card" style="text-align: center;">
+                <h3>ℹ️ À propos</h3>
+                <p style="margin: 15px 0;">Projet IoT - Contrôle moteur à distance</p>
+                <p style="margin: 15px 0;">Technologies utilisées :</p>
+                <p>🔥 Firebase Realtime Database</p>
+                <p>📱 HTML5 / CSS3 / JavaScript</p>
+                <p>🔧 ESP32</p>
+                <p style="margin-top: 20px; color: var(--accent);">Version 2.0</p>
+            </div>
+        </div>
+
+        <!-- Section Aide -->
+        <div id="helpSection" class="section">
+            <div class="card">
+                <h3>❓ Aide</h3>
+                <div class="info-row">
+                    <span class="info-label">❓ Comment utiliser ?</span>
+                    <span class="info-value">Appuyez sur MARCHE/ARRÊT</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">🔗 Connexion</span>
+                    <span class="info-value">Vérifiez le statut en bas</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">📜 Historique</span>
+                    <span class="info-value">Filtrez par type de commande</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">🎨 Thème</span>
+                    <span class="info-value">Cliquez sur le bouton en haut</span>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // 🔥 VOTRE CONFIGURATION FIREBASE (AVEC L'URL QUE VOUS AVEZ COPIÉE)
+        // Configuration Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDly3kKY6Hh0mOL07hfAT57ULiuE3fXnk8",
             authDomain: "iot-moteur-controle.firebaseapp.com",
-            databaseURL: "https://iot-moteur-controle-default-rtdb.europe-west1.firebasedatabase.app", // ← REMPLACEZ PAR VOTRE URL
+            databaseURL: "https://iot-moteur-controle-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "iot-moteur-controle",
             storageBucket: "iot-moteur-controle.firebasestorage.app",
             messagingSenderId: "36220333719",
             appId: "1:36220333719:web:483313a74a280096d983d2"
         };
 
-        // Initialiser Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Détecter le type d'appareil
-        function getDeviceType() {
-            const ua = navigator.userAgent.toLowerCase();
-            if (ua.includes('mobile') || ua.includes('android') || ua.includes('iphone')) {
-                return '📱 Mobile';
+        // Variables
+        let currentFilter = "all";
+        let commandHistory = [];
+        let onCount = 0, offCount = 0, pcCount = 0, mobileCount = 0;
+
+        // Menu
+        const menuIcon = document.getElementById('menuIcon');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const sideMenu = document.getElementById('sideMenu');
+
+        function closeMenu() {
+            sideMenu.classList.remove('open');
+            menuOverlay.classList.remove('show');
+        }
+
+        function openMenu() {
+            sideMenu.classList.add('open');
+            menuOverlay.classList.add('show');
+        }
+
+        menuIcon.onclick = openMenu;
+        menuOverlay.onclick = closeMenu;
+
+        // Navigation entre sections
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId + 'Section').classList.add('active');
+            closeMenu();
+        }
+
+        document.querySelectorAll('.menu-item[data-section]').forEach(item => {
+            item.onclick = () => showSection(item.dataset.section);
+        });
+
+        // Rafraîchir
+        document.getElementById('refreshData').onclick = () => {
+            loadHistory();
+            showNotification('🔄 Données rafraîchies');
+            closeMenu();
+        };
+
+        // Thème clair/sombre
+        const themeToggle = document.getElementById('themeToggle');
+        function toggleTheme() {
+            if (document.body.classList.contains('light')) {
+                document.body.classList.remove('light');
+                document.body.classList.add('dark');
+                themeToggle.innerHTML = '☀️ Clair';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.classList.remove('dark');
+                document.body.classList.add('light');
+                themeToggle.innerHTML = '🌙 Sombre';
+                localStorage.setItem('theme', 'light');
             }
-            return '💻 PC';
+        }
+        themeToggle.onclick = toggleTheme;
+
+        // Charger thème sauvegardé
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.remove('light');
+            document.body.classList.add('dark');
+            themeToggle.innerHTML = '☀️ Clair';
         }
 
-        // Notification
-        function showNotification(message, isError = false) {
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.textContent = message;
-            notification.style.background = isError ? '#ff6b6b' : '#00b09b';
-            document.body.appendChild(notification);
-            setTimeout(() => notification.remove(), 3000);
+        // Fonctions utilitaires
+        function getDeviceType() {
+            return /mobile|android|iphone/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
         }
 
-        // Mettre à jour la LED
+        function showNotification(msg, isError = false) {
+            const div = document.createElement('div');
+            div.className = 'notification';
+            div.textContent = msg;
+            div.style.background = isError ? '#ff6b6b' : '#2b7be4';
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 3000);
+        }
+
         function updateLED(state) {
             const led = document.getElementById('led');
             const motorStatus = document.getElementById('motorStatus');
-
             if (state === 1) {
                 led.className = 'led led-on';
                 motorStatus.innerHTML = 'MARCHE ✅';
@@ -293,112 +724,178 @@
             }
         }
 
-        // Formater la date
         function formatDate(timestamp) {
             if (!timestamp) return '-';
             const date = new Date(timestamp);
             return date.toLocaleString('fr-FR');
         }
 
-        // Envoyer une commande
         async function sendCommand(value) {
             const device = getDeviceType();
             const commandText = value === 1 ? 'MARCHE' : 'ARRÊT';
 
             try {
-                // Sauvegarder l'état actuel
                 await database.ref('moteur/etat').set({
                     valeur: value,
                     appareil: device,
                     timestamp: Date.now()
                 });
-
-                // Ajouter à l'historique
                 await database.ref('historique').push({
                     valeur: value,
                     appareil: device,
                     timestamp: Date.now()
                 });
-
                 showNotification(`✅ ${commandText} envoyé depuis ${device}`);
-
             } catch (error) {
-                console.error('Erreur:', error);
                 showNotification(`❌ Erreur: ${error.message}`, true);
             }
         }
 
-        // Écouter l'état du moteur (temps réel)
         function listenToMotorState() {
             database.ref('moteur/etat').on('value', (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
                     updateLED(data.valeur);
-                    document.getElementById('lastCommand').innerHTML =
-                        data.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT';
+                    document.getElementById('lastCommand').innerHTML = data.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT';
                     document.getElementById('lastDevice').innerHTML = data.appareil;
                     document.getElementById('lastTime').innerHTML = formatDate(data.timestamp);
                 }
             });
         }
 
-        // Écouter l'historique (temps réel)
-        function listenToHistory() {
-            database.ref('historique').limitToLast(10).on('value', (snapshot) => {
+        async function loadHistory() {
+            try {
+                const snapshot = await database.ref('historique').once('value');
                 const data = snapshot.val();
-                const historyDiv = document.getElementById('historyList');
+                commandHistory = [];
+                onCount = 0;
+                offCount = 0;
+                pcCount = 0;
+                mobileCount = 0;
 
-                if (!data) {
-                    historyDiv.innerHTML = '<div style="text-align:center;padding:20px;">Aucune commande</div>';
-                    return;
+                if (data) {
+                    commandHistory = Object.entries(data).map(([key, value]) => value);
+                    commandHistory.reverse();
+
+                    commandHistory.forEach(item => {
+                        if (item.valeur === 1) onCount++;
+                        else offCount++;
+
+                        if (item.appareil && item.appareil.includes('PC')) pcCount++;
+                        else if (item.appareil && item.appareil.includes('Mobile')) mobileCount++;
+                    });
                 }
 
-                const historyArray = Object.entries(data).map(([key, value]) => value);
-                historyArray.reverse();
+                const total = onCount + offCount;
+                document.getElementById('totalCommands').textContent = total;
+                document.getElementById('onCount').textContent = onCount;
+                document.getElementById('offCount').textContent = offCount;
 
-                historyDiv.innerHTML = historyArray.map(item => `
-                    <div class="history-item">
-                        <div>
-                            <span class="${item.valeur === 1 ? 'history-on' : 'history-off'}">
-                                ${item.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}
-                            </span>
-                            <div class="timestamp">${item.appareil}</div>
-                        </div>
-                        <div class="timestamp">${formatDate(item.timestamp)}</div>
-                    </div>
-                `).join('');
-            });
+                document.getElementById('statsOn').textContent = onCount;
+                document.getElementById('statsOff').textContent = offCount;
+                document.getElementById('statsTotal').textContent = total;
+                document.getElementById('statsPC').textContent = pcCount;
+                document.getElementById('statsMobile').textContent = mobileCount;
+
+                updateHistoryDisplay();
+            } catch (error) {
+                console.error(error);
+            }
         }
 
-        // Vérifier l'état de la connexion
+        function updateHistoryDisplay() {
+            let filtered = commandHistory;
+            if (currentFilter === "on") filtered = commandHistory.filter(i => i.valeur === 1);
+            if (currentFilter === "off") filtered = commandHistory.filter(i => i.valeur === 0);
+
+            const list = document.getElementById('historyList');
+            if (filtered.length === 0) {
+                list.innerHTML = '<div style="text-align:center;padding:30px;">Aucune commande</div>';
+                return;
+            }
+
+            list.innerHTML = filtered.map(item => `
+                <div class="history-item">
+                    <div>
+                        <span class="${item.valeur === 1 ? 'history-on' : 'history-off'}">
+                            ${item.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}
+                        </span>
+                        <span class="history-device">${item.appareil || 'Inconnu'}</span>
+                    </div>
+                    <div class="timestamp">${formatDate(item.timestamp)}</div>
+                </div>
+            `).join('');
+        }
+
         function checkConnection() {
-            const connectedRef = database.ref('.info/connected');
-            connectedRef.on('value', (snap) => {
+            database.ref('.info/connected').on('value', (snap) => {
                 const statusDiv = document.getElementById('connectionStatus');
                 if (snap.val() === true) {
                     statusDiv.innerHTML = '✅ Connecté à Firebase - Temps réel actif';
-                    statusDiv.style.color = '#00b09b';
                 } else {
-                    statusDiv.innerHTML = '⚠️ Hors ligne - Mode cache actif';
-                    statusDiv.style.color = '#ffaa00';
+                    statusDiv.innerHTML = '⚠️ Hors ligne - Mode cache';
                 }
             });
         }
 
-        // Initialiser l'application
-        function init() {
-            document.getElementById('btnOn').onclick = () => sendCommand(1);
-            document.getElementById('btnOff').onclick = () => sendCommand(0);
-
-            listenToMotorState();
-            listenToHistory();
-            checkConnection();
-
-            showNotification('🔥 Firebase prêt ! Contrôle en temps réel');
+        // Export
+        function exportCSV() {
+            if (commandHistory.length === 0) {
+                showNotification('Aucune donnée à exporter', true);
+                return;
+            }
+            let csv = "Date,Heure,Commande,Appareil\n";
+            commandHistory.forEach(item => {
+                const date = new Date(item.timestamp);
+                csv += `${date.toLocaleDateString()},${date.toLocaleTimeString()},${item.valeur === 1 ? 'MARCHE' : 'ARRÊT'},${item.appareil || 'Inconnu'}\n`;
+            });
+            const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `historique_moteur_${Date.now()}.csv`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+            showNotification('✅ CSV exporté');
         }
 
-        // Démarrer au chargement
-        init();
+        function exportJSON() {
+            if (commandHistory.length === 0) {
+                showNotification('Aucune donnée à exporter', true);
+                return;
+            }
+            const data = JSON.stringify(commandHistory, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `historique_moteur_${Date.now()}.json`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+            showNotification('✅ JSON exporté');
+        }
+
+        document.getElementById('exportCSVBtn').onclick = exportCSV;
+        document.getElementById('exportJSONBtn').onclick = exportJSON;
+
+        // Filtres
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                updateHistoryDisplay();
+            };
+        });
+
+        // Initialisation
+        document.getElementById('btnOn').onclick = () => sendCommand(1);
+        document.getElementById('btnOff').onclick = () => sendCommand(0);
+
+        listenToMotorState();
+        loadHistory();
+        checkConnection();
+
+        // Rafraîchir périodiquement
+        setInterval(loadHistory, 5000);
     </script>
 </body>
 
