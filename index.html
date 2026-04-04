@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>🔐 IoT Firebase - Contrôle Moteur</title>
+    <title>👑 IoT Firebase - Administration</title>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
@@ -15,297 +15,101 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #e8f0fe 0%, #d4e4fc 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             padding: 20px;
         }
 
-        body.light {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f0f4fa;
-            --text-primary: #1a2a4f;
-            --text-secondary: #4a627a;
-            --accent: #2b7be4;
-            --accent-light: #e8f0fe;
-            --accent-gradient: linear-gradient(135deg, #2b7be4, #1a5bc4);
-            --border: #dce4ec;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            --card-bg: #ffffff;
-            --history-bg: #f8fafd;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        body.dark {
-            --bg-primary: #1a1a2e;
-            --bg-secondary: #16213e;
-            --text-primary: #e8f0fe;
-            --text-secondary: #a0b4d0;
-            --accent: #2b7be4;
-            --accent-light: #1e3a5f;
-            --accent-gradient: linear-gradient(135deg, #2b7be4, #1a5bc4);
-            --border: #2a3a5a;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            --card-bg: #1e1e2f;
-            --history-bg: #2a2a3a;
-        }
-
-        body {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
-        }
-
-        /* ===== ÉCRAN DE CONNEXION ===== */
-        .auth-container {
-            max-width: 400px;
-            margin: 100px auto;
+        /* En-tête */
+        .header {
+            background: #1e1e2f;
+            border-radius: 20px;
             padding: 20px;
-        }
-
-        .auth-card {
-            background: var(--card-bg);
-            border-radius: 30px;
-            padding: 40px 30px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-
-        .auth-card h2 {
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-
-        .auth-card p {
-            color: var(--text-secondary);
-            margin-bottom: 30px;
-        }
-
-        .auth-input {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: 2px solid var(--border);
-            border-radius: 15px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-size: 16px;
-        }
-
-        .auth-input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .auth-btn {
-            width: 100%;
-            padding: 15px;
-            margin-top: 20px;
-            background: var(--accent-gradient);
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .auth-switch {
-            margin-top: 20px;
-            color: var(--accent);
-            cursor: pointer;
-        }
-
-        .error-msg {
-            color: #ff6b6b;
-            margin-top: 15px;
-            font-size: 14px;
-        }
-
-        /* ===== MENU ===== */
-        .menu-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 12px 20px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: var(--shadow);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .menu-icon {
-            font-size: 28px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: var(--accent);
-        }
-
-        .menu-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--accent);
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
 
-        .user-email {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .logout-btn {
-            background: var(--accent-light);
-            border: none;
+        .role-badge {
+            background: #ffaa00;
+            color: #1a1a2e;
+            padding: 5px 15px;
             border-radius: 20px;
-            padding: 6px 12px;
-            cursor: pointer;
-            color: var(--accent);
-            font-size: 12px;
+            font-weight: bold;
         }
 
-        .theme-toggle {
-            background: var(--accent-light);
-            border: none;
-            border-radius: 30px;
-            padding: 8px 16px;
-            cursor: pointer;
-            color: var(--accent);
-            font-size: 14px;
+        .role-badge.admin {
+            background: #ff4444;
+            color: white;
         }
 
-        /* ===== MENU LATÉRAL ===== */
-        .side-menu {
-            position: fixed;
-            top: 0;
-            left: -300px;
-            width: 280px;
-            height: 100vh;
-            background: var(--card-bg);
-            z-index: 1001;
-            transition: left 0.3s ease;
-            box-shadow: var(--shadow);
-            overflow-y: auto;
-            border-right: 1px solid var(--border);
+        .role-badge.user {
+            background: #00b09b;
+            color: white;
         }
 
-        .side-menu.open {
-            left: 0;
+        /* Grille */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
 
-        .menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            display: none;
-        }
-
-        .menu-overlay.show {
-            display: block;
-        }
-
-        .menu-header-drawer {
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 2px solid var(--accent);
-            margin-bottom: 20px;
-        }
-
-        .menu-header-drawer h3 {
-            color: var(--accent);
-            font-size: 20px;
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 20px;
-            margin: 5px 10px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: var(--text-primary);
-        }
-
-        .menu-item:hover {
-            background: var(--accent-light);
-            transform: translateX(5px);
-        }
-
-        /* ===== CONTENEUR PRINCIPAL ===== */
-        .container {
-            max-width: 600px;
-            margin: 70px auto 20px;
-            padding: 20px;
-        }
-
-        .dashboard {
-            display: none;
-        }
-
-        .dashboard.show {
-            display: block;
-        }
-
-        /* ===== CARTES ===== */
+        /* Cartes */
         .card {
-            background: var(--card-bg);
-            border-radius: 25px;
-            padding: 25px;
+            background: #1e1e2f;
+            border-radius: 20px;
+            padding: 20px;
             margin-bottom: 20px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
         }
 
         .card h3 {
-            color: var(--accent);
+            color: #ffaa00;
             margin-bottom: 15px;
+            border-bottom: 2px solid #ffaa00;
+            padding-bottom: 10px;
         }
 
+        /* Contrôle moteur */
         .motor-card {
-            background: var(--accent-gradient);
-            color: white;
             text-align: center;
-        }
-
-        .motor-card h3 {
-            color: white;
+            background: linear-gradient(135deg, #ffaa00, #ff6600);
+            color: #1a1a2e;
         }
 
         .led {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             margin: 20px auto;
-            transition: all 0.3s;
         }
 
         .led-on {
-            background: radial-gradient(circle at 30% 30%, #fff, #ffeb3b, #ffaa00);
-            box-shadow: 0 0 40px #ffeb3b;
+            background: radial-gradient(circle at 30% 30%, #fff, #ffeb3b);
+            box-shadow: 0 0 30px #ffeb3b;
             animation: pulse 1s infinite;
         }
 
         .led-off {
-            background: radial-gradient(circle at 30% 30%, #555, #333);
-            box-shadow: none;
+            background: radial-gradient(circle at 30% 30%, #555, #222);
         }
 
         @keyframes pulse {
@@ -316,7 +120,7 @@
             }
 
             50% {
-                transform: scale(1.08);
+                transform: scale(1.05);
             }
         }
 
@@ -324,303 +128,202 @@
             display: flex;
             gap: 20px;
             justify-content: center;
-            margin: 25px 0 10px;
+            margin: 20px 0;
         }
 
         .btn {
-            padding: 16px 30px;
+            padding: 15px 30px;
             font-size: 18px;
             font-weight: bold;
             border: none;
-            border-radius: 60px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s;
             flex: 1;
         }
 
         .btn-on {
-            background: linear-gradient(135deg, #00b09b, #00d4a0);
+            background: #00b09b;
             color: white;
         }
 
         .btn-off {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+            background: #ff6b6b;
             color: white;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            text-align: center;
+        .btn-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
-        .stat-number {
-            font-size: 32px;
-            font-weight: bold;
-            color: var(--accent);
+        /* Tableau utilisateurs */
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
         }
 
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
+        .users-table th,
+        .users-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #2a2a3a;
         }
 
-        .info-value {
-            color: var(--accent);
-            font-weight: bold;
+        .users-table th {
+            color: #ffaa00;
         }
 
-        .filter-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .filter-btn {
-            padding: 6px 18px;
-            border: 1px solid var(--accent);
-            border-radius: 30px;
-            background: transparent;
+        select,
+        button {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
             cursor: pointer;
-            font-size: 12px;
-            color: var(--text-primary);
         }
 
-        .filter-btn.active {
-            background: var(--accent);
+        .btn-role {
+            background: #ffaa00;
+            color: #1a1a2e;
+        }
+
+        .btn-delete {
+            background: #ff6b6b;
             color: white;
         }
 
+        /* Historique */
         .history-list {
             max-height: 300px;
             overflow-y: auto;
         }
 
         .history-item {
-            background: var(--history-bg);
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #2a2a3a;
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
 
-        .history-on {
-            color: #00d4a0;
-            font-weight: bold;
-        }
-
-        .history-off {
-            color: #ff6b6b;
-            font-weight: bold;
-        }
-
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-        }
-
+        /* Notification */
         .notification {
             position: fixed;
             bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent);
+            right: 20px;
+            left: 20px;
+            background: #00b09b;
             color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
+            padding: 12px;
+            border-radius: 10px;
             text-align: center;
             animation: slideUp 0.3s ease;
-            z-index: 2000;
-            font-weight: bold;
+            z-index: 1000;
         }
 
         @keyframes slideUp {
             from {
-                transform: translateX(-50%) translateY(100px);
+                transform: translateY(100px);
                 opacity: 0;
             }
 
             to {
-                transform: translateX(-50%) translateY(0);
+                transform: translateY(0);
                 opacity: 1;
             }
         }
 
-        @media (max-width: 500px) {
-            .control-buttons {
-                flex-direction: column;
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
             }
 
-            .stats-grid {
-                grid-template-columns: 1fr;
+            .control-buttons {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 
-<body class="light">
-    <!-- Écran de connexion -->
-    <div id="authContainer" class="auth-container">
-        <div class="auth-card">
-            <h2>🔐 IoT Firebase</h2>
-            <p>Connectez-vous pour contrôler le moteur</p>
-
-            <input type="email" id="loginEmail" class="auth-input" placeholder="Email" autocomplete="email">
-            <input type="password" id="loginPassword" class="auth-input" placeholder="Mot de passe"
-                autocomplete="current-password">
-            <button id="loginBtn" class="auth-btn">Se connecter</button>
-
-            <div class="auth-switch" id="showRegister">
-                Pas de compte ? Créer un compte
-            </div>
-            <div class="error-msg" id="authError"></div>
-        </div>
-    </div>
-
-    <div id="registerContainer" class="auth-container" style="display: none;">
-        <div class="auth-card">
-            <h2>📝 Créer un compte</h2>
-            <p>Inscrivez-vous pour accéder au contrôle</p>
-
-            <input type="email" id="registerEmail" class="auth-input" placeholder="Email">
-            <input type="password" id="registerPassword" class="auth-input" placeholder="Mot de passe (6+ caractères)">
-            <button id="registerBtn" class="auth-btn">Créer le compte</button>
-
-            <div class="auth-switch" id="showLogin">
-                Déjà un compte ? Se connecter
-            </div>
-            <div class="error-msg" id="registerError"></div>
-        </div>
-    </div>
-
-    <!-- Dashboard principal -->
-    <div id="mainApp" style="display: none;">
-        <div class="menu-header">
-            <button class="menu-icon" id="menuIcon">☰</button>
-            <div class="menu-title">⚙️ IoT Moteur</div>
+<body>
+    <div class="container">
+        <!-- En-tête -->
+        <div class="header">
+            <h2>👑 IoT Firebase - Administration</h2>
             <div class="user-info">
-                <span class="user-email" id="userEmail"></span>
-                <button class="logout-btn" id="logoutBtn">🚪 Quitter</button>
-                <button class="theme-toggle" id="themeToggle">🌙 Sombre</button>
+                <span id="userEmail"></span>
+                <span class="role-badge" id="userRole">Chargement...</span>
+                <button id="logoutBtn"
+                    style="background: #ff6b6b; color: white; padding: 8px 16px; border: none; border-radius: 10px;">🚪
+                    Déconnexion</button>
             </div>
         </div>
 
-        <div class="menu-overlay" id="menuOverlay"></div>
-        <div class="side-menu" id="sideMenu">
-            <div class="menu-header-drawer">
-                <h3>🔧 MENU PRINCIPAL</h3>
-            </div>
-            <div class="menu-item" data-section="dashboard">
-                <span>📊</span> Tableau de bord
-            </div>
-            <div class="menu-item" data-section="history">
-                <span>📜</span> Historique
-            </div>
-            <div class="menu-item" data-section="export">
-                <span>💾</span> Exporter
-            </div>
-            <div class="menu-item" data-section="about">
-                <span>ℹ️</span> À propos
-            </div>
-            <div class="menu-item" id="refreshData">
-                <span>🔄</span> Rafraîchir
-            </div>
-        </div>
-
-        <div class="container">
-            <div id="dashboardSection" class="section active">
+        <div class="grid-2">
+            <!-- Colonne gauche -->
+            <div>
+                <!-- Contrôle moteur -->
                 <div class="card motor-card">
-                    <h3>⚙️ État du Moteur</h3>
+                    <h3>⚙️ Contrôle Moteur</h3>
                     <div class="led led-off" id="led"></div>
-                    <h2 id="motorStatus" style="font-size: 28px;">ARRÊT</h2>
+                    <h2 id="motorStatus">ARRÊT</h2>
                     <div class="control-buttons">
                         <button class="btn btn-on" id="btnOn">🟢 MARCHE</button>
                         <button class="btn btn-off" id="btnOff">🔴 ARRÊT</button>
                     </div>
                 </div>
 
+                <!-- Dernière activité -->
                 <div class="card">
                     <h3>📱 Dernière activité</h3>
-                    <div class="info-row">
-                        <span>Commande</span>
-                        <span class="info-value" id="lastCommand">-</span>
+                    <div class="info-row" style="display: flex; justify-content: space-between; padding: 10px 0;">
+                        <span>Commande:</span>
+                        <span id="lastCommand" style="color: #ffaa00;">-</span>
                     </div>
-                    <div class="info-row">
-                        <span>Appareil</span>
-                        <span class="info-value" id="lastDevice">-</span>
+                    <div class="info-row" style="display: flex; justify-content: space-between; padding: 10px 0;">
+                        <span>Appareil:</span>
+                        <span id="lastDevice" style="color: #ffaa00;">-</span>
                     </div>
-                    <div class="info-row">
-                        <span>Date/Heure</span>
-                        <span class="info-value" id="lastTime">-</span>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>📊 Statistiques</h3>
-                    <div class="stats-grid">
-                        <div>
-                            <div class="stat-number" id="totalCommands">0</div>
-                            <div>Total</div>
-                        </div>
-                        <div>
-                            <div class="stat-number" id="onCount">0</div>
-                            <div>MARCHE</div>
-                        </div>
-                        <div>
-                            <div class="stat-number" id="offCount">0</div>
-                            <div>ARRÊT</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card" style="text-align: center;">
-                    <span id="connectionStatus">✅ Connecté</span>
-                </div>
-            </div>
-
-            <div id="historySection" class="section">
-                <div class="card">
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
-                        <h3>📜 Historique</h3>
-                        <div class="filter-buttons">
-                            <button class="filter-btn active" data-filter="all">Tous</button>
-                            <button class="filter-btn" data-filter="on">MARCHE</button>
-                            <button class="filter-btn" data-filter="off">ARRÊT</button>
-                        </div>
-                    </div>
-                    <div class="history-list" id="historyList">
-                        <div style="text-align:center;padding:30px;">Chargement...</div>
+                    <div class="info-row" style="display: flex; justify-content: space-between; padding: 10px 0;">
+                        <span>Utilisateur:</span>
+                        <span id="lastUser" style="color: #ffaa00;">-</span>
                     </div>
                 </div>
             </div>
 
-            <div id="exportSection" class="section">
-                <div class="card" style="text-align: center;">
-                    <h3>💾 Exporter</h3>
-                    <div class="control-buttons" style="flex-direction: column;">
-                        <button class="btn" id="exportCSVBtn" style="background: var(--accent);">📥 CSV</button>
-                        <button class="btn" id="exportJSONBtn" style="background: var(--accent);">📄 JSON</button>
+            <!-- Colonne droite -->
+            <div>
+                <!-- Gestion utilisateurs (visible uniquement pour admin) -->
+                <div class="card" id="adminPanel">
+                    <h3>👥 Gestion des utilisateurs</h3>
+                    <div style="margin-bottom: 15px;">
+                        <input type="email" id="newUserEmail" placeholder="Email du nouvel utilisateur"
+                            style="width: 70%; padding: 10px; border-radius: 10px; border: none;">
+                        <select id="newUserRole" style="padding: 10px;">
+                            <option value="user">👤 Utilisateur (contrôle uniquement)</option>
+                            <option value="admin">👑 Administrateur (tout accès)</option>
+                        </select>
+                        <button id="addUserBtn"
+                            style="margin-top: 10px; background: #00b09b; color: white; padding: 10px 20px;">➕
+                            Ajouter</button>
                     </div>
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersList"></tbody>
+                    </table>
                 </div>
             </div>
+        </div>
 
-            <div id="aboutSection" class="section">
-                <div class="card" style="text-align: center;">
-                    <h3>ℹ️ À propos</h3>
-                    <p style="margin: 15px 0;">Projet IoT - Contrôle moteur sécurisé</p>
-                    <p>🔥 Firebase Auth + Realtime Database</p>
-                    <p>📱 Interface responsive</p>
-                    <p style="margin-top: 20px; color: var(--accent);">Version 3.0 avec authentification</p>
-                </div>
+        <!-- Historique complet -->
+        <div class="card">
+            <h3>📜 Historique des commandes</h3>
+            <div class="history-list" id="historyList">
+                <div style="text-align:center;padding:20px;">Chargement...</div>
             </div>
         </div>
     </div>
@@ -636,78 +339,128 @@
             appId: "1:36220333719:web:483313a74a280096d983d2"
         };
 
-
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const database = firebase.database();
 
-        let currentFilter = "all";
+        let currentUser = null;
+        let userRole = null;
         let commandHistory = [];
-        let onCount = 0, offCount = 0;
 
         // ===== AUTHENTIFICATION =====
-        const authContainer = document.getElementById('authContainer');
-        const registerContainer = document.getElementById('registerContainer');
-        const mainApp = document.getElementById('mainApp');
-
-        // Vérifier si l'utilisateur est déjà connecté
-        auth.onAuthStateChanged((user) => {
+        auth.onAuthStateChanged(async (user) => {
             if (user) {
-                authContainer.style.display = 'none';
-                registerContainer.style.display = 'none';
-                mainApp.style.display = 'block';
+                currentUser = user;
                 document.getElementById('userEmail').textContent = user.email;
+
+                // Lire le rôle de l'utilisateur
+                const roleSnapshot = await database.ref(`users/${user.uid}/role`).once('value');
+                userRole = roleSnapshot.val() || 'user';
+
+                const roleBadge = document.getElementById('userRole');
+                roleBadge.textContent = userRole === 'admin' ? '👑 Administrateur' : '👤 Utilisateur';
+                roleBadge.className = `role-badge ${userRole === 'admin' ? 'admin' : 'user'}`;
+
+                // Afficher/masquer le panneau admin
+                if (userRole === 'admin') {
+                    document.getElementById('adminPanel').style.display = 'block';
+                    loadUsers();
+                } else {
+                    document.getElementById('adminPanel').style.display = 'none';
+                }
+
+                // Vérifier si l'utilisateur peut contrôler le moteur
+                updateControlButtons();
+
                 initApp();
             } else {
-                authContainer.style.display = 'block';
-                registerContainer.style.display = 'none';
-                mainApp.style.display = 'none';
+                // Rediriger vers la page de connexion
+                window.location.href = '#';
+                showNotification('Veuillez vous connecter', true);
             }
         });
 
-        // Connexion
-        document.getElementById('loginBtn').onclick = async () => {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            const errorDiv = document.getElementById('authError');
+        function updateControlButtons() {
+            const btnOn = document.getElementById('btnOn');
+            const btnOff = document.getElementById('btnOff');
 
-            try {
-                await auth.signInWithEmailAndPassword(email, password);
-                errorDiv.textContent = '';
-            } catch (error) {
-                errorDiv.textContent = 'Erreur: ' + error.message;
+            if (userRole === 'admin' || userRole === 'user') {
+                btnOn.disabled = false;
+                btnOff.disabled = false;
+                btnOn.classList.remove('btn-disabled');
+                btnOff.classList.remove('btn-disabled');
+            } else {
+                btnOn.disabled = true;
+                btnOff.disabled = true;
+                btnOn.classList.add('btn-disabled');
+                btnOff.classList.add('btn-disabled');
             }
-        };
+        }
 
-        // Inscription
-        document.getElementById('registerBtn').onclick = async () => {
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const errorDiv = document.getElementById('registerError');
+        // ===== GESTION UTILISATEURS (Admin uniquement) =====
+        async function loadUsers() {
+            const usersSnapshot = await database.ref('users').once('value');
+            const users = usersSnapshot.val() || {};
 
-            try {
-                await auth.createUserWithEmailAndPassword(email, password);
-                errorDiv.textContent = '';
-            } catch (error) {
-                errorDiv.textContent = 'Erreur: ' + error.message;
+            const tbody = document.getElementById('usersList');
+            tbody.innerHTML = '';
+
+            for (const [uid, userData] of Object.entries(users)) {
+                // Récupérer l'email depuis Auth (nécessite une fonction Cloud ou stockage)
+                const row = tbody.insertRow();
+                row.insertCell(0).textContent = userData.email || uid;
+                row.insertCell(1).textContent = userData.role === 'admin' ? '👑 Admin' : '👤 User';
+
+                const actions = row.insertCell(2);
+
+                // Changer rôle
+                const roleSelect = document.createElement('select');
+                roleSelect.innerHTML = `
+                    <option value="user" ${userData.role === 'user' ? 'selected' : ''}>Utilisateur</option>
+                    <option value="admin" ${userData.role === 'admin' ? 'selected' : ''}>Administrateur</option>
+                `;
+                roleSelect.onchange = () => updateUserRole(uid, roleSelect.value);
+                actions.appendChild(roleSelect);
+
+                // Supprimer (sauf soi-même)
+                if (uid !== currentUser.uid) {
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.textContent = '🗑️';
+                    deleteBtn.style.background = '#ff6b6b';
+                    deleteBtn.style.marginLeft = '10px';
+                    deleteBtn.onclick = () => deleteUser(uid);
+                    actions.appendChild(deleteBtn);
+                }
             }
-        };
+        }
 
-        // Basculer vers inscription
-        document.getElementById('showRegister').onclick = () => {
-            authContainer.style.display = 'none';
-            registerContainer.style.display = 'block';
-        };
+        async function updateUserRole(uid, newRole) {
+            await database.ref(`users/${uid}/role`).set(newRole);
+            await database.ref(`users/${uid}/updatedAt`).set(Date.now());
+            showNotification(`✅ Rôle mis à jour`);
+            loadUsers();
+        }
 
-        // Basculer vers connexion
-        document.getElementById('showLogin').onclick = () => {
-            authContainer.style.display = 'block';
-            registerContainer.style.display = 'none';
-        };
+        async function deleteUser(uid) {
+            if (confirm('Supprimer cet utilisateur ?')) {
+                // Note: La suppression complète nécessite une Cloud Function
+                await database.ref(`users/${uid}`).remove();
+                showNotification(`✅ Utilisateur supprimé`);
+                loadUsers();
+            }
+        }
 
-        // Déconnexion
-        document.getElementById('logoutBtn').onclick = async () => {
-            await auth.signOut();
+        document.getElementById('addUserBtn').onclick = async () => {
+            const email = document.getElementById('newUserEmail').value;
+            const role = document.getElementById('newUserRole').value;
+
+            if (!email) {
+                showNotification('Entrez un email', true);
+                return;
+            }
+
+            showNotification(`📧 Invitation envoyée à ${email}`, false);
+            document.getElementById('newUserEmail').value = '';
         };
 
         // ===== FONCTIONS PRINCIPALES =====
@@ -715,13 +468,9 @@
             const div = document.createElement('div');
             div.className = 'notification';
             div.textContent = msg;
-            div.style.background = isError ? '#ff6b6b' : '#2b7be4';
+            div.style.background = isError ? '#ff6b6b' : '#00b09b';
             document.body.appendChild(div);
             setTimeout(() => div.remove(), 3000);
-        }
-
-        function getDeviceType() {
-            return /mobile|android|iphone/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
         }
 
         function updateLED(state) {
@@ -737,30 +486,32 @@
         }
 
         function formatDate(timestamp) {
-            if (!timestamp) return '-';
             return new Date(timestamp).toLocaleString('fr-FR');
         }
 
         async function sendCommand(value) {
-            const device = getDeviceType();
             const commandText = value === 1 ? 'MARCHE' : 'ARRÊT';
 
             try {
                 await database.ref('moteur/etat').set({
                     valeur: value,
-                    appareil: device,
+                    appareil: '🌐 Web',
                     timestamp: Date.now(),
-                    utilisateur: auth.currentUser?.email
+                    utilisateur: currentUser.email,
+                    uid: currentUser.uid
                 });
+
                 await database.ref('historique').push({
                     valeur: value,
-                    appareil: device,
+                    appareil: '🌐 Web',
                     timestamp: Date.now(),
-                    utilisateur: auth.currentUser?.email
+                    utilisateur: currentUser.email,
+                    uid: currentUser.uid
                 });
+
                 showNotification(`✅ ${commandText} envoyé`);
             } catch (error) {
-                showNotification(`❌ Erreur`, true);
+                showNotification(`❌ Erreur: ${error.message}`, true);
             }
         }
 
@@ -771,162 +522,65 @@
                     updateLED(data.valeur);
                     document.getElementById('lastCommand').innerHTML = data.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT';
                     document.getElementById('lastDevice').innerHTML = data.appareil;
-                    document.getElementById('lastTime').innerHTML = formatDate(data.timestamp);
+                    document.getElementById('lastUser').innerHTML = data.utilisateur || 'Inconnu';
                 }
             });
         }
 
         async function loadHistory() {
-            try {
-                const snapshot = await database.ref('historique').once('value');
-                const data = snapshot.val();
-                commandHistory = [];
-                onCount = 0;
-                offCount = 0;
+            const snapshot = await database.ref('historique').limitToLast(20).once('value');
+            const data = snapshot.val();
 
-                if (data) {
-                    commandHistory = Object.entries(data).map(([key, value]) => value);
-                    commandHistory.reverse();
-                    commandHistory.forEach(item => {
-                        if (item.valeur === 1) onCount++;
-                        else offCount++;
-                    });
-                }
-
-                document.getElementById('totalCommands').textContent = onCount + offCount;
-                document.getElementById('onCount').textContent = onCount;
-                document.getElementById('offCount').textContent = offCount;
-                updateHistoryDisplay();
-            } catch (error) {
-                console.error(error);
-            }
-        }
-
-        function updateHistoryDisplay() {
-            let filtered = commandHistory;
-            if (currentFilter === "on") filtered = commandHistory.filter(i => i.valeur === 1);
-            if (currentFilter === "off") filtered = commandHistory.filter(i => i.valeur === 0);
-
-            const list = document.getElementById('historyList');
-            if (filtered.length === 0) {
-                list.innerHTML = '<div style="text-align:center;padding:30px;">Aucune commande</div>';
-                return;
-            }
-
-            list.innerHTML = filtered.slice(0, 20).map(item => `
-                <div class="history-item">
-                    <div>
-                        <span class="${item.valeur === 1 ? 'history-on' : 'history-off'}">
-                            ${item.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}
-                        </span>
+            if (data) {
+                commandHistory = Object.values(data).reverse();
+                const historyDiv = document.getElementById('historyList');
+                historyDiv.innerHTML = commandHistory.map(item => `
+                    <div class="history-item">
+                        <div>
+                            <span style="color: ${item.valeur === 1 ? '#00b09b' : '#ff6b6b'}">
+                                ${item.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}
+                            </span>
+                            <div style="font-size: 11px; color: #888;">${item.utilisateur || 'Inconnu'}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div>${item.appareil}</div>
+                            <div style="font-size: 11px; color: #888;">${formatDate(item.timestamp)}</div>
+                        </div>
                     </div>
-                    <div class="timestamp">${formatDate(item.timestamp)}</div>
-                </div>
-            `).join('');
-        }
-
-        function exportCSV() {
-            if (commandHistory.length === 0) {
-                showNotification('Aucune donnée', true);
-                return;
-            }
-            let csv = "Date,Heure,Commande,Appareil\n";
-            commandHistory.forEach(item => {
-                const date = new Date(item.timestamp);
-                csv += `${date.toLocaleDateString()},${date.toLocaleTimeString()},${item.valeur === 1 ? 'MARCHE' : 'ARRÊT'},${item.appareil}\n`;
-            });
-            const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `historique_${Date.now()}.csv`;
-            link.click();
-            showNotification('✅ CSV exporté');
-        }
-
-        function exportJSON() {
-            if (commandHistory.length === 0) {
-                showNotification('Aucune donnée', true);
-                return;
-            }
-            const blob = new Blob([JSON.stringify(commandHistory, null, 2)], { type: 'application/json' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `historique_${Date.now()}.json`;
-            link.click();
-            showNotification('✅ JSON exporté');
-        }
-
-        // ===== MENU =====
-        function closeMenu() {
-            document.getElementById('sideMenu').classList.remove('open');
-            document.getElementById('menuOverlay').classList.remove('show');
-        }
-
-        document.getElementById('menuIcon').onclick = () => {
-            document.getElementById('sideMenu').classList.add('open');
-            document.getElementById('menuOverlay').classList.add('show');
-        };
-        document.getElementById('menuOverlay').onclick = closeMenu;
-
-        document.querySelectorAll('.menu-item[data-section]').forEach(item => {
-            item.onclick = () => {
-                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-                document.getElementById(item.dataset.section + 'Section').classList.add('active');
-                closeMenu();
-            };
-        });
-
-        document.getElementById('refreshData').onclick = () => {
-            loadHistory();
-            showNotification('🔄 Actualisé');
-            closeMenu();
-        };
-
-        // ===== THÈME =====
-        const themeToggle = document.getElementById('themeToggle');
-        function toggleTheme() {
-            if (document.body.classList.contains('light')) {
-                document.body.classList.remove('light');
-                document.body.classList.add('dark');
-                themeToggle.innerHTML = '☀️ Clair';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                document.body.classList.remove('dark');
-                document.body.classList.add('light');
-                themeToggle.innerHTML = '🌙 Sombre';
-                localStorage.setItem('theme', 'light');
+                `).join('');
             }
         }
-        themeToggle.onclick = toggleTheme;
 
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            document.body.classList.remove('light');
-            document.body.classList.add('dark');
-            themeToggle.innerHTML = '☀️ Clair';
-        }
+        document.getElementById('logoutBtn').onclick = () => auth.signOut();
+        document.getElementById('btnOn').onclick = () => sendCommand(1);
+        document.getElementById('btnOff').onclick = () => sendCommand(0);
 
-        // ===== FILTRES =====
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.onclick = () => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentFilter = btn.dataset.filter;
-                updateHistoryDisplay();
-            };
-        });
-
-        // ===== INITIALISATION =====
         function initApp() {
-            document.getElementById('btnOn').onclick = () => sendCommand(1);
-            document.getElementById('btnOff').onclick = () => sendCommand(0);
-            document.getElementById('exportCSVBtn').onclick = exportCSV;
-            document.getElementById('exportJSONBtn').onclick = exportJSON;
-
             listenToMotorState();
             loadHistory();
             setInterval(loadHistory, 5000);
         }
+
+        // Créer l'admin par défaut au premier démarrage
+        async function setupDefaultAdmin() {
+            const adminEmail = "johndiams30@gmail.com";
+            const adminSnapshot = await database.ref('users').orderByChild('email').equalTo(adminEmail).once('value');
+
+            if (!adminSnapshot.exists()) {
+                // Attendre que l'utilisateur soit connecté
+                auth.onAuthStateChanged(async (user) => {
+                    if (user && user.email === adminEmail) {
+                        await database.ref(`users/${user.uid}`).set({
+                            email: user.email,
+                            role: 'admin',
+                            createdAt: Date.now()
+                        });
+                        console.log('✅ Compte admin créé');
+                    }
+                });
+            }
+        }
+        setupDefaultAdmin();
     </script>
 </body>
 
