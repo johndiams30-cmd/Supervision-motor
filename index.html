@@ -330,6 +330,98 @@
             display: block;
         }
 
+        /* ===== PROGRAMMATION HORAIRE ===== */
+        .schedule-item {
+            background: #f8fafd;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .schedule-time {
+            font-weight: bold;
+            color: #2b7be4;
+            font-size: 16px;
+        }
+
+        .schedule-duration {
+            font-size: 11px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .schedule-action {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .schedule-action.on {
+            background: #00b09b;
+            color: white;
+        }
+
+        .schedule-action.off {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .schedule-delete {
+            background: #ff6b6b;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .schedule-edit {
+            background: #2b7be4;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        /* ===== MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 350px;
+            margin: auto;
+        }
+
+        .modal-content select,
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
         /* ===== CONNEXION ===== */
         .login-container {
             max-width: 400px;
@@ -494,6 +586,9 @@
         <div class="nav-item" data-page="export">
             <span>💾</span> Export
         </div>
+        <div class="nav-item" data-page="schedule">
+            <span>⏰</span> Programmation
+        </div>
         <div class="nav-item" data-page="profile">
             <span>👤</span> Mon profil
         </div>
@@ -656,6 +751,92 @@
             </div>
         </div>
 
+        <!-- PAGE PROGRAMMATION HORAIRE -->
+        <div id="schedulePage" class="page">
+            <div class="card">
+                <h3>⏰ Programmation horaire</h3>
+                <p style="margin-bottom: 15px; color: #666;">Définissez les horaires de fonctionnement du moteur</p>
+
+                <div id="scheduleList">
+                    <div style="text-align:center;padding:20px;">Chargement...</div>
+                </div>
+
+                <button class="btn btn-secondary" id="addScheduleBtn" style="margin-top: 15px; width: 100%;">➕ Ajouter
+                    un horaire</button>
+            </div>
+        </div>
+
+        <!-- MODAL POUR AJOUTER/MODIFIER UN HORAIRE -->
+        <div id="scheduleModal" class="modal">
+            <div class="modal-content">
+                <h3 id="modalTitle" style="color: #2b7be4; margin-bottom: 15px;">Ajouter un horaire</h3>
+                <select id="scheduleHour">
+                    <option value="">Heure</option>
+                    <option value="0">00h00</option>
+                    <option value="1">01h00</option>
+                    <option value="2">02h00</option>
+                    <option value="3">03h00</option>
+                    <option value="4">04h00</option>
+                    <option value="5">05h00</option>
+                    <option value="6">06h00</option>
+                    <option value="7">07h00</option>
+                    <option value="8">08h00</option>
+                    <option value="9">09h00</option>
+                    <option value="10">10h00</option>
+                    <option value="11">11h00</option>
+                    <option value="12">12h00</option>
+                    <option value="13">13h00</option>
+                    <option value="14">14h00</option>
+                    <option value="15">15h00</option>
+                    <option value="16">16h00</option>
+                    <option value="17">17h00</option>
+                    <option value="18">18h00</option>
+                    <option value="19">19h00</option>
+                    <option value="20">20h00</option>
+                    <option value="21">21h00</option>
+                    <option value="22">22h00</option>
+                    <option value="23">23h00</option>
+                </select>
+                <select id="scheduleMinute">
+                    <option value="">Minute</option>
+                    <option value="0">00</option>
+                    <option value="5">05</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                </select>
+                <select id="scheduleAction">
+                    <option value="1">🟢 MARCHE</option>
+                    <option value="0">🔴 ARRÊT</option>
+                </select>
+                <select id="scheduleDuration">
+                    <option value="">Durée de marche (optionnel)</option>
+                    <option value="1">1 minute</option>
+                    <option value="5">5 minutes</option>
+                    <option value="10">10 minutes</option>
+                    <option value="15">15 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="45">45 minutes</option>
+                    <option value="60">1 heure</option>
+                    <option value="120">2 heures</option>
+                    <option value="180">3 heures</option>
+                    <option value="240">4 heures</option>
+                    <option value="480">8 heures</option>
+                </select>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button id="saveScheduleBtn" class="btn btn-secondary" style="flex:1;">Enregistrer</button>
+                    <button id="closeModalBtn" class="btn" style="flex:1; background:#ddd;">Annuler</button>
+                </div>
+            </div>
+        </div>
+
         <!-- PAGE PROFIL UTILISATEUR -->
         <div id="profilePage" class="page">
             <div class="card profile-card">
@@ -695,7 +876,8 @@
                 <p>🔐 Authentification sécurisée</p>
                 <p>📱 Interface responsive</p>
                 <p>👤 Profil utilisateur avec photo</p>
-                <p style="margin-top: 20px;">Version 4.0 - Professional</p>
+                <p>⏰ Programmation horaire avec durée</p>
+                <p style="margin-top: 20px;">Version 5.0 - Professional</p>
             </div>
         </div>
     </div>
@@ -703,7 +885,6 @@
     <!-- ÉCRANS DE CONNEXION -->
     <div class="login-container" id="loginScreen">
         <div class="login-card">
-            <!-- LOGO ENTREPRISE -->
             <div style="text-align:center; margin-bottom:15px;">
                 <img src="https://i.ibb.co/TDZ1fMcW/IMG-20250121-220704.jpg" alt="Logo Entreprise"
                     style="max-width:120px;">
@@ -749,18 +930,34 @@
         let onCount = 0, offCount = 0, pcCount = 0, mobileCount = 0;
         let motorState = 0, motorStartTime = null, cycleCount = 0, totalRunTimeSeconds = 0;
 
+        // Variables pour la programmation
+        let schedules = [];
+        let scheduledStops = {};
+
         // Navigation
         function navigateTo(page) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(page + 'Page').classList.add('active');
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
-            const titles = { dashboard: 'Tableau de bord', control: 'Contrôle moteur', history: 'Historique', stats: 'Statistiques', export: 'Export', profile: 'Mon profil', about: 'À propos' };
+            const titles = {
+                dashboard: 'Tableau de bord',
+                control: 'Contrôle moteur',
+                history: 'Historique',
+                stats: 'Statistiques',
+                export: 'Export',
+                schedule: 'Programmation',
+                profile: 'Mon profil',
+                about: 'À propos'
+            };
             document.getElementById('pageTitle').textContent = titles[page];
             if (window.innerWidth <= 768) closeMenu();
 
             if (page === 'profile') {
                 updateProfilePage();
+            }
+            if (page === 'schedule') {
+                loadSchedules();
             }
         }
 
@@ -772,7 +969,7 @@
         function closeMenu() { document.getElementById('sidebar').classList.remove('open'); }
         document.getElementById('menuToggle').onclick = () => document.getElementById('sidebar').classList.toggle('open');
 
-        // Gestion photo de profil
+        // ===== GESTION PHOTO DE PROFIL =====
         async function uploadProfilePhoto(file) {
             const user = auth.currentUser;
             if (!user) return;
@@ -857,7 +1054,179 @@
             }
         };
 
-        // Auth
+        // ===== PROGRAMMATION HORAIRE =====
+        async function loadSchedules() {
+            const user = auth.currentUser;
+            if (!user) return;
+
+            const snapshot = await database.ref(`users/${user.uid}/schedules`).once('value');
+            const data = snapshot.val();
+            if (data) {
+                schedules = Object.entries(data).map(([id, s]) => ({ id, ...s }));
+                displaySchedules();
+            } else {
+                schedules = [];
+                displaySchedules();
+            }
+        }
+
+        function formatDuree(minutes) {
+            if (!minutes) return '';
+            if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''}`;
+            const heures = Math.floor(minutes / 60);
+            const reste = minutes % 60;
+            if (reste === 0) return `${heures} heure${heures > 1 ? 's' : ''}`;
+            return `${heures}h${reste}`;
+        }
+
+        function displaySchedules() {
+            const container = document.getElementById('scheduleList');
+            if (!container) return;
+
+            if (schedules.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:20px;">Aucun horaire programmé</div>';
+                return;
+            }
+
+            schedules.sort((a, b) => (a.heure * 60 + a.minute) - (b.heure * 60 + b.minute));
+
+            container.innerHTML = schedules.map(s => `
+                <div class="schedule-item" data-id="${s.id}">
+                    <div>
+                        <span class="schedule-time">⏰ ${s.heure.toString().padStart(2, '0')}h${s.minute.toString().padStart(2, '0')}</span>
+                        ${s.duree ? `<div class="schedule-duration">⏱️ Durée: ${formatDuree(s.duree)}</div>` : ''}
+                    </div>
+                    <div>
+                        <span class="schedule-action ${s.action === 1 ? 'on' : 'off'}">
+                            ${s.action === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}
+                        </span>
+                    </div>
+                    <div>
+                        <button class="schedule-edit" onclick="editSchedule('${s.id}')">✏️</button>
+                        <button class="schedule-delete" onclick="deleteSchedule('${s.id}')">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function saveSchedule(id, heure, minute, action, duree) {
+            const user = auth.currentUser;
+            if (!user) return;
+
+            const scheduleData = {
+                heure: parseInt(heure),
+                minute: parseInt(minute),
+                action: parseInt(action),
+                duree: duree ? parseInt(duree) : null
+            };
+
+            if (id) {
+                await database.ref(`users/${user.uid}/schedules/${id}`).update(scheduleData);
+            } else {
+                await database.ref(`users/${user.uid}/schedules`).push(scheduleData);
+            }
+
+            await loadSchedules();
+            showNotification('✅ Horaire enregistré');
+        }
+
+        async function deleteSchedule(id) {
+            if (!confirm('Supprimer cet horaire ?')) return;
+
+            const user = auth.currentUser;
+            if (!user) return;
+
+            await database.ref(`users/${user.uid}/schedules/${id}`).remove();
+            await loadSchedules();
+            showNotification('🗑️ Horaire supprimé');
+        }
+
+        window.editSchedule = function (id) {
+            const schedule = schedules.find(s => s.id === id);
+            if (schedule) {
+                document.getElementById('scheduleHour').value = schedule.heure;
+                document.getElementById('scheduleMinute').value = schedule.minute;
+                document.getElementById('scheduleAction').value = schedule.action;
+                document.getElementById('scheduleDuration').value = schedule.duree || '';
+                document.getElementById('modalTitle').textContent = 'Modifier l\'horaire';
+                window.currentEditId = id;
+                document.getElementById('scheduleModal').style.display = 'flex';
+            }
+        };
+
+        window.deleteSchedule = deleteSchedule;
+
+        document.getElementById('addScheduleBtn')?.addEventListener('click', () => {
+            document.getElementById('scheduleHour').value = '';
+            document.getElementById('scheduleMinute').value = '';
+            document.getElementById('scheduleAction').value = '1';
+            document.getElementById('scheduleDuration').value = '';
+            document.getElementById('modalTitle').textContent = 'Ajouter un horaire';
+            window.currentEditId = null;
+            document.getElementById('scheduleModal').style.display = 'flex';
+        });
+
+        document.getElementById('closeModalBtn')?.addEventListener('click', () => {
+            document.getElementById('scheduleModal').style.display = 'none';
+        });
+
+        document.getElementById('saveScheduleBtn')?.addEventListener('click', async () => {
+            const heure = document.getElementById('scheduleHour').value;
+            const minute = document.getElementById('scheduleMinute').value;
+            const action = document.getElementById('scheduleAction').value;
+            const duree = document.getElementById('scheduleDuration').value;
+
+            if (!heure || !minute) {
+                showNotification('❌ Veuillez sélectionner une heure', true);
+                return;
+            }
+
+            await saveSchedule(window.currentEditId, heure, minute, action, duree);
+            document.getElementById('scheduleModal').style.display = 'none';
+        });
+
+        // Vérification des horaires
+        function checkSchedules() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentTimestamp = now.getTime();
+
+            schedules.forEach(schedule => {
+                if (schedule.heure === currentHour && schedule.minute === currentMinute) {
+                    const key = `${schedule.heure}:${schedule.minute}`;
+                    const lastExecution = window.lastExecution || {};
+                    if (lastExecution[key] === now.toDateString()) return;
+
+                    lastExecution[key] = now.toDateString();
+                    window.lastExecution = lastExecution;
+
+                    if (schedule.action === 1) {
+                        sendCommand(1);
+                        showNotification(`⏰ Programmé: MARCHE à ${currentHour}h${currentMinute}`);
+
+                        if (schedule.duree && schedule.duree > 0) {
+                            const stopTime = currentTimestamp + (schedule.duree * 60 * 1000);
+                            scheduledStops[schedule.id] = stopTime;
+                            showNotification(`⏱️ Arrêt automatique dans ${formatDuree(schedule.duree)}`);
+                        }
+                    } else {
+                        sendCommand(0);
+                        showNotification(`⏰ Programmé: ARRÊT à ${currentHour}h${currentMinute}`);
+                    }
+                }
+            });
+
+            for (const [id, stopTime] of Object.entries(scheduledStops)) {
+                if (currentTimestamp >= stopTime) {
+                    sendCommand(0);
+                    showNotification(`⏱️ Arrêt automatique (fin de programmation)`);
+                    delete scheduledStops[id];
+                }
+            }
+        }
+
+        // ===== AUTHENTIFICATION =====
         const loginScreen = document.getElementById('loginScreen');
         const registerScreen = document.getElementById('registerScreen');
         const appScreen = document.querySelector('.main-content');
@@ -869,6 +1238,7 @@
                 appScreen.style.display = 'block';
                 document.getElementById('userEmail').textContent = user.email;
                 loadProfilePhoto();
+                loadSchedules();
                 initApp();
             } else {
                 loginScreen.style.display = 'block';
@@ -899,6 +1269,7 @@
         document.getElementById('showLogin').onclick = () => { loginScreen.style.display = 'block'; registerScreen.style.display = 'none'; };
         document.getElementById('logoutBtn').onclick = () => auth.signOut();
 
+        // ===== FONCTIONS PRINCIPALES =====
         function getDeviceType() { return /mobile|android|iphone/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC"; }
 
         function showNotification(msg, isError = false) {
@@ -1008,6 +1379,14 @@
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.onclick = () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; updateHistoryDisplay(); };
         });
+
+        // Lancer la vérification des horaires
+        setInterval(checkSchedules, 60000);
+        setInterval(() => {
+            if (Object.keys(scheduledStops).length > 0) {
+                checkSchedules();
+            }
+        }, 1000);
 
         function initApp() {
             document.getElementById('btnOn').onclick = () => sendCommand(1);
