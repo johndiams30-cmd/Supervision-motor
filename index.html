@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>🔥 IoT Firebase - Contrôle Moteur</title>
+    <title>Pro IoT - Contrôle Moteur</title>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
@@ -19,53 +19,149 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, #e8f0fe 0%, #d4e4fc 100%);
             min-height: 100vh;
-            padding: 15px;
+            color: #1a2a4f;
         }
 
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: #1e1e2f;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            color: #e0e0e0;
+        /* ===== MENU LATÉRAL (VERSION PC) ===== */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: white;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            transition: all 0.3s;
+            overflow-y: auto;
         }
 
-        h1 {
+        .sidebar-header {
+            padding: 25px 20px;
             text-align: center;
-            margin-bottom: 20px;
-            color: #ffaa00;
+            border-bottom: 2px solid #2b7be4;
+        }
+
+        .sidebar-header h2 {
+            color: #2b7be4;
             font-size: 22px;
         }
 
-        /* Carte moteur */
-        .status-card {
-            background: linear-gradient(135deg, #ffaa00, #ff6600);
+        .sidebar-header p {
+            font-size: 11px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            margin: 5px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #444;
+        }
+
+        .nav-item:hover {
+            background: #e8f0fe;
+            color: #2b7be4;
+        }
+
+        .nav-item.active {
+            background: #2b7be4;
+            color: white;
+        }
+
+        /* ===== CONTENU PRINCIPAL ===== */
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* ===== EN-TÊTE ===== */
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 15px 25px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .logout-btn {
+            background: #ff6b6b;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* ===== CARTES ===== */
+        .card {
+            background: white;
             border-radius: 15px;
             padding: 20px;
-            text-align: center;
-            color: #1a1a2e;
             margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h3 {
+            color: #2b7be4;
+            margin-bottom: 15px;
+            border-left: 4px solid #2b7be4;
+            padding-left: 12px;
+        }
+
+        /* ===== CARTE MOTEUR ===== */
+        .motor-card {
+            background: linear-gradient(135deg, #2b7be4, #1a5bc4);
+            color: white;
+            text-align: center;
+        }
+
+        .motor-card h3 {
+            color: white;
+            border-left-color: white;
         }
 
         .led {
-            width: 70px;
-            height: 70px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            margin: 15px auto;
+            margin: 20px auto;
         }
 
         .led-on {
-            background: radial-gradient(circle at 30% 30%, #ffffff, #ffeb3b);
+            background: radial-gradient(circle at 30% 30%, #fff, #ffeb3b, #ffaa00);
             box-shadow: 0 0 30px #ffeb3b;
             animation: pulse 1s infinite;
         }
 
         .led-off {
-            background: radial-gradient(circle at 30% 30%, #555, #222);
+            background: radial-gradient(circle at 30% 30%, #ccc, #999);
         }
 
         @keyframes pulse {
@@ -80,130 +176,122 @@
             }
         }
 
-        /* Boutons - CORRIGÉ POUR MOBILE */
-        .control-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin: 20px 0 10px;
-            flex-direction: row;
+        .motor-status {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 15px 0;
         }
 
-        button {
-            padding: 14px 20px;
+        /* ===== BOUTONS ===== */
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 14px 35px;
             font-size: 16px;
             font-weight: bold;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s;
-            flex: 1;
+            transition: all 0.3s;
         }
 
-        button:active {
-            transform: scale(0.97);
-        }
-
-        .btn-on {
+        .btn-primary {
             background: #00b09b;
             color: white;
         }
 
-        .btn-off {
+        .btn-danger {
             background: #ff6b6b;
             color: white;
         }
 
-        /* Cartes info */
-        .info-card {
-            background: #2a2a3a;
-            border-radius: 15px;
-            padding: 15px;
-            margin: 15px 0;
+        .btn:hover {
+            transform: scale(1.02);
+            opacity: 0.9;
         }
 
+        /* ===== GRILLE STATS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 15px;
+            background: #f8fafd;
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2b7be4;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* ===== INFO ROWS ===== */
         .info-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #444;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
             flex-wrap: wrap;
             gap: 8px;
         }
 
         .info-label {
             font-weight: bold;
-            color: #aaa;
-            font-size: 14px;
+            color: #666;
         }
 
         .info-value {
-            color: #ffaa00;
+            color: #2b7be4;
             font-weight: bold;
-            font-size: 14px;
         }
 
-        /* Grille stats */
-        .stats-row {
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .stat-item {
-            text-align: center;
-            flex: 1;
-            min-width: 80px;
-        }
-
-        .stat-number {
-            font-size: 28px;
-            font-weight: bold;
-            color: #ffaa00;
-        }
-
-        .stat-label {
-            font-size: 11px;
-            color: #888;
-            margin-top: 5px;
-        }
-
-        /* Filtres */
+        /* ===== FILTRES ===== */
         .filter-buttons {
             display: flex;
             gap: 10px;
-            justify-content: center;
             margin-bottom: 15px;
             flex-wrap: wrap;
         }
 
         .filter-btn {
             padding: 6px 16px;
-            border: 1px solid #ffaa00;
+            border: 1px solid #2b7be4;
             border-radius: 20px;
-            background: transparent;
+            background: white;
             cursor: pointer;
-            font-size: 12px;
-            color: #e0e0e0;
+            color: #2b7be4;
         }
 
         .filter-btn.active {
-            background: #ffaa00;
-            color: #1a1a2e;
+            background: #2b7be4;
+            color: white;
         }
 
-        /* Historique */
+        /* ===== HISTORIQUE ===== */
         .history-list {
-            max-height: 250px;
+            max-height: 350px;
             overflow-y: auto;
         }
 
         .history-item {
-            background: rgba(42, 42, 58, 0.5);
-            padding: 10px;
+            background: #f8fafd;
+            padding: 12px;
             margin: 8px 0;
             border-radius: 10px;
             display: flex;
@@ -223,58 +311,59 @@
             font-weight: bold;
         }
 
-        .history-device {
-            font-size: 10px;
-            opacity: 0.6;
-            margin-left: 8px;
-        }
-
         .timestamp {
-            font-size: 10px;
-            color: #888;
-        }
-
-        /* Connexion */
-        .connection-status {
-            text-align: center;
-            padding: 10px;
             font-size: 11px;
-            color: #00b09b;
-            margin-top: 10px;
+            color: #999;
         }
 
-        /* Login */
-        .login-card,
-        .register-card {
-            background: #1e1e2f;
+        /* ===== PAGE ===== */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* ===== CONNEXION ===== */
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+        }
+
+        .login-card {
+            background: white;
             border-radius: 20px;
-            padding: 30px 20px;
+            padding: 40px 30px;
             text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
-        .login-card h2,
-        .register-card h2 {
-            color: #ffaa00;
+        .login-card h2 {
+            color: #2b7be4;
             margin-bottom: 20px;
         }
 
         .login-input {
             width: 100%;
             padding: 12px;
-            margin: 8px 0;
-            border: 2px solid #ffaa00;
+            margin: 10px 0;
+            border: 2px solid #ddd;
             border-radius: 10px;
-            background: #2a2a3a;
-            color: white;
             font-size: 14px;
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: #2b7be4;
         }
 
         .login-btn {
             width: 100%;
             padding: 12px;
             margin-top: 15px;
-            background: #ffaa00;
-            color: #1a1a2e;
+            background: #2b7be4;
+            color: white;
             border: none;
             border-radius: 10px;
             font-size: 16px;
@@ -283,9 +372,8 @@
         }
 
         .switch-btn {
-            text-align: center;
             margin-top: 15px;
-            color: #ffaa00;
+            color: #2b7be4;
             cursor: pointer;
             font-size: 13px;
         }
@@ -294,120 +382,283 @@
             color: #ff6b6b;
             font-size: 12px;
             margin-top: 10px;
-            text-align: center;
         }
 
-        .user-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #444;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .user-email {
-            font-size: 12px;
-            color: #888;
-        }
-
-        .logout-btn {
-            background: #ff6b6b;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        /* Notification */
+        /* ===== NOTIFICATION ===== */
         .notification {
             position: fixed;
             bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            right: 20px;
             background: #00b09b;
             color: white;
-            padding: 10px 20px;
-            border-radius: 40px;
-            font-size: 13px;
+            padding: 12px 24px;
+            border-radius: 10px;
+            animation: slideIn 0.3s ease;
             z-index: 1000;
-            animation: fadeInOut 3s ease;
-            white-space: nowrap;
         }
 
-        @keyframes fadeInOut {
-            0% {
+        .notification.error {
+            background: #ff6b6b;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
                 opacity: 0;
-                transform: translateX(-50%) translateY(20px);
             }
 
-            15% {
+            to {
+                transform: translateX(0);
                 opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-
-            85% {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-
-            100% {
-                opacity: 0;
-                transform: translateX(-50%) translateY(20px);
             }
         }
 
-        /* Responsive mobile */
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
+        /* ===== BOUTON MENU MOBILE ===== */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 101;
+            background: #2b7be4;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* ===== RESPONSIVE MOBILE ===== */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
             }
 
-            .container {
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
                 padding: 15px;
+                padding-top: 60px;
             }
 
-            .control-buttons {
+            .menu-toggle {
+                display: block;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .btn-group {
                 flex-direction: column;
                 gap: 10px;
             }
 
-            button {
-                padding: 12px;
-                font-size: 15px;
-            }
-
-            .stats-row {
-                gap: 10px;
-            }
-
-            .stat-number {
-                font-size: 22px;
-            }
-
-            .info-row {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .notification {
-                white-space: normal;
-                text-align: center;
-                max-width: 90%;
+            .btn {
+                width: 100%;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- ÉCRAN DE CONNEXION -->
-    <div id="loginScreen" class="container" style="max-width: 400px;">
+    <button class="menu-toggle" id="menuToggle">☰</button>
+
+    <!-- MENU LATÉRAL -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>🔧 Pro Moteur IoT</h2>
+            <p>Professional Control System</p>
+        </div>
+        <div class="nav-item active" data-page="dashboard">
+            <span>📊</span> Tableau de bord
+        </div>
+        <div class="nav-item" data-page="control">
+            <span>🎮</span> Contrôle moteur
+        </div>
+        <div class="nav-item" data-page="history">
+            <span>📜</span> Historique
+        </div>
+        <div class="nav-item" data-page="stats">
+            <span>📈</span> Statistiques
+        </div>
+        <div class="nav-item" data-page="export">
+            <span>💾</span> Export
+        </div>
+        <div class="nav-item" data-page="about">
+            <span>ℹ️</span> À propos
+        </div>
+    </div>
+
+    <!-- CONTENU PRINCIPAL -->
+    <div class="main-content">
+        <div class="header">
+            <h2 id="pageTitle">Tableau de bord</h2>
+            <div class="user-info">
+                <span class="user-email" id="userEmail"></span>
+                <button class="logout-btn" id="logoutBtn">🚪 Déconnexion</button>
+            </div>
+        </div>
+
+        <!-- PAGE DASHBOARD -->
+        <div id="dashboardPage" class="page active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="statTotal">0</div>
+                    <div class="stat-label">Total commandes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="statOn">0</div>
+                    <div class="stat-label">MARCHE</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="statOff">0</div>
+                    <div class="stat-label">ARRÊT</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="statCycles">0</div>
+                    <div class="stat-label">Cycles</div>
+                </div>
+            </div>
+
+            <div class="card motor-card">
+                <h3>⚙️ État du moteur</h3>
+                <div class="led led-off" id="led"></div>
+                <div class="motor-status" id="motorStatus">ARRÊT</div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="btnOn">🟢 MARCHE</button>
+                    <button class="btn btn-danger" id="btnOff">🔴 ARRÊT</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📱 Dernière activité</h3>
+                <div class="info-row">
+                    <span class="info-label">Commande</span>
+                    <span class="info-value" id="lastCommand">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Appareil</span>
+                    <span class="info-value" id="lastDevice">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Date/Heure</span>
+                    <span class="info-value" id="lastTime">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Temps fonctionnement</span>
+                    <span class="info-value" id="runTimeDisplay">0s</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE CONTRÔLE -->
+        <div id="controlPage" class="page">
+            <div class="card motor-card">
+                <h3>🎮 Contrôle moteur</h3>
+                <div class="led led-off" id="led2"></div>
+                <div class="motor-status" id="motorStatus2">ARRÊT</div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="btnOn2">🟢 MARCHE</button>
+                    <button class="btn btn-danger" id="btnOff2">🔴 ARRÊT</button>
+                </div>
+            </div>
+            <div class="card">
+                <h3>⏱️ Temps de fonctionnement</h3>
+                <div class="info-row">
+                    <span class="info-label">Session actuelle</span>
+                    <span class="info-value" id="currentRunTime">0s</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Temps total</span>
+                    <span class="info-value" id="totalRunTime">0h</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE HISTORIQUE -->
+        <div id="historyPage" class="page">
+            <div class="card">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+                    <h3>📜 Historique des commandes</h3>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">Tous</button>
+                        <button class="filter-btn" data-filter="on">MARCHE</button>
+                        <button class="filter-btn" data-filter="off">ARRÊT</button>
+                    </div>
+                </div>
+                <div class="history-list" id="historyList">
+                    <div style="text-align:center;padding:30px;">Chargement...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE STATISTIQUES -->
+        <div id="statsPage" class="page">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="todayCount">0</div>
+                    <div class="stat-label">Aujourd'hui</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="weekCount">0</div>
+                    <div class="stat-label">Cette semaine</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="monthCount">0</div>
+                    <div class="stat-label">Ce mois</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalCount">0</div>
+                    <div class="stat-label">Total</div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>📊 Répartition par appareil</h3>
+                <div class="info-row">
+                    <span class="info-label">💻 PC</span>
+                    <span class="info-value" id="pcStat">0</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">📱 Mobile</span>
+                    <span class="info-value" id="mobileStat">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE EXPORT -->
+        <div id="exportPage" class="page">
+            <div class="card" style="text-align: center;">
+                <h3>💾 Exporter les données</h3>
+                <div class="btn-group" style="flex-direction: row; flex-wrap: wrap;">
+                    <button class="btn btn-primary" id="exportCSV" style="background: #2b7be4;">📥 CSV</button>
+                    <button class="btn btn-primary" id="exportJSON" style="background: #2b7be4;">📄 JSON</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE À PROPOS -->
+        <div id="aboutPage" class="page">
+            <div class="card" style="text-align: center;">
+                <h3>ℹ️ À propos</h3>
+                <p style="margin: 20px 0;">Système professionnel de contrôle moteur IoT</p>
+                <p>🔥 Firebase Realtime Database</p>
+                <p>🔐 Authentification sécurisée</p>
+                <p>📱 Interface responsive</p>
+                <p style="margin-top: 20px;">Version 3.0 - Professional</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÉCRANS DE CONNEXION -->
+    <div class="login-container" id="loginScreen">
         <div class="login-card">
-            <h2>🔐 IoT Firebase</h2>
+            <h2>🔐 Accès sécurisé</h2>
             <input type="email" id="loginEmail" class="login-input" placeholder="Email">
             <input type="password" id="loginPassword" class="login-input" placeholder="Mot de passe">
             <button id="doLogin" class="login-btn">Se connecter</button>
@@ -416,7 +667,7 @@
         </div>
     </div>
 
-    <div id="registerScreen" class="container" style="max-width: 400px; display: none;">
+    <div class="login-container" id="registerScreen" style="display: none;">
         <div class="login-card">
             <h2>📝 Créer un compte</h2>
             <input type="email" id="registerEmail" class="login-input" placeholder="Email">
@@ -427,97 +678,7 @@
         </div>
     </div>
 
-    <!-- APPLICATION PRINCIPALE -->
-    <div id="appScreen" class="container" style="display: none;">
-        <!-- En-tête utilisateur -->
-        <div class="user-header">
-            <span class="user-email" id="userEmail"></span>
-            <button class="logout-btn" id="logoutBtn">🚪 Déconnexion</button>
-        </div>
-
-        <!-- Carte moteur -->
-        <div class="status-card">
-            <h3>⚙️ État du Moteur</h3>
-            <div class="led led-off" id="led"></div>
-            <h2 id="motorStatus">ARRÊT</h2>
-            <div class="control-buttons">
-                <button class="btn-on" id="btnOn">🟢 MARCHE</button>
-                <button class="btn-off" id="btnOff">🔴 ARRÊT</button>
-            </div>
-        </div>
-
-        <!-- Infos dernière commande -->
-        <div class="info-card">
-            <div class="info-row">
-                <span class="info-label">📱 Dernière commande</span>
-                <span class="info-value" id="lastCommand">-</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">💻 Appareil</span>
-                <span class="info-value" id="lastDevice">-</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">⏰ Date/Heure</span>
-                <span class="info-value" id="lastTime">-</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">⏱️ Fonctionnement</span>
-                <span class="info-value" id="currentRunTime">0s</span>
-            </div>
-        </div>
-
-        <!-- Statistiques -->
-        <div class="info-card">
-            <h3 style="margin-bottom: 10px;">📊 Statistiques</h3>
-            <div class="stats-row">
-                <div class="stat-item">
-                    <div class="stat-number" id="totalCommands">0</div>
-                    <div class="stat-label">Total</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="onCount">0</div>
-                    <div class="stat-label">MARCHE</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="offCount">0</div>
-                    <div class="stat-label">ARRÊT</div>
-                </div>
-            </div>
-            <div class="stats-row" style="margin-top: 10px;">
-                <div class="stat-item">
-                    <div class="stat-number" id="cycleCount">0</div>
-                    <div class="stat-label">🔄 Cycles</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="totalRunTime">0h</div>
-                    <div class="stat-label">⏱️ Temps total</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Historique -->
-        <div class="info-card">
-            <div
-                style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
-                <h3>📜 Historique</h3>
-                <div class="filter-buttons">
-                    <button class="filter-btn active" data-filter="all">Tous</button>
-                    <button class="filter-btn" data-filter="on">MARCHE</button>
-                    <button class="filter-btn" data-filter="off">ARRÊT</button>
-                </div>
-            </div>
-            <div class="history-list" id="historyList">
-                <div style="text-align:center;padding:20px;">Chargement...</div>
-            </div>
-        </div>
-
-        <div class="connection-status" id="connectionStatus">
-            🔌 Connexion à Firebase...
-        </div>
-    </div>
-
     <script>
-        // Configuration Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDLy3kKY6Hh0mOL07hfAT57ULiuE3fXnk8",
             authDomain: "iot-moteur-controle.firebaseapp.com",
@@ -532,19 +693,34 @@
         const auth = firebase.auth();
         const database = firebase.database();
 
-        // Variables
         let currentFilter = "all";
         let commandHistory = [];
-        let onCount = 0, offCount = 0;
-        let motorState = 0;
-        let motorStartTime = null;
-        let cycleCount = 0;
-        let totalRunTimeSeconds = 0;
+        let onCount = 0, offCount = 0, pcCount = 0, mobileCount = 0;
+        let motorState = 0, motorStartTime = null, cycleCount = 0, totalRunTimeSeconds = 0;
 
-        // ===== AUTHENTIFICATION =====
+        // Navigation
+        function navigateTo(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(page + 'Page').classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
+            const titles = { dashboard: 'Tableau de bord', control: 'Contrôle moteur', history: 'Historique', stats: 'Statistiques', export: 'Export', about: 'À propos' };
+            document.getElementById('pageTitle').textContent = titles[page];
+            if (window.innerWidth <= 768) closeMenu();
+        }
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.onclick = () => navigateTo(item.dataset.page);
+        });
+
+        // Menu mobile
+        function closeMenu() { document.getElementById('sidebar').classList.remove('open'); }
+        document.getElementById('menuToggle').onclick = () => document.getElementById('sidebar').classList.toggle('open');
+
+        // Auth
         const loginScreen = document.getElementById('loginScreen');
         const registerScreen = document.getElementById('registerScreen');
-        const appScreen = document.getElementById('appScreen');
+        const appScreen = document.querySelector('.main-content');
 
         auth.onAuthStateChanged((user) => {
             if (user) {
@@ -560,252 +736,126 @@
             }
         });
 
-        // Connexion
         document.getElementById('doLogin').onclick = async () => {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            try {
-                await auth.signInWithEmailAndPassword(email, password);
-                document.getElementById('loginError').textContent = '';
-            } catch (error) {
-                document.getElementById('loginError').textContent = error.message;
-            }
+            try { await auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value); document.getElementById('loginError').textContent = ''; }
+            catch (e) { document.getElementById('loginError').textContent = e.message; }
         };
-
-        // Inscription
         document.getElementById('doRegister').onclick = async () => {
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            try {
-                await auth.createUserWithEmailAndPassword(email, password);
-                document.getElementById('registerError').textContent = '';
-            } catch (error) {
-                document.getElementById('registerError').textContent = error.message;
-            }
+            try { await auth.createUserWithEmailAndPassword(document.getElementById('registerEmail').value, document.getElementById('registerPassword').value); document.getElementById('registerError').textContent = ''; }
+            catch (e) { document.getElementById('registerError').textContent = e.message; }
         };
-
-        // Changer d'écran
-        document.getElementById('showRegister').onclick = () => {
-            loginScreen.style.display = 'none';
-            registerScreen.style.display = 'block';
-        };
-        document.getElementById('showLogin').onclick = () => {
-            loginScreen.style.display = 'block';
-            registerScreen.style.display = 'none';
-        };
-
-        // Déconnexion
+        document.getElementById('showRegister').onclick = () => { loginScreen.style.display = 'none'; registerScreen.style.display = 'block'; };
+        document.getElementById('showLogin').onclick = () => { loginScreen.style.display = 'block'; registerScreen.style.display = 'none'; };
         document.getElementById('logoutBtn').onclick = () => auth.signOut();
 
-        // ===== FONCTIONS =====
-        function getDeviceType() {
-            return /mobile|android|iphone/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
+        function getDeviceType() { return /mobile|android|iphone/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC"; }
+        function showNotification(msg, isError = false) {
+            const d = document.createElement('div'); d.className = 'notification' + (isError ? ' error' : ''); d.textContent = msg;
+            document.body.appendChild(d); setTimeout(() => d.remove(), 3000);
         }
-
-        function showNotification(message, isError = false) {
-            const div = document.createElement('div');
-            div.className = 'notification';
-            div.textContent = message;
-            div.style.background = isError ? '#ff6b6b' : '#00b09b';
-            document.body.appendChild(div);
-            setTimeout(() => div.remove(), 3000);
-        }
-
         function updateLED(state) {
-            const led = document.getElementById('led');
-            const motorStatus = document.getElementById('motorStatus');
-            if (state === 1) {
-                led.className = 'led led-on';
-                motorStatus.innerHTML = 'MARCHE ✅';
-            } else {
-                led.className = 'led led-off';
-                motorStatus.innerHTML = 'ARRÊT ❌';
-            }
+            document.querySelectorAll('#led, #led2').forEach(l => l.className = state === 1 ? 'led led-on' : 'led led-off');
+            document.querySelectorAll('#motorStatus, #motorStatus2').forEach(s => s.innerHTML = state === 1 ? 'MARCHE ✅' : 'ARRÊT ❌');
+            motorState = state;
         }
+        function formatDate(ts) { return new Date(ts).toLocaleString('fr-FR'); }
+        function formatTime(s) { let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60); return h > 0 ? `${h}h ${m}m` : m > 0 ? `${m}m` : `${s % 60}s`; }
 
-        function formatDate(timestamp) {
-            return new Date(timestamp).toLocaleString('fr-FR');
-        }
-
-        function formatTime(seconds) {
-            const hours = Math.floor(seconds / 3600);
-            const minutes = Math.floor((seconds % 3600) / 60);
-            const secs = seconds % 60;
-            if (hours > 0) return `${hours}h ${minutes}m`;
-            if (minutes > 0) return `${minutes}m ${secs}s`;
-            return `${secs}s`;
-        }
-
-        function updateRunTime() {
-            if (motorState === 1 && motorStartTime) {
-                const elapsed = Math.floor((Date.now() - motorStartTime) / 1000);
-                document.getElementById('currentRunTime').innerHTML = formatTime(elapsed);
-            } else {
-                document.getElementById('currentRunTime').innerHTML = "0s";
-            }
+        setInterval(() => {
+            if (motorState === 1 && motorStartTime) document.getElementById('currentRunTime').innerHTML = formatTime(Math.floor((Date.now() - motorStartTime) / 1000));
             document.getElementById('totalRunTime').innerHTML = formatTime(totalRunTimeSeconds);
-        }
-        setInterval(updateRunTime, 1000);
+            document.getElementById('runTimeDisplay').innerHTML = motorState === 1 && motorStartTime ? formatTime(Math.floor((Date.now() - motorStartTime) / 1000)) : '0s';
+        }, 1000);
 
         async function sendCommand(value) {
             const device = getDeviceType();
-            const commandText = value === 1 ? 'MARCHE' : 'ARRÊT';
-
             try {
-                await database.ref('moteur/etat').set({
-                    valeur: value,
-                    appareil: device,
-                    timestamp: Date.now()
-                });
-
-                await database.ref('historique').push({
-                    valeur: value,
-                    appareil: device,
-                    timestamp: Date.now()
-                });
-
-                showNotification(`✅ ${commandText} envoyé`);
-            } catch (error) {
-                showNotification(`❌ Erreur: ${error.message}`, true);
-            }
+                await database.ref('moteur/etat').set({ valeur: value, appareil: device, timestamp: Date.now() });
+                await database.ref('historique').push({ valeur: value, appareil: device, timestamp: Date.now() });
+                showNotification(`✅ ${value === 1 ? 'MARCHE' : 'ARRÊT'} envoyé`);
+            } catch (e) { showNotification(`❌ Erreur`, true); }
         }
 
         function listenToMotorState() {
-            database.ref('moteur/etat').on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    const previousState = motorState;
-                    motorState = data.valeur;
-                    updateLED(motorState);
-                    document.getElementById('lastCommand').innerHTML = data.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT';
-                    document.getElementById('lastDevice').innerHTML = data.appareil;
-                    document.getElementById('lastTime').innerHTML = formatDate(data.timestamp);
-
-                    if (data.valeur === 1 && previousState === 0) {
-                        motorStartTime = Date.now();
-                        cycleCount++;
-                        document.getElementById('cycleCount').textContent = cycleCount;
-                        saveStats();
-                    } else if (data.valeur === 0 && previousState === 1 && motorStartTime) {
-                        const runTime = Math.floor((Date.now() - motorStartTime) / 1000);
-                        totalRunTimeSeconds += runTime;
-                        motorStartTime = null;
-                        document.getElementById('totalRunTime').innerHTML = formatTime(totalRunTimeSeconds);
-                        saveStats();
-                    } else if (data.valeur === 0) {
-                        motorStartTime = null;
-                    }
+            database.ref('moteur/etat').on('value', (s) => {
+                const d = s.val();
+                if (d) {
+                    let prev = motorState;
+                    updateLED(d.valeur);
+                    document.getElementById('lastCommand').innerHTML = d.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT';
+                    document.getElementById('lastDevice').innerHTML = d.appareil;
+                    document.getElementById('lastTime').innerHTML = formatDate(d.timestamp);
+                    if (d.valeur === 1 && prev === 0) { motorStartTime = Date.now(); cycleCount++; saveStats(); document.getElementById('statCycles').textContent = cycleCount; }
+                    else if (d.valeur === 0 && prev === 1 && motorStartTime) { totalRunTimeSeconds += Math.floor((Date.now() - motorStartTime) / 1000); motorStartTime = null; saveStats(); }
                 }
             });
         }
 
         async function loadHistory() {
-            try {
-                const snapshot = await database.ref('historique').once('value');
-                const data = snapshot.val();
-                commandHistory = [];
-                onCount = 0;
-                offCount = 0;
-
-                if (data) {
-                    commandHistory = Object.values(data);
-                    commandHistory.reverse();
-                    commandHistory.forEach(item => {
-                        if (item.valeur === 1) onCount++;
-                        else offCount++;
-                    });
-                }
-
-                document.getElementById('totalCommands').textContent = onCount + offCount;
-                document.getElementById('onCount').textContent = onCount;
-                document.getElementById('offCount').textContent = offCount;
-                updateHistoryDisplay();
-            } catch (error) {
-                console.error(error);
+            const snap = await database.ref('historique').once('value');
+            const data = snap.val();
+            commandHistory = []; onCount = 0; offCount = 0; pcCount = 0; mobileCount = 0;
+            if (data) {
+                commandHistory = Object.values(data).reverse();
+                commandHistory.forEach(i => { i.valeur === 1 ? onCount++ : offCount++; if (i.appareil?.includes('PC')) pcCount++; else if (i.appareil?.includes('Mobile')) mobileCount++; });
             }
+            document.getElementById('statTotal').textContent = onCount + offCount;
+            document.getElementById('statOn').textContent = onCount;
+            document.getElementById('statOff').textContent = offCount;
+            document.getElementById('pcStat').textContent = pcCount;
+            document.getElementById('mobileStat').textContent = mobileCount;
+
+            const today = new Date().toDateString();
+            const weekAgo = Date.now() - 7 * 24 * 3600 * 1000;
+            const monthAgo = Date.now() - 30 * 24 * 3600 * 1000;
+            document.getElementById('todayCount').textContent = commandHistory.filter(i => new Date(i.timestamp).toDateString() === today).length;
+            document.getElementById('weekCount').textContent = commandHistory.filter(i => i.timestamp > weekAgo).length;
+            document.getElementById('monthCount').textContent = commandHistory.filter(i => i.timestamp > monthAgo).length;
+            document.getElementById('totalCount').textContent = onCount + offCount;
+            updateHistoryDisplay();
         }
 
         function updateHistoryDisplay() {
             let filtered = commandHistory;
             if (currentFilter === "on") filtered = commandHistory.filter(i => i.valeur === 1);
             if (currentFilter === "off") filtered = commandHistory.filter(i => i.valeur === 0);
-
             const list = document.getElementById('historyList');
-            if (filtered.length === 0) {
-                list.innerHTML = '<div style="text-align:center;padding:20px;">Aucune commande</div>';
-                return;
-            }
-
-            list.innerHTML = filtered.slice(0, 20).map(item => `
-                <div class="history-item">
-                    <div>
-                        <span class="${item.valeur === 1 ? 'history-on' : 'history-off'}">
-                            ${item.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}
-                        </span>
-                        <span class="history-device">${item.appareil || 'Inconnu'}</span>
-                    </div>
-                    <div class="timestamp">${formatDate(item.timestamp)}</div>
-                </div>
-            `).join('');
+            if (!filtered.length) { list.innerHTML = '<div style="text-align:center;padding:30px;">Aucune commande</div>'; return; }
+            list.innerHTML = filtered.slice(0, 30).map(i => `<div class="history-item"><div><span class="${i.valeur === 1 ? 'history-on' : 'history-off'}">${i.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}</span><span style="font-size:10px;margin-left:8px;">${i.appareil || 'Inconnu'}</span></div><div class="timestamp">${formatDate(i.timestamp)}</div></div>`).join('');
         }
 
         async function loadStats() {
-            try {
-                const snapshot = await database.ref('stats').once('value');
-                const data = snapshot.val();
-                if (data) {
-                    cycleCount = data.cycleCount || 0;
-                    totalRunTimeSeconds = data.totalRunTime || 0;
-                    document.getElementById('cycleCount').textContent = cycleCount;
-                    document.getElementById('totalRunTime').innerHTML = formatTime(totalRunTimeSeconds);
-                }
-            } catch (error) {
-                console.error(error);
-            }
+            const snap = await database.ref('stats').once('value');
+            const d = snap.val();
+            if (d) { cycleCount = d.cycleCount || 0; totalRunTimeSeconds = d.totalRunTime || 0; document.getElementById('statCycles').textContent = cycleCount; document.getElementById('totalRunTime').innerHTML = formatTime(totalRunTimeSeconds); }
+        }
+        async function saveStats() { await database.ref('stats').set({ cycleCount, totalRunTime: totalRunTimeSeconds, lastUpdate: Date.now() }); }
+
+        function exportCSV() {
+            if (!commandHistory.length) return showNotification('Aucune donnée', true);
+            let csv = "Date,Heure,Commande,Appareil\n";
+            commandHistory.forEach(i => { let d = new Date(i.timestamp); csv += `${d.toLocaleDateString()},${d.toLocaleTimeString()},${i.valeur === 1 ? 'MARCHE' : 'ARRÊT'},${i.appareil}\n`; });
+            let link = document.createElement('a'); link.href = URL.createObjectURL(new Blob(["\uFEFF" + csv], { type: 'text/csv' })); link.download = `moteur_${Date.now()}.csv`; link.click(); showNotification('✅ CSV exporté');
+        }
+        function exportJSON() {
+            if (!commandHistory.length) return showNotification('Aucune donnée', true);
+            let link = document.createElement('a'); link.href = URL.createObjectURL(new Blob([JSON.stringify(commandHistory, null, 2)], { type: 'application/json' })); link.download = `moteur_${Date.now()}.json`; link.click(); showNotification('✅ JSON exporté');
         }
 
-        async function saveStats() {
-            try {
-                await database.ref('stats').set({
-                    cycleCount: cycleCount,
-                    totalRunTime: totalRunTimeSeconds,
-                    lastUpdate: Date.now()
-                });
-            } catch (error) {
-                console.error(error);
-            }
-        }
-
-        function checkConnection() {
-            database.ref('.info/connected').on('value', (snap) => {
-                const statusDiv = document.getElementById('connectionStatus');
-                if (snap.val() === true) {
-                    statusDiv.innerHTML = '✅ Connecté à Firebase - Temps réel actif';
-                    statusDiv.style.color = '#00b09b';
-                } else {
-                    statusDiv.innerHTML = '⚠️ Hors ligne - Mode cache';
-                    statusDiv.style.color = '#ffaa00';
-                }
-            });
-        }
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.onclick = () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; updateHistoryDisplay(); };
+        });
 
         function initApp() {
             document.getElementById('btnOn').onclick = () => sendCommand(1);
             document.getElementById('btnOff').onclick = () => sendCommand(0);
-
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.onclick = () => {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentFilter = btn.dataset.filter;
-                    updateHistoryDisplay();
-                };
-            });
-
+            document.getElementById('btnOn2').onclick = () => sendCommand(1);
+            document.getElementById('btnOff2').onclick = () => sendCommand(0);
+            document.getElementById('exportCSV').onclick = exportCSV;
+            document.getElementById('exportJSON').onclick = exportJSON;
             listenToMotorState();
             loadHistory();
             loadStats();
-            checkConnection();
             setInterval(loadHistory, 5000);
             setInterval(saveStats, 10000);
         }
