@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>👑 IoT Firebase - Administration</title>
+    <title>🔥 IoT Firebase - Contrôle Moteur</title>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
@@ -18,88 +18,87 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             padding: 20px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 500px;
             margin: 0 auto;
         }
 
-        /* En-tête */
-        .header {
+        /* Login */
+        .login-card,
+        .app-card {
             background: #1e1e2f;
             border-radius: 20px;
-            padding: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+
+        .login-card h2,
+        .app-card h2 {
+            text-align: center;
             margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
+            color: #ffaa00;
         }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #ffaa00;
+            border-radius: 10px;
+            background: #2a2a3a;
+            color: white;
+            font-size: 16px;
         }
 
-        .role-badge {
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
             background: #ffaa00;
             color: #1a1a2e;
-            padding: 5px 15px;
-            border-radius: 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
             font-weight: bold;
+            cursor: pointer;
         }
 
-        .role-badge.admin {
-            background: #ff4444;
-            color: white;
-        }
-
-        .role-badge.user {
-            background: #00b09b;
-            color: white;
-        }
-
-        /* Grille */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        /* Cartes */
-        .card {
-            background: #1e1e2f;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .card h3 {
-            color: #ffaa00;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #ffaa00;
-            padding-bottom: 10px;
-        }
-
-        /* Contrôle moteur */
-        .motor-card {
+        .switch {
             text-align: center;
+            margin-top: 15px;
+            color: #ffaa00;
+            cursor: pointer;
+        }
+
+        .error {
+            color: #ff6b6b;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        /* App */
+        .status-card {
             background: linear-gradient(135deg, #ffaa00, #ff6600);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
             color: #1a1a2e;
+            margin-bottom: 20px;
         }
 
         .led {
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            margin: 20px auto;
+            margin: 15px auto;
         }
 
         .led-on {
@@ -124,21 +123,10 @@
             }
         }
 
-        .control-buttons {
+        .btn-group {
             display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin: 20px 0;
-        }
-
-        .btn {
-            padding: 15px 30px;
-            font-size: 18px;
-            font-weight: bold;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            flex: 1;
+            gap: 15px;
+            margin-top: 20px;
         }
 
         .btn-on {
@@ -151,184 +139,127 @@
             color: white;
         }
 
-        .btn-disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .info-card {
+            background: #2a2a3a;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
         }
 
-        /* Tableau utilisateurs */
-        .users-table {
-            width: 100%;
-            border-collapse: collapse;
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #444;
         }
 
-        .users-table th,
-        .users-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #2a2a3a;
-        }
-
-        .users-table th {
-            color: #ffaa00;
-        }
-
-        select,
-        button {
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-role {
-            background: #ffaa00;
-            color: #1a1a2e;
-        }
-
-        .btn-delete {
-            background: #ff6b6b;
-            color: white;
-        }
-
-        /* Historique */
         .history-list {
-            max-height: 300px;
+            max-height: 250px;
             overflow-y: auto;
         }
 
         .history-item {
+            background: #2a2a3a;
             padding: 10px;
-            border-bottom: 1px solid #2a2a3a;
+            margin: 5px 0;
+            border-radius: 8px;
             display: flex;
             justify-content: space-between;
         }
 
-        /* Notification */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            left: 20px;
-            background: #00b09b;
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
+        .history-on {
+            color: #00b09b;
+        }
+
+        .history-off {
+            color: #ff6b6b;
+        }
+
+        .logout-btn {
+            background: #ff6b6b;
+            margin-top: 20px;
+        }
+
+        .user-email {
             text-align: center;
-            animation: slideUp 0.3s ease;
-            z-index: 1000;
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(100px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
-
-            .control-buttons {
-                flex-direction: column;
-            }
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <!-- En-tête -->
-        <div class="header">
-            <h2>👑 IoT Firebase - Administration</h2>
-            <div class="user-info">
-                <span id="userEmail"></span>
-                <span class="role-badge" id="userRole">Chargement...</span>
-                <button id="logoutBtn"
-                    style="background: #ff6b6b; color: white; padding: 8px 16px; border: none; border-radius: 10px;">🚪
-                    Déconnexion</button>
+        <!-- Écran de connexion -->
+        <div id="loginScreen">
+            <div class="login-card">
+                <h2>🔐 IoT Firebase</h2>
+                <input type="email" id="loginEmail" placeholder="Email">
+                <input type="password" id="loginPassword" placeholder="Mot de passe">
+                <button id="doLogin">Se connecter</button>
+                <div class="switch" id="showRegisterBtn">Pas de compte ? Créer un compte</div>
+                <div class="error" id="loginError"></div>
             </div>
         </div>
 
-        <div class="grid-2">
-            <!-- Colonne gauche -->
-            <div>
-                <!-- Contrôle moteur -->
-                <div class="card motor-card">
-                    <h3>⚙️ Contrôle Moteur</h3>
+        <!-- Écran d'inscription -->
+        <div id="registerScreen" style="display: none;">
+            <div class="login-card">
+                <h2>📝 Créer un compte</h2>
+                <input type="email" id="registerEmail" placeholder="Email">
+                <input type="password" id="registerPassword" placeholder="Mot de passe (6+ caractères)">
+                <button id="doRegister">Créer le compte</button>
+                <div class="switch" id="showLoginBtn">Déjà un compte ? Se connecter</div>
+                <div class="error" id="registerError"></div>
+            </div>
+        </div>
+
+        <!-- Application principale -->
+        <div id="appScreen" style="display: none;">
+            <div class="app-card">
+                <h2>🔥 Contrôle Moteur</h2>
+                <div class="user-email" id="userEmail"></div>
+
+                <div class="status-card">
+                    <h3>État du Moteur</h3>
                     <div class="led led-off" id="led"></div>
                     <h2 id="motorStatus">ARRÊT</h2>
-                    <div class="control-buttons">
-                        <button class="btn btn-on" id="btnOn">🟢 MARCHE</button>
-                        <button class="btn btn-off" id="btnOff">🔴 ARRÊT</button>
+                    <div class="btn-group">
+                        <button class="btn-on" id="btnOn">🟢 MARCHE</button>
+                        <button class="btn-off" id="btnOff">🔴 ARRÊT</button>
                     </div>
                 </div>
 
-                <!-- Dernière activité -->
-                <div class="card">
-                    <h3>📱 Dernière activité</h3>
-                    <div class="info-row" style="display: flex; justify-content: space-between; padding: 10px 0;">
-                        <span>Commande:</span>
-                        <span id="lastCommand" style="color: #ffaa00;">-</span>
+                <div class="info-card">
+                    <div class="info-row">
+                        <span>📱 Dernière commande</span>
+                        <span id="lastCommand" style="color:#ffaa00;">-</span>
                     </div>
-                    <div class="info-row" style="display: flex; justify-content: space-between; padding: 10px 0;">
-                        <span>Appareil:</span>
-                        <span id="lastDevice" style="color: #ffaa00;">-</span>
+                    <div class="info-row">
+                        <span>💻 Appareil</span>
+                        <span id="lastDevice" style="color:#ffaa00;">-</span>
                     </div>
-                    <div class="info-row" style="display: flex; justify-content: space-between; padding: 10px 0;">
-                        <span>Utilisateur:</span>
-                        <span id="lastUser" style="color: #ffaa00;">-</span>
+                    <div class="info-row">
+                        <span>⏰ Date/Heure</span>
+                        <span id="lastTime" style="color:#ffaa00;">-</span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Colonne droite -->
-            <div>
-                <!-- Gestion utilisateurs (visible uniquement pour admin) -->
-                <div class="card" id="adminPanel">
-                    <h3>👥 Gestion des utilisateurs</h3>
-                    <div style="margin-bottom: 15px;">
-                        <input type="email" id="newUserEmail" placeholder="Email du nouvel utilisateur"
-                            style="width: 70%; padding: 10px; border-radius: 10px; border: none;">
-                        <select id="newUserRole" style="padding: 10px;">
-                            <option value="user">👤 Utilisateur (contrôle uniquement)</option>
-                            <option value="admin">👑 Administrateur (tout accès)</option>
-                        </select>
-                        <button id="addUserBtn"
-                            style="margin-top: 10px; background: #00b09b; color: white; padding: 10px 20px;">➕
-                            Ajouter</button>
+                <div class="info-card">
+                    <h3>📜 Historique</h3>
+                    <div class="history-list" id="historyList">
+                        <div style="text-align:center;padding:20px;">Chargement...</div>
                     </div>
-                    <table class="users-table">
-                        <thead>
-                            <tr>
-                                <th>Email</th>
-                                <th>Rôle</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="usersList"></tbody>
-                    </table>
                 </div>
-            </div>
-        </div>
 
-        <!-- Historique complet -->
-        <div class="card">
-            <h3>📜 Historique des commandes</h3>
-            <div class="history-list" id="historyList">
-                <div style="text-align:center;padding:20px;">Chargement...</div>
+                <button class="logout-btn" id="logoutBtn">🚪 Se déconnecter</button>
             </div>
         </div>
     </div>
 
     <script>
+        // ===== CONFIGURATION FIREBASE =====
         const firebaseConfig = {
             apiKey: "AIzaSyDLy3kKY6Hh0mOL07hfAT57ULiuE3fXnk8",
             authDomain: "iot-moteur-controle.firebaseapp.com",
@@ -339,138 +270,71 @@
             appId: "1:36220333719:web:483313a74a280096d983d2"
         };
 
+        // Initialisation
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const database = firebase.database();
 
-        let currentUser = null;
-        let userRole = null;
-        let commandHistory = [];
+        // Variables
+        let currentMotorState = 0;
 
         // ===== AUTHENTIFICATION =====
-        auth.onAuthStateChanged(async (user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
-                currentUser = user;
+                // Utilisateur connecté
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('registerScreen').style.display = 'none';
+                document.getElementById('appScreen').style.display = 'block';
                 document.getElementById('userEmail').textContent = user.email;
-
-                // Lire le rôle de l'utilisateur
-                const roleSnapshot = await database.ref(`users/${user.uid}/role`).once('value');
-                userRole = roleSnapshot.val() || 'user';
-
-                const roleBadge = document.getElementById('userRole');
-                roleBadge.textContent = userRole === 'admin' ? '👑 Administrateur' : '👤 Utilisateur';
-                roleBadge.className = `role-badge ${userRole === 'admin' ? 'admin' : 'user'}`;
-
-                // Afficher/masquer le panneau admin
-                if (userRole === 'admin') {
-                    document.getElementById('adminPanel').style.display = 'block';
-                    loadUsers();
-                } else {
-                    document.getElementById('adminPanel').style.display = 'none';
-                }
-
-                // Vérifier si l'utilisateur peut contrôler le moteur
-                updateControlButtons();
-
                 initApp();
             } else {
-                // Rediriger vers la page de connexion
-                window.location.href = '#';
-                showNotification('Veuillez vous connecter', true);
+                // Utilisateur déconnecté
+                document.getElementById('loginScreen').style.display = 'block';
+                document.getElementById('registerScreen').style.display = 'none';
+                document.getElementById('appScreen').style.display = 'none';
             }
         });
 
-        function updateControlButtons() {
-            const btnOn = document.getElementById('btnOn');
-            const btnOff = document.getElementById('btnOff');
-
-            if (userRole === 'admin' || userRole === 'user') {
-                btnOn.disabled = false;
-                btnOff.disabled = false;
-                btnOn.classList.remove('btn-disabled');
-                btnOff.classList.remove('btn-disabled');
-            } else {
-                btnOn.disabled = true;
-                btnOff.disabled = true;
-                btnOn.classList.add('btn-disabled');
-                btnOff.classList.add('btn-disabled');
+        // Connexion
+        document.getElementById('doLogin').onclick = async () => {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                document.getElementById('loginError').textContent = '';
+            } catch (error) {
+                document.getElementById('loginError').textContent = error.message;
             }
-        }
-
-        // ===== GESTION UTILISATEURS (Admin uniquement) =====
-        async function loadUsers() {
-            const usersSnapshot = await database.ref('users').once('value');
-            const users = usersSnapshot.val() || {};
-
-            const tbody = document.getElementById('usersList');
-            tbody.innerHTML = '';
-
-            for (const [uid, userData] of Object.entries(users)) {
-                // Récupérer l'email depuis Auth (nécessite une fonction Cloud ou stockage)
-                const row = tbody.insertRow();
-                row.insertCell(0).textContent = userData.email || uid;
-                row.insertCell(1).textContent = userData.role === 'admin' ? '👑 Admin' : '👤 User';
-
-                const actions = row.insertCell(2);
-
-                // Changer rôle
-                const roleSelect = document.createElement('select');
-                roleSelect.innerHTML = `
-                    <option value="user" ${userData.role === 'user' ? 'selected' : ''}>Utilisateur</option>
-                    <option value="admin" ${userData.role === 'admin' ? 'selected' : ''}>Administrateur</option>
-                `;
-                roleSelect.onchange = () => updateUserRole(uid, roleSelect.value);
-                actions.appendChild(roleSelect);
-
-                // Supprimer (sauf soi-même)
-                if (uid !== currentUser.uid) {
-                    const deleteBtn = document.createElement('button');
-                    deleteBtn.textContent = '🗑️';
-                    deleteBtn.style.background = '#ff6b6b';
-                    deleteBtn.style.marginLeft = '10px';
-                    deleteBtn.onclick = () => deleteUser(uid);
-                    actions.appendChild(deleteBtn);
-                }
-            }
-        }
-
-        async function updateUserRole(uid, newRole) {
-            await database.ref(`users/${uid}/role`).set(newRole);
-            await database.ref(`users/${uid}/updatedAt`).set(Date.now());
-            showNotification(`✅ Rôle mis à jour`);
-            loadUsers();
-        }
-
-        async function deleteUser(uid) {
-            if (confirm('Supprimer cet utilisateur ?')) {
-                // Note: La suppression complète nécessite une Cloud Function
-                await database.ref(`users/${uid}`).remove();
-                showNotification(`✅ Utilisateur supprimé`);
-                loadUsers();
-            }
-        }
-
-        document.getElementById('addUserBtn').onclick = async () => {
-            const email = document.getElementById('newUserEmail').value;
-            const role = document.getElementById('newUserRole').value;
-
-            if (!email) {
-                showNotification('Entrez un email', true);
-                return;
-            }
-
-            showNotification(`📧 Invitation envoyée à ${email}`, false);
-            document.getElementById('newUserEmail').value = '';
         };
 
+        // Inscription
+        document.getElementById('doRegister').onclick = async () => {
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            try {
+                await auth.createUserWithEmailAndPassword(email, password);
+                document.getElementById('registerError').textContent = '';
+            } catch (error) {
+                document.getElementById('registerError').textContent = error.message;
+            }
+        };
+
+        // Changer d'écran
+        document.getElementById('showRegisterBtn').onclick = () => {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('registerScreen').style.display = 'block';
+        };
+        document.getElementById('showLoginBtn').onclick = () => {
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('registerScreen').style.display = 'none';
+        };
+
+        // Déconnexion
+        document.getElementById('logoutBtn').onclick = () => auth.signOut();
+
         // ===== FONCTIONS PRINCIPALES =====
-        function showNotification(msg, isError = false) {
-            const div = document.createElement('div');
-            div.className = 'notification';
-            div.textContent = msg;
-            div.style.background = isError ? '#ff6b6b' : '#00b09b';
-            document.body.appendChild(div);
-            setTimeout(() => div.remove(), 3000);
+        function getDeviceType() {
+            return /mobile|android|iphone/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
         }
 
         function updateLED(state) {
@@ -490,23 +354,22 @@
         }
 
         async function sendCommand(value) {
+            const device = getDeviceType();
             const commandText = value === 1 ? 'MARCHE' : 'ARRÊT';
 
             try {
+                // Envoyer l'état
                 await database.ref('moteur/etat').set({
                     valeur: value,
-                    appareil: '🌐 Web',
-                    timestamp: Date.now(),
-                    utilisateur: currentUser.email,
-                    uid: currentUser.uid
+                    appareil: device,
+                    timestamp: Date.now()
                 });
 
+                // Ajouter à l'historique
                 await database.ref('historique').push({
                     valeur: value,
-                    appareil: '🌐 Web',
-                    timestamp: Date.now(),
-                    utilisateur: currentUser.email,
-                    uid: currentUser.uid
+                    appareil: device,
+                    timestamp: Date.now()
                 });
 
                 showNotification(`✅ ${commandText} envoyé`);
@@ -519,68 +382,59 @@
             database.ref('moteur/etat').on('value', (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
-                    updateLED(data.valeur);
+                    currentMotorState = data.valeur;
+                    updateLED(currentMotorState);
                     document.getElementById('lastCommand').innerHTML = data.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT';
                     document.getElementById('lastDevice').innerHTML = data.appareil;
-                    document.getElementById('lastUser').innerHTML = data.utilisateur || 'Inconnu';
+                    document.getElementById('lastTime').innerHTML = formatDate(data.timestamp);
                 }
             });
         }
 
         async function loadHistory() {
-            const snapshot = await database.ref('historique').limitToLast(20).once('value');
-            const data = snapshot.val();
-
-            if (data) {
-                commandHistory = Object.values(data).reverse();
+            try {
+                const snapshot = await database.ref('historique').limitToLast(10).once('value');
+                const data = snapshot.val();
                 const historyDiv = document.getElementById('historyList');
-                historyDiv.innerHTML = commandHistory.map(item => `
+
+                if (!data) {
+                    historyDiv.innerHTML = '<div style="text-align:center;padding:20px;">Aucune commande</div>';
+                    return;
+                }
+
+                const historyArray = Object.values(data).reverse();
+                historyDiv.innerHTML = historyArray.map(item => `
                     <div class="history-item">
                         <div>
-                            <span style="color: ${item.valeur === 1 ? '#00b09b' : '#ff6b6b'}">
+                            <span class="${item.valeur === 1 ? 'history-on' : 'history-off'}">
                                 ${item.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}
                             </span>
-                            <div style="font-size: 11px; color: #888;">${item.utilisateur || 'Inconnu'}</div>
+                            <div style="font-size: 10px; color: #888;">${item.appareil}</div>
                         </div>
-                        <div style="text-align: right;">
-                            <div>${item.appareil}</div>
-                            <div style="font-size: 11px; color: #888;">${formatDate(item.timestamp)}</div>
-                        </div>
+                        <div class="timestamp">${formatDate(item.timestamp)}</div>
                     </div>
                 `).join('');
+            } catch (error) {
+                console.error(error);
             }
         }
 
-        document.getElementById('logoutBtn').onclick = () => auth.signOut();
-        document.getElementById('btnOn').onclick = () => sendCommand(1);
-        document.getElementById('btnOff').onclick = () => sendCommand(0);
+        function showNotification(msg, isError = false) {
+            const div = document.createElement('div');
+            div.textContent = msg;
+            div.style.cssText = `position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:${isError ? '#ff6b6b' : '#00b09b'}; color:white; padding:12px 24px; border-radius:50px; z-index:2000; animation:slideUp 0.3s ease;`;
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 3000);
+        }
 
         function initApp() {
+            document.getElementById('btnOn').onclick = () => sendCommand(1);
+            document.getElementById('btnOff').onclick = () => sendCommand(0);
+
             listenToMotorState();
             loadHistory();
             setInterval(loadHistory, 5000);
         }
-
-        // Créer l'admin par défaut au premier démarrage
-        async function setupDefaultAdmin() {
-            const adminEmail = "johndiams30@gmail.com";
-            const adminSnapshot = await database.ref('users').orderByChild('email').equalTo(adminEmail).once('value');
-
-            if (!adminSnapshot.exists()) {
-                // Attendre que l'utilisateur soit connecté
-                auth.onAuthStateChanged(async (user) => {
-                    if (user && user.email === adminEmail) {
-                        await database.ref(`users/${user.uid}`).set({
-                            email: user.email,
-                            role: 'admin',
-                            createdAt: Date.now()
-                        });
-                        console.log('✅ Compte admin créé');
-                    }
-                });
-            }
-        }
-        setupDefaultAdmin();
     </script>
 </body>
 
