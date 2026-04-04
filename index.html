@@ -24,7 +24,6 @@
             color: #1a2a4f;
         }
 
-        /* ===== MENU LATÉRAL ===== */
         .sidebar {
             position: fixed;
             left: 0;
@@ -77,14 +76,12 @@
             color: white;
         }
 
-        /* ===== CONTENU PRINCIPAL ===== */
         .main-content {
             margin-left: 260px;
             padding: 20px;
             min-height: 100vh;
         }
 
-        /* ===== EN-TÊTE ===== */
         .header {
             background: white;
             border-radius: 15px;
@@ -119,7 +116,19 @@
             cursor: pointer;
         }
 
-        /* ===== CARTES ===== */
+        .profile-photo-container {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .profile-photo {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #2b7be4;
+        }
+
         .card {
             background: white;
             border-radius: 15px;
@@ -135,7 +144,6 @@
             padding-left: 12px;
         }
 
-        /* ===== CARTE MOTEUR ===== */
         .motor-card {
             background: linear-gradient(135deg, #2b7be4, #1a5bc4);
             color: white;
@@ -182,7 +190,6 @@
             margin: 15px 0;
         }
 
-        /* ===== BOUTONS ===== */
         .btn-group {
             display: flex;
             gap: 20px;
@@ -220,7 +227,6 @@
             opacity: 0.9;
         }
 
-        /* ===== GRILLE STATS ===== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -246,7 +252,6 @@
             margin-top: 5px;
         }
 
-        /* ===== INFO ROWS ===== */
         .info-row {
             display: flex;
             justify-content: space-between;
@@ -266,7 +271,6 @@
             font-weight: bold;
         }
 
-        /* ===== FILTRES ===== */
         .filter-buttons {
             display: flex;
             gap: 10px;
@@ -288,7 +292,6 @@
             color: white;
         }
 
-        /* ===== HISTORIQUE ===== */
         .history-list {
             max-height: 350px;
             overflow-y: auto;
@@ -321,7 +324,6 @@
             color: #999;
         }
 
-        /* ===== PAGE ===== */
         .page {
             display: none;
         }
@@ -330,7 +332,7 @@
             display: block;
         }
 
-        /* ===== PROGRAMMATION HORAIRE ===== */
+        /* Styles programmation */
         .schedule-item {
             background: #f8fafd;
             padding: 12px 15px;
@@ -343,10 +345,25 @@
             gap: 10px;
         }
 
+        .schedule-date {
+            font-size: 11px;
+            color: #888;
+            margin-top: 2px;
+        }
+
         .schedule-time {
             font-weight: bold;
             color: #2b7be4;
             font-size: 16px;
+        }
+
+        .schedule-period {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background: #e8f0fe;
+            display: inline-block;
+            margin-left: 5px;
         }
 
         .schedule-duration {
@@ -391,7 +408,6 @@
             margin-right: 5px;
         }
 
-        /* ===== MODAL ===== */
         .modal {
             display: none;
             position: fixed;
@@ -409,20 +425,30 @@
             background: white;
             border-radius: 20px;
             padding: 25px;
-            max-width: 350px;
+            max-width: 400px;
             margin: auto;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-content select,
         .modal-content input {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
+            margin: 8px 0;
             border-radius: 10px;
             border: 1px solid #ddd;
         }
 
-        /* ===== CONNEXION ===== */
+        .row-2 {
+            display: flex;
+            gap: 10px;
+        }
+
+        .row-2 select {
+            flex: 1;
+        }
+
         .login-container {
             max-width: 400px;
             margin: 100px auto;
@@ -481,7 +507,6 @@
             margin-top: 10px;
         }
 
-        /* ===== NOTIFICATION ===== */
         .notification {
             position: fixed;
             bottom: 20px;
@@ -510,7 +535,6 @@
             }
         }
 
-        /* ===== BOUTON MENU MOBILE ===== */
         .menu-toggle {
             display: none;
             position: fixed;
@@ -526,7 +550,6 @@
             cursor: pointer;
         }
 
-        /* ===== RESPONSIVE MOBILE ===== */
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -603,9 +626,7 @@
             <h2 id="pageTitle">Tableau de bord</h2>
             <div class="user-info">
                 <div class="profile-photo-container" id="headerProfileContainer">
-                    <img id="headerProfilePhoto" class="profile-photo" src="https://via.placeholder.com/45" alt="Photo"
-                        style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #2b7be4;">
-                    <div class="photo-edit-badge">📷</div>
+                    <img id="headerProfilePhoto" class="profile-photo" src="https://via.placeholder.com/45" alt="Photo">
                     <input type="file" id="photoUpload" accept="image/*" style="display: none;">
                 </div>
                 <span class="user-email" id="userEmail"></span>
@@ -756,66 +777,102 @@
             <div class="card">
                 <h3>⏰ Programmation horaire</h3>
                 <p style="margin-bottom: 15px; color: #666;">Définissez les horaires de fonctionnement du moteur</p>
-
                 <div id="scheduleList">
                     <div style="text-align:center;padding:20px;">Chargement...</div>
                 </div>
-
                 <button class="btn btn-secondary" id="addScheduleBtn" style="margin-top: 15px; width: 100%;">➕ Ajouter
                     un horaire</button>
             </div>
         </div>
 
-        <!-- MODAL POUR AJOUTER/MODIFIER UN HORAIRE -->
+        <!-- MODAL PROGRAMMATION -->
         <div id="scheduleModal" class="modal">
             <div class="modal-content">
                 <h3 id="modalTitle" style="color: #2b7be4; margin-bottom: 15px;">Ajouter un horaire</h3>
-                <select id="scheduleHour">
-                    <option value="">Heure</option>
-                    <option value="0">00h00</option>
-                    <option value="1">01h00</option>
-                    <option value="2">02h00</option>
-                    <option value="3">03h00</option>
-                    <option value="4">04h00</option>
-                    <option value="5">05h00</option>
-                    <option value="6">06h00</option>
-                    <option value="7">07h00</option>
-                    <option value="8">08h00</option>
-                    <option value="9">09h00</option>
-                    <option value="10">10h00</option>
-                    <option value="11">11h00</option>
-                    <option value="12">12h00</option>
-                    <option value="13">13h00</option>
-                    <option value="14">14h00</option>
-                    <option value="15">15h00</option>
-                    <option value="16">16h00</option>
-                    <option value="17">17h00</option>
-                    <option value="18">18h00</option>
-                    <option value="19">19h00</option>
-                    <option value="20">20h00</option>
-                    <option value="21">21h00</option>
-                    <option value="22">22h00</option>
-                    <option value="23">23h00</option>
+
+                <select id="scheduleType">
+                    <option value="recurring">🔄 Récurrent (chaque jour)</option>
+                    <option value="once">📅 Une seule fois</option>
+                    <option value="morning">☀️ Tous les matins (6h-12h)</option>
+                    <option value="afternoon">🌙 Tous les après-midis (12h-18h)</option>
+                    <option value="weekday">📆 Lundi au Vendredi</option>
+                    <option value="weekend">🎉 Samedi et Dimanche</option>
                 </select>
-                <select id="scheduleMinute">
-                    <option value="">Minute</option>
-                    <option value="0">00</option>
-                    <option value="5">05</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
-                    <option value="25">25</option>
-                    <option value="30">30</option>
-                    <option value="35">35</option>
-                    <option value="40">40</option>
-                    <option value="45">45</option>
-                    <option value="50">50</option>
-                    <option value="55">55</option>
-                </select>
+
+                <div id="dateFields" style="display: none;">
+                    <select id="scheduleYear">
+                        <option value="">Année</option>
+                    </select>
+                    <select id="scheduleMonth">
+                        <option value="">Mois</option>
+                        <option value="0">Janvier</option>
+                        <option value="1">Février</option>
+                        <option value="2">Mars</option>
+                        <option value="3">Avril</option>
+                        <option value="4">Mai</option>
+                        <option value="5">Juin</option>
+                        <option value="6">Juillet</option>
+                        <option value="7">Août</option>
+                        <option value="8">Septembre</option>
+                        <option value="9">Octobre</option>
+                        <option value="10">Novembre</option>
+                        <option value="11">Décembre</option>
+                    </select>
+                    <select id="scheduleDay">
+                        <option value="">Jour</option>
+                    </select>
+                </div>
+
+                <div class="row-2">
+                    <select id="scheduleHour">
+                        <option value="">Heure</option>
+                        <option value="0">00</option>
+                        <option value="1">01</option>
+                        <option value="2">02</option>
+                        <option value="3">03</option>
+                        <option value="4">04</option>
+                        <option value="5">05</option>
+                        <option value="6">06</option>
+                        <option value="7">07</option>
+                        <option value="8">08</option>
+                        <option value="9">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                    </select>
+                    <select id="scheduleMinute">
+                        <option value="">Min</option>
+                        <option value="0">00</option>
+                        <option value="5">05</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                        <option value="30">30</option>
+                        <option value="35">35</option>
+                        <option value="40">40</option>
+                        <option value="45">45</option>
+                        <option value="50">50</option>
+                        <option value="55">55</option>
+                    </select>
+                </div>
+
                 <select id="scheduleAction">
                     <option value="1">🟢 MARCHE</option>
                     <option value="0">🔴 ARRÊT</option>
                 </select>
+
                 <select id="scheduleDuration">
                     <option value="">Durée de marche (optionnel)</option>
                     <option value="1">1 minute</option>
@@ -830,6 +887,7 @@
                     <option value="240">4 heures</option>
                     <option value="480">8 heures</option>
                 </select>
+
                 <div style="display: flex; gap: 10px; margin-top: 15px;">
                     <button id="saveScheduleBtn" class="btn btn-secondary" style="flex:1;">Enregistrer</button>
                     <button id="closeModalBtn" class="btn" style="flex:1; background:#ddd;">Annuler</button>
@@ -837,31 +895,18 @@
             </div>
         </div>
 
-        <!-- PAGE PROFIL UTILISATEUR -->
+        <!-- PAGE PROFIL -->
         <div id="profilePage" class="page">
-            <div class="card profile-card">
+            <div class="card" style="text-align: center;">
                 <h3>👤 Mon profil</h3>
-                <img id="profileBigPhoto" class="profile-big-photo" src="https://via.placeholder.com/150"
-                    alt="Photo de profil"
+                <img id="profileBigPhoto" src="https://via.placeholder.com/150" alt="Photo"
                     style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #2b7be4; margin: 20px auto; cursor: pointer;">
-                <div class="profile-info">
-                    <div class="info-row">
-                        <span class="info-label">📧 Email</span>
-                        <span class="info-value" id="profileEmail">-</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">🆓 UID</span>
-                        <span class="info-value" id="profileUid">-</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">📅 Membre depuis</span>
-                        <span class="info-value" id="profileSince">-</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">🔄 Total commandes</span>
-                        <span class="info-value" id="profileTotalCommands">0</span>
-                    </div>
-                </div>
+                <div class="info-row"><span class="info-label">📧 Email</span><span class="info-value"
+                        id="profileEmail">-</span></div>
+                <div class="info-row"><span class="info-label">📅 Membre depuis</span><span class="info-value"
+                        id="profileSince">-</span></div>
+                <div class="info-row"><span class="info-label">🔄 Total commandes</span><span class="info-value"
+                        id="profileTotalCommands">0</span></div>
                 <button class="btn btn-secondary" id="changePhotoBtn">📷 Changer ma photo</button>
                 <input type="file" id="profilePhotoUpload" accept="image/*" style="display: none;">
             </div>
@@ -875,8 +920,7 @@
                 <p>🔥 Firebase Realtime Database</p>
                 <p>🔐 Authentification sécurisée</p>
                 <p>📱 Interface responsive</p>
-                <p>👤 Profil utilisateur avec photo</p>
-                <p>⏰ Programmation horaire avec durée</p>
+                <p>⏰ Programmation horaire avancée</p>
                 <p style="margin-top: 20px;">Version 5.0 - Professional</p>
             </div>
         </div>
@@ -886,8 +930,7 @@
     <div class="login-container" id="loginScreen">
         <div class="login-card">
             <div style="text-align:center; margin-bottom:15px;">
-                <img src="https://i.ibb.co/TDZ1fMcW/IMG-20250121-220704.jpg" alt="Logo Entreprise"
-                    style="max-width:120px;">
+                <img src="https://i.ibb.co/TDZ1fMcW/IMG-20250121-220704.jpg" alt="Logo" style="max-width:120px;">
             </div>
             <h2>🔐 Accès sécurisé</h2>
             <input type="email" id="loginEmail" class="login-input" placeholder="Email">
@@ -910,7 +953,6 @@
     </div>
 
     <script>
-        // Configuration Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDLy3kKY6Hh0mOL07hfAT57ULiuE3fXnk8",
             authDomain: "iot-moteur-controle.firebaseapp.com",
@@ -929,8 +971,6 @@
         let commandHistory = [];
         let onCount = 0, offCount = 0, pcCount = 0, mobileCount = 0;
         let motorState = 0, motorStartTime = null, cycleCount = 0, totalRunTimeSeconds = 0;
-
-        // Variables pour la programmation
         let schedules = [];
         let scheduledStops = {};
 
@@ -940,62 +980,34 @@
             document.getElementById(page + 'Page').classList.add('active');
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
-            const titles = {
-                dashboard: 'Tableau de bord',
-                control: 'Contrôle moteur',
-                history: 'Historique',
-                stats: 'Statistiques',
-                export: 'Export',
-                schedule: 'Programmation',
-                profile: 'Mon profil',
-                about: 'À propos'
-            };
+            const titles = { dashboard: 'Tableau de bord', control: 'Contrôle moteur', history: 'Historique', stats: 'Statistiques', export: 'Export', schedule: 'Programmation', profile: 'Mon profil', about: 'À propos' };
             document.getElementById('pageTitle').textContent = titles[page];
             if (window.innerWidth <= 768) closeMenu();
-
-            if (page === 'profile') {
-                updateProfilePage();
-            }
-            if (page === 'schedule') {
-                loadSchedules();
-            }
+            if (page === 'profile') updateProfilePage();
+            if (page === 'schedule') loadSchedules();
         }
 
         document.querySelectorAll('.nav-item').forEach(item => {
             item.onclick = () => navigateTo(item.dataset.page);
         });
 
-        // Menu mobile
         function closeMenu() { document.getElementById('sidebar').classList.remove('open'); }
         document.getElementById('menuToggle').onclick = () => document.getElementById('sidebar').classList.toggle('open');
 
-        // ===== GESTION PHOTO DE PROFIL =====
+        // Gestion photo
         async function uploadProfilePhoto(file) {
             const user = auth.currentUser;
             if (!user) return;
-
-            if (file.size > 2 * 1024 * 1024) {
-                showNotification("❌ Photo trop grande (max 2MB)", true);
-                return;
-            }
-
+            if (file.size > 2 * 1024 * 1024) { showNotification("❌ Photo trop grande (max 2MB)", true); return; }
             showNotification("📤 Upload en cours...");
-
             const reader = new FileReader();
             reader.onloadend = async function () {
                 try {
-                    await database.ref(`users/${user.uid}/photo`).set({
-                        data: reader.result,
-                        lastUpdate: Date.now(),
-                        email: user.email
-                    });
-
+                    await database.ref(`users/${user.uid}/photo`).set({ data: reader.result, lastUpdate: Date.now(), email: user.email });
                     document.getElementById('headerProfilePhoto').src = reader.result;
                     document.getElementById('profileBigPhoto').src = reader.result;
                     showNotification("✅ Photo mise à jour !");
-                } catch (error) {
-                    showNotification("❌ Erreur: " + error.message, true);
-                }
+                } catch (error) { showNotification("❌ Erreur: " + error.message, true); }
             };
             reader.readAsDataURL(file);
         }
@@ -1003,71 +1015,38 @@
         async function loadProfilePhoto() {
             const user = auth.currentUser;
             if (!user) return;
-
-            try {
-                const snapshot = await database.ref(`users/${user.uid}/photo`).once('value');
-                const data = snapshot.val();
-                if (data && data.data) {
-                    document.getElementById('headerProfilePhoto').src = data.data;
-                    if (document.getElementById('profileBigPhoto')) {
-                        document.getElementById('profileBigPhoto').src = data.data;
-                    }
-                }
-            } catch (error) {
-                console.error("Erreur chargement photo:", error);
+            const snapshot = await database.ref(`users/${user.uid}/photo`).once('value');
+            const data = snapshot.val();
+            if (data && data.data) {
+                document.getElementById('headerProfilePhoto').src = data.data;
+                document.getElementById('profileBigPhoto').src = data.data;
             }
         }
 
         async function updateProfilePage() {
             const user = auth.currentUser;
             if (!user) return;
-
             document.getElementById('profileEmail').textContent = user.email;
-            document.getElementById('profileUid').textContent = user.uid.substring(0, 20) + '...';
-
             if (user.metadata.creationTime) {
                 const date = new Date(user.metadata.creationTime);
                 document.getElementById('profileSince').textContent = date.toLocaleDateString('fr-FR');
             }
-
-            const total = onCount + offCount;
-            document.getElementById('profileTotalCommands').textContent = total;
+            document.getElementById('profileTotalCommands').textContent = onCount + offCount;
         }
 
-        document.getElementById('headerProfileContainer').onclick = () => {
-            document.getElementById('photoUpload').click();
-        };
+        document.getElementById('headerProfileContainer').onclick = () => document.getElementById('photoUpload').click();
+        document.getElementById('photoUpload').onchange = (e) => { if (e.target.files && e.target.files[0]) uploadProfilePhoto(e.target.files[0]); };
+        document.getElementById('changePhotoBtn').onclick = () => document.getElementById('profilePhotoUpload').click();
+        document.getElementById('profilePhotoUpload').onchange = (e) => { if (e.target.files && e.target.files[0]) uploadProfilePhoto(e.target.files[0]); };
 
-        document.getElementById('photoUpload').onchange = (e) => {
-            if (e.target.files && e.target.files[0]) {
-                uploadProfilePhoto(e.target.files[0]);
-            }
-        };
-
-        document.getElementById('changePhotoBtn').onclick = () => {
-            document.getElementById('profilePhotoUpload').click();
-        };
-
-        document.getElementById('profilePhotoUpload').onchange = (e) => {
-            if (e.target.files && e.target.files[0]) {
-                uploadProfilePhoto(e.target.files[0]);
-            }
-        };
-
-        // ===== PROGRAMMATION HORAIRE =====
+        // Programmation horaire
         async function loadSchedules() {
             const user = auth.currentUser;
             if (!user) return;
-
             const snapshot = await database.ref(`users/${user.uid}/schedules`).once('value');
             const data = snapshot.val();
-            if (data) {
-                schedules = Object.entries(data).map(([id, s]) => ({ id, ...s }));
-                displaySchedules();
-            } else {
-                schedules = [];
-                displaySchedules();
-            }
+            schedules = data ? Object.entries(data).map(([id, s]) => ({ id, ...s })) : [];
+            displaySchedules();
         }
 
         function formatDuree(minutes) {
@@ -1079,21 +1058,32 @@
             return `${heures}h${reste}`;
         }
 
+        function getPeriodLabel(type) {
+            const labels = {
+                recurring: '🔄 Quotidien',
+                once: '📅 Unique',
+                morning: '☀️ Matin',
+                afternoon: '🌙 Après-midi',
+                weekday: '📆 Semaine',
+                weekend: '🎉 Weekend'
+            };
+            return labels[type] || type;
+        }
+
         function displaySchedules() {
             const container = document.getElementById('scheduleList');
             if (!container) return;
-
             if (schedules.length === 0) {
                 container.innerHTML = '<div style="text-align:center;padding:20px;">Aucun horaire programmé</div>';
                 return;
             }
-
-            schedules.sort((a, b) => (a.heure * 60 + a.minute) - (b.heure * 60 + b.minute));
-
             container.innerHTML = schedules.map(s => `
-                <div class="schedule-item" data-id="${s.id}">
+                <div class="schedule-item">
                     <div>
-                        <span class="schedule-time">⏰ ${s.heure.toString().padStart(2, '0')}h${s.minute.toString().padStart(2, '0')}</span>
+                        <div class="schedule-time">⏰ ${s.heure?.toString().padStart(2, '0') || '--'}h${s.minute?.toString().padStart(2, '0') || '--'}
+                            <span class="schedule-period">${getPeriodLabel(s.type)}</span>
+                        </div>
+                        ${s.date ? `<div class="schedule-date">📅 ${s.date}</div>` : ''}
                         ${s.duree ? `<div class="schedule-duration">⏱️ Durée: ${formatDuree(s.duree)}</div>` : ''}
                     </div>
                     <div>
@@ -1109,33 +1099,22 @@
             `).join('');
         }
 
-        async function saveSchedule(id, heure, minute, action, duree) {
+        async function saveSchedule(id, data) {
             const user = auth.currentUser;
             if (!user) return;
-
-            const scheduleData = {
-                heure: parseInt(heure),
-                minute: parseInt(minute),
-                action: parseInt(action),
-                duree: duree ? parseInt(duree) : null
-            };
-
             if (id) {
-                await database.ref(`users/${user.uid}/schedules/${id}`).update(scheduleData);
+                await database.ref(`users/${user.uid}/schedules/${id}`).update(data);
             } else {
-                await database.ref(`users/${user.uid}/schedules`).push(scheduleData);
+                await database.ref(`users/${user.uid}/schedules`).push(data);
             }
-
             await loadSchedules();
             showNotification('✅ Horaire enregistré');
         }
 
         async function deleteSchedule(id) {
             if (!confirm('Supprimer cet horaire ?')) return;
-
             const user = auth.currentUser;
             if (!user) return;
-
             await database.ref(`users/${user.uid}/schedules/${id}`).remove();
             await loadSchedules();
             showNotification('🗑️ Horaire supprimé');
@@ -1144,8 +1123,9 @@
         window.editSchedule = function (id) {
             const schedule = schedules.find(s => s.id === id);
             if (schedule) {
-                document.getElementById('scheduleHour').value = schedule.heure;
-                document.getElementById('scheduleMinute').value = schedule.minute;
+                document.getElementById('scheduleType').value = schedule.type || 'recurring';
+                document.getElementById('scheduleHour').value = schedule.heure || '';
+                document.getElementById('scheduleMinute').value = schedule.minute || '';
                 document.getElementById('scheduleAction').value = schedule.action;
                 document.getElementById('scheduleDuration').value = schedule.duree || '';
                 document.getElementById('modalTitle').textContent = 'Modifier l\'horaire';
@@ -1156,7 +1136,40 @@
 
         window.deleteSchedule = deleteSchedule;
 
+        // Remplir les années
+        const yearSelect = document.getElementById('scheduleYear');
+        const currentYear = new Date().getFullYear();
+        for (let y = currentYear; y <= currentYear + 5; y++) {
+            const option = document.createElement('option');
+            option.value = y;
+            option.textContent = y;
+            yearSelect.appendChild(option);
+        }
+
+        document.getElementById('scheduleType').onchange = function () {
+            const dateFields = document.getElementById('dateFields');
+            dateFields.style.display = this.value === 'once' ? 'block' : 'none';
+        };
+
+        document.getElementById('scheduleMonth').onchange = function () {
+            const year = document.getElementById('scheduleYear').value;
+            const month = this.value;
+            if (year && month !== '') {
+                const daysInMonth = new Date(parseInt(year), parseInt(month) + 1, 0).getDate();
+                const daySelect = document.getElementById('scheduleDay');
+                daySelect.innerHTML = '<option value="">Jour</option>';
+                for (let d = 1; d <= daysInMonth; d++) {
+                    const option = document.createElement('option');
+                    option.value = d;
+                    option.textContent = d;
+                    daySelect.appendChild(option);
+                }
+            }
+        };
+
         document.getElementById('addScheduleBtn')?.addEventListener('click', () => {
+            document.getElementById('scheduleType').value = 'recurring';
+            document.getElementById('dateFields').style.display = 'none';
             document.getElementById('scheduleHour').value = '';
             document.getElementById('scheduleMinute').value = '';
             document.getElementById('scheduleAction').value = '1';
@@ -1171,6 +1184,7 @@
         });
 
         document.getElementById('saveScheduleBtn')?.addEventListener('click', async () => {
+            const type = document.getElementById('scheduleType').value;
             const heure = document.getElementById('scheduleHour').value;
             const minute = document.getElementById('scheduleMinute').value;
             const action = document.getElementById('scheduleAction').value;
@@ -1181,7 +1195,21 @@
                 return;
             }
 
-            await saveSchedule(window.currentEditId, heure, minute, action, duree);
+            let scheduleData = { type, heure: parseInt(heure), minute: parseInt(minute), action: parseInt(action), duree: duree ? parseInt(duree) : null };
+
+            if (type === 'once') {
+                const year = document.getElementById('scheduleYear').value;
+                const month = document.getElementById('scheduleMonth').value;
+                const day = document.getElementById('scheduleDay').value;
+                if (!year || !month || !day) {
+                    showNotification('❌ Veuillez sélectionner une date complète', true);
+                    return;
+                }
+                scheduleData.date = `${year}-${parseInt(month) + 1}-${day}`;
+                scheduleData.timestamp = new Date(parseInt(year), parseInt(month), parseInt(day), parseInt(heure), parseInt(minute)).getTime();
+            }
+
+            await saveSchedule(window.currentEditId, scheduleData);
             document.getElementById('scheduleModal').style.display = 'none';
         });
 
@@ -1191,28 +1219,39 @@
             const currentHour = now.getHours();
             const currentMinute = now.getMinutes();
             const currentTimestamp = now.getTime();
+            const dayOfWeek = now.getDay();
+            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
 
             schedules.forEach(schedule => {
-                if (schedule.heure === currentHour && schedule.minute === currentMinute) {
-                    const key = `${schedule.heure}:${schedule.minute}`;
-                    const lastExecution = window.lastExecution || {};
-                    if (lastExecution[key] === now.toDateString()) return;
+                let shouldExecute = false;
 
-                    lastExecution[key] = now.toDateString();
-                    window.lastExecution = lastExecution;
+                if (schedule.type === 'recurring') {
+                    shouldExecute = schedule.heure === currentHour && schedule.minute === currentMinute;
+                } else if (schedule.type === 'once' && schedule.timestamp) {
+                    shouldExecute = Math.abs(currentTimestamp - schedule.timestamp) < 60000;
+                } else if (schedule.type === 'morning') {
+                    shouldExecute = currentHour >= 6 && currentHour < 12 && schedule.minute === currentMinute;
+                } else if (schedule.type === 'afternoon') {
+                    shouldExecute = currentHour >= 12 && currentHour < 18 && schedule.minute === currentMinute;
+                } else if (schedule.type === 'weekday') {
+                    shouldExecute = !isWeekend && schedule.heure === currentHour && schedule.minute === currentMinute;
+                } else if (schedule.type === 'weekend') {
+                    shouldExecute = isWeekend && schedule.heure === currentHour && schedule.minute === currentMinute;
+                }
 
-                    if (schedule.action === 1) {
-                        sendCommand(1);
-                        showNotification(`⏰ Programmé: MARCHE à ${currentHour}h${currentMinute}`);
+                if (shouldExecute) {
+                    const key = `${schedule.id}_${now.toDateString()}`;
+                    if (window.lastExecution && window.lastExecution[key]) return;
+                    if (!window.lastExecution) window.lastExecution = {};
+                    window.lastExecution[key] = true;
 
-                        if (schedule.duree && schedule.duree > 0) {
-                            const stopTime = currentTimestamp + (schedule.duree * 60 * 1000);
-                            scheduledStops[schedule.id] = stopTime;
-                            showNotification(`⏱️ Arrêt automatique dans ${formatDuree(schedule.duree)}`);
-                        }
-                    } else {
-                        sendCommand(0);
-                        showNotification(`⏰ Programmé: ARRÊT à ${currentHour}h${currentMinute}`);
+                    sendCommand(schedule.action);
+                    showNotification(`⏰ Programmé: ${schedule.action === 1 ? 'MARCHE' : 'ARRÊT'}`);
+
+                    if (schedule.action === 1 && schedule.duree && schedule.duree > 0) {
+                        const stopTime = currentTimestamp + (schedule.duree * 60 * 1000);
+                        scheduledStops[schedule.id] = stopTime;
+                        showNotification(`⏱️ Arrêt auto dans ${formatDuree(schedule.duree)}`);
                     }
                 }
             });
@@ -1220,13 +1259,13 @@
             for (const [id, stopTime] of Object.entries(scheduledStops)) {
                 if (currentTimestamp >= stopTime) {
                     sendCommand(0);
-                    showNotification(`⏱️ Arrêt automatique (fin de programmation)`);
+                    showNotification(`⏱️ Arrêt automatique`);
                     delete scheduledStops[id];
                 }
             }
         }
 
-        // ===== AUTHENTIFICATION =====
+        // Auth
         const loginScreen = document.getElementById('loginScreen');
         const registerScreen = document.getElementById('registerScreen');
         const appScreen = document.querySelector('.main-content');
@@ -1248,36 +1287,21 @@
         });
 
         document.getElementById('doLogin').onclick = async () => {
-            try {
-                await auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value);
-                document.getElementById('loginError').textContent = '';
-            } catch (e) {
-                document.getElementById('loginError').textContent = e.message;
-            }
+            try { await auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value); document.getElementById('loginError').textContent = ''; }
+            catch (e) { document.getElementById('loginError').textContent = e.message; }
         };
-
         document.getElementById('doRegister').onclick = async () => {
-            try {
-                await auth.createUserWithEmailAndPassword(document.getElementById('registerEmail').value, document.getElementById('registerPassword').value);
-                document.getElementById('registerError').textContent = '';
-            } catch (e) {
-                document.getElementById('registerError').textContent = e.message;
-            }
+            try { await auth.createUserWithEmailAndPassword(document.getElementById('registerEmail').value, document.getElementById('registerPassword').value); document.getElementById('registerError').textContent = ''; }
+            catch (e) { document.getElementById('registerError').textContent = e.message; }
         };
-
         document.getElementById('showRegister').onclick = () => { loginScreen.style.display = 'none'; registerScreen.style.display = 'block'; };
         document.getElementById('showLogin').onclick = () => { loginScreen.style.display = 'block'; registerScreen.style.display = 'none'; };
         document.getElementById('logoutBtn').onclick = () => auth.signOut();
 
-        // ===== FONCTIONS PRINCIPALES =====
         function getDeviceType() { return /mobile|android|iphone/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC"; }
 
         function showNotification(msg, isError = false) {
-            const d = document.createElement('div');
-            d.className = 'notification' + (isError ? ' error' : '');
-            d.textContent = msg;
-            document.body.appendChild(d);
-            setTimeout(() => d.remove(), 3000);
+            const d = document.createElement('div'); d.className = 'notification' + (isError ? ' error' : ''); d.textContent = msg; document.body.appendChild(d); setTimeout(() => d.remove(), 3000);
         }
 
         function updateLED(state) {
@@ -1288,10 +1312,7 @@
 
         function formatDate(ts) { return new Date(ts).toLocaleString('fr-FR'); }
 
-        function formatTime(s) {
-            let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
-            return h > 0 ? `${h}h ${m}m` : m > 0 ? `${m}m` : `${s % 60}s`;
-        }
+        function formatTime(s) { let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60); return h > 0 ? `${h}h ${m}m` : m > 0 ? `${m}m` : `${s % 60}s`; }
 
         setInterval(() => {
             if (motorState === 1 && motorStartTime) document.getElementById('currentRunTime').innerHTML = formatTime(Math.floor((Date.now() - motorStartTime) / 1000));
@@ -1380,13 +1401,8 @@
             btn.onclick = () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; updateHistoryDisplay(); };
         });
 
-        // Lancer la vérification des horaires
         setInterval(checkSchedules, 60000);
-        setInterval(() => {
-            if (Object.keys(scheduledStops).length > 0) {
-                checkSchedules();
-            }
-        }, 1000);
+        setInterval(() => { if (Object.keys(scheduledStops).length > 0) checkSchedules(); }, 1000);
 
         function initApp() {
             document.getElementById('btnOn').onclick = () => sendCommand(1);
