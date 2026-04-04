@@ -9,6 +9,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-storage-compat.js"></script>
 
     <style>
         * {
@@ -24,7 +25,7 @@
             color: #1a2a4f;
         }
 
-        /* ===== MENU LATÉRAL (VERSION PC) ===== */
+        /* ===== MENU LATÉRAL ===== */
         .sidebar {
             position: fixed;
             left: 0;
@@ -119,6 +120,41 @@
             cursor: pointer;
         }
 
+        /* ===== PHOTO DE PROFIL ===== */
+        .profile-photo-container {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .profile-photo {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #2b7be4;
+            transition: transform 0.2s;
+        }
+
+        .profile-photo:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .photo-edit-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #2b7be4;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: white;
+        }
+
         /* ===== CARTES ===== */
         .card {
             background: white;
@@ -207,6 +243,11 @@
 
         .btn-danger {
             background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #2b7be4;
             color: white;
         }
 
@@ -323,6 +364,29 @@
 
         .page.active {
             display: block;
+        }
+
+        /* ===== PAGE PROFIL ===== */
+        .profile-card {
+            text-align: center;
+        }
+
+        .profile-big-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #2b7be4;
+            margin: 20px auto;
+            cursor: pointer;
+        }
+
+        .profile-info {
+            margin: 20px 0;
+        }
+
+        .file-input {
+            display: none;
         }
 
         /* ===== CONNEXION ===== */
@@ -489,6 +553,9 @@
         <div class="nav-item" data-page="export">
             <span>💾</span> Export
         </div>
+        <div class="nav-item" data-page="profile">
+            <span>👤</span> Mon profil
+        </div>
         <div class="nav-item" data-page="about">
             <span>ℹ️</span> À propos
         </div>
@@ -499,6 +566,11 @@
         <div class="header">
             <h2 id="pageTitle">Tableau de bord</h2>
             <div class="user-info">
+                <div class="profile-photo-container" id="headerProfileContainer">
+                    <img id="headerProfilePhoto" class="profile-photo" src="https://via.placeholder.com/45" alt="Photo">
+                    <div class="photo-edit-badge">📷</div>
+                    <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+                </div>
                 <span class="user-email" id="userEmail"></span>
                 <button class="logout-btn" id="logoutBtn">🚪 Déconnexion</button>
             </div>
@@ -636,9 +708,38 @@
             <div class="card" style="text-align: center;">
                 <h3>💾 Exporter les données</h3>
                 <div class="btn-group" style="flex-direction: row; flex-wrap: wrap;">
-                    <button class="btn btn-primary" id="exportCSV" style="background: #2b7be4;">📥 CSV</button>
-                    <button class="btn btn-primary" id="exportJSON" style="background: #2b7be4;">📄 JSON</button>
+                    <button class="btn btn-secondary" id="exportCSV">📥 CSV</button>
+                    <button class="btn btn-secondary" id="exportJSON">📄 JSON</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- PAGE PROFIL UTILISATEUR -->
+        <div id="profilePage" class="page">
+            <div class="card profile-card">
+                <h3>👤 Mon profil</h3>
+                <img id="profileBigPhoto" class="profile-big-photo" src="https://via.placeholder.com/150"
+                    alt="Photo de profil">
+                <div class="profile-info">
+                    <div class="info-row">
+                        <span class="info-label">📧 Email</span>
+                        <span class="info-value" id="profileEmail">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🆓 UID</span>
+                        <span class="info-value" id="profileUid">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📅 Membre depuis</span>
+                        <span class="info-value" id="profileSince">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🔄 Total commandes</span>
+                        <span class="info-value" id="profileTotalCommands">0</span>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" id="changePhotoBtn">📷 Changer ma photo</button>
+                <input type="file" id="profilePhotoUpload" accept="image/*" style="display: none;">
             </div>
         </div>
 
@@ -650,7 +751,8 @@
                 <p>🔥 Firebase Realtime Database</p>
                 <p>🔐 Authentification sécurisée</p>
                 <p>📱 Interface responsive</p>
-                <p style="margin-top: 20px;">Version 3.0 - Professional</p>
+                <p>👤 Profil utilisateur avec photo</p>
+                <p style="margin-top: 20px;">Version 4.0 - Professional</p>
             </div>
         </div>
     </div>
@@ -704,9 +806,14 @@
             document.getElementById(page + 'Page').classList.add('active');
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
-            const titles = { dashboard: 'Tableau de bord', control: 'Contrôle moteur', history: 'Historique', stats: 'Statistiques', export: 'Export', about: 'À propos' };
+            const titles = { dashboard: 'Tableau de bord', control: 'Contrôle moteur', history: 'Historique', stats: 'Statistiques', export: 'Export', profile: 'Mon profil', about: 'À propos' };
             document.getElementById('pageTitle').textContent = titles[page];
             if (window.innerWidth <= 768) closeMenu();
+
+            // Mettre à jour les infos du profil si on est sur la page profil
+            if (page === 'profile') {
+                updateProfilePage();
+            }
         }
 
         document.querySelectorAll('.nav-item').forEach(item => {
@@ -716,6 +823,95 @@
         // Menu mobile
         function closeMenu() { document.getElementById('sidebar').classList.remove('open'); }
         document.getElementById('menuToggle').onclick = () => document.getElementById('sidebar').classList.toggle('open');
+
+        // ===== GESTION PHOTO DE PROFIL =====
+        async function uploadProfilePhoto(file) {
+            const user = auth.currentUser;
+            if (!user) return;
+
+            if (file.size > 2 * 1024 * 1024) {
+                showNotification("❌ Photo trop grande (max 2MB)", true);
+                return;
+            }
+
+            showNotification("📤 Upload en cours...");
+
+            const reader = new FileReader();
+            reader.onloadend = async function () {
+                try {
+                    await database.ref(`users/${user.uid}/photo`).set({
+                        data: reader.result,
+                        lastUpdate: Date.now(),
+                        email: user.email
+                    });
+
+                    // Mettre à jour les affichages
+                    document.getElementById('headerProfilePhoto').src = reader.result;
+                    document.getElementById('profileBigPhoto').src = reader.result;
+                    showNotification("✅ Photo mise à jour !");
+                } catch (error) {
+                    showNotification("❌ Erreur: " + error.message, true);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function loadProfilePhoto() {
+            const user = auth.currentUser;
+            if (!user) return;
+
+            try {
+                const snapshot = await database.ref(`users/${user.uid}/photo`).once('value');
+                const data = snapshot.val();
+                if (data && data.data) {
+                    document.getElementById('headerProfilePhoto').src = data.data;
+                    if (document.getElementById('profileBigPhoto')) {
+                        document.getElementById('profileBigPhoto').src = data.data;
+                    }
+                }
+            } catch (error) {
+                console.error("Erreur chargement photo:", error);
+            }
+        }
+
+        async function updateProfilePage() {
+            const user = auth.currentUser;
+            if (!user) return;
+
+            document.getElementById('profileEmail').textContent = user.email;
+            document.getElementById('profileUid').textContent = user.uid.substring(0, 20) + '...';
+
+            // Date de création (metadata)
+            if (user.metadata.creationTime) {
+                const date = new Date(user.metadata.creationTime);
+                document.getElementById('profileSince').textContent = date.toLocaleDateString('fr-FR');
+            }
+
+            // Total des commandes de l'utilisateur
+            const total = onCount + offCount;
+            document.getElementById('profileTotalCommands').textContent = total;
+        }
+
+        // Événements photo
+        document.getElementById('headerProfileContainer').onclick = () => {
+            document.getElementById('photoUpload').click();
+        };
+
+        document.getElementById('photoUpload').onchange = (e) => {
+            if (e.target.files && e.target.files[0]) {
+                uploadProfilePhoto(e.target.files[0]);
+            }
+        };
+
+        document.getElementById('changePhotoBtn').onclick = () => {
+            document.getElementById('profilePhotoUpload').click();
+        };
+
+        document.getElementById('profilePhotoUpload').onchange = (e) => {
+            if (e.target.files && e.target.files[0]) {
+                uploadProfilePhoto(e.target.files[0]);
+            }
+        };
 
         // Auth
         const loginScreen = document.getElementById('loginScreen');
@@ -728,6 +924,7 @@
                 registerScreen.style.display = 'none';
                 appScreen.style.display = 'block';
                 document.getElementById('userEmail').textContent = user.email;
+                loadProfilePhoto();
                 initApp();
             } else {
                 loginScreen.style.display = 'block';
@@ -737,29 +934,49 @@
         });
 
         document.getElementById('doLogin').onclick = async () => {
-            try { await auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value); document.getElementById('loginError').textContent = ''; }
-            catch (e) { document.getElementById('loginError').textContent = e.message; }
+            try {
+                await auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value);
+                document.getElementById('loginError').textContent = '';
+            } catch (e) {
+                document.getElementById('loginError').textContent = e.message;
+            }
         };
+
         document.getElementById('doRegister').onclick = async () => {
-            try { await auth.createUserWithEmailAndPassword(document.getElementById('registerEmail').value, document.getElementById('registerPassword').value); document.getElementById('registerError').textContent = ''; }
-            catch (e) { document.getElementById('registerError').textContent = e.message; }
+            try {
+                await auth.createUserWithEmailAndPassword(document.getElementById('registerEmail').value, document.getElementById('registerPassword').value);
+                document.getElementById('registerError').textContent = '';
+            } catch (e) {
+                document.getElementById('registerError').textContent = e.message;
+            }
         };
+
         document.getElementById('showRegister').onclick = () => { loginScreen.style.display = 'none'; registerScreen.style.display = 'block'; };
         document.getElementById('showLogin').onclick = () => { loginScreen.style.display = 'block'; registerScreen.style.display = 'none'; };
         document.getElementById('logoutBtn').onclick = () => auth.signOut();
 
         function getDeviceType() { return /mobile|android|iphone/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC"; }
+
         function showNotification(msg, isError = false) {
-            const d = document.createElement('div'); d.className = 'notification' + (isError ? ' error' : ''); d.textContent = msg;
-            document.body.appendChild(d); setTimeout(() => d.remove(), 3000);
+            const d = document.createElement('div');
+            d.className = 'notification' + (isError ? ' error' : '');
+            d.textContent = msg;
+            document.body.appendChild(d);
+            setTimeout(() => d.remove(), 3000);
         }
+
         function updateLED(state) {
             document.querySelectorAll('#led, #led2').forEach(l => l.className = state === 1 ? 'led led-on' : 'led led-off');
             document.querySelectorAll('#motorStatus, #motorStatus2').forEach(s => s.innerHTML = state === 1 ? 'MARCHE ✅' : 'ARRÊT ❌');
             motorState = state;
         }
+
         function formatDate(ts) { return new Date(ts).toLocaleString('fr-FR'); }
-        function formatTime(s) { let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60); return h > 0 ? `${h}h ${m}m` : m > 0 ? `${m}m` : `${s % 60}s`; }
+
+        function formatTime(s) {
+            let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
+            return h > 0 ? `${h}h ${m}m` : m > 0 ? `${m}m` : `${s % 60}s`;
+        }
 
         setInterval(() => {
             if (motorState === 1 && motorStartTime) document.getElementById('currentRunTime').innerHTML = formatTime(Math.floor((Date.now() - motorStartTime) / 1000));
@@ -829,6 +1046,7 @@
             const d = snap.val();
             if (d) { cycleCount = d.cycleCount || 0; totalRunTimeSeconds = d.totalRunTime || 0; document.getElementById('statCycles').textContent = cycleCount; document.getElementById('totalRunTime').innerHTML = formatTime(totalRunTimeSeconds); }
         }
+
         async function saveStats() { await database.ref('stats').set({ cycleCount, totalRunTime: totalRunTimeSeconds, lastUpdate: Date.now() }); }
 
         function exportCSV() {
@@ -837,6 +1055,7 @@
             commandHistory.forEach(i => { let d = new Date(i.timestamp); csv += `${d.toLocaleDateString()},${d.toLocaleTimeString()},${i.valeur === 1 ? 'MARCHE' : 'ARRÊT'},${i.appareil}\n`; });
             let link = document.createElement('a'); link.href = URL.createObjectURL(new Blob(["\uFEFF" + csv], { type: 'text/csv' })); link.download = `moteur_${Date.now()}.csv`; link.click(); showNotification('✅ CSV exporté');
         }
+
         function exportJSON() {
             if (!commandHistory.length) return showNotification('Aucune donnée', true);
             let link = document.createElement('a'); link.href = URL.createObjectURL(new Blob([JSON.stringify(commandHistory, null, 2)], { type: 'application/json' })); link.download = `moteur_${Date.now()}.json`; link.click(); showNotification('✅ JSON exporté');
