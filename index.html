@@ -450,6 +450,171 @@
             flex: 1;
         }
 
+        /* Admin styles */
+        .admin-badge {
+            background: #ff6b6b;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            margin-left: 8px;
+        }
+
+        .user-badge {
+            background: #00b09b;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            margin-left: 8px;
+        }
+
+        .user-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .user-item {
+            background: #f8fafd;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .user-email {
+            font-weight: bold;
+            color: #2b7be4;
+        }
+
+        .user-role-select {
+            padding: 5px 10px;
+            border-radius: 8px;
+            border: 1px solid #2b7be4;
+            background: white;
+            cursor: pointer;
+        }
+
+        .delete-user-btn {
+            background: #ff6b6b;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .stats-admin {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-admin-card {
+            background: linear-gradient(135deg, #2b7be4, #1a5bc4);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-admin-number {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .stat-admin-label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .log-item {
+            background: #f8fafd;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .log-time {
+            color: #888;
+            font-size: 10px;
+        }
+
+        .log-user {
+            font-weight: bold;
+            color: #2b7be4;
+        }
+
+        .log-action {
+            color: #666;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .setting-label {
+            font-weight: bold;
+            color: #444;
+        }
+
+        .setting-control input,
+        .setting-control select {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .admin-tab {
+            padding: 8px 16px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .admin-tab.active {
+            color: #2b7be4;
+            border-bottom: 2px solid #2b7be4;
+        }
+
+        .admin-pane {
+            display: none;
+        }
+
+        .admin-pane.active {
+            display: block;
+        }
+
+        /* Login */
         .login-container {
             max-width: 400px;
             margin: 100px auto;
@@ -574,6 +739,10 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
+            .stats-admin {
+                grid-template-columns: repeat(1, 1fr);
+            }
+
             .btn-group {
                 flex-direction: column;
                 gap: 10px;
@@ -615,6 +784,9 @@
         </div>
         <div class="nav-item" data-page="profile">
             <span>👤</span> Mon profil
+        </div>
+        <div class="nav-item" data-page="admin" id="adminMenuItem" style="display: none;">
+            <span>👑</span> Administration
         </div>
         <div class="nav-item" data-page="about">
             <span>ℹ️</span> À propos
@@ -786,7 +958,7 @@
             </div>
         </div>
 
-        <!-- MODAL PROGRAMMATION AVEC CHAMPS LIBRES -->
+        <!-- MODAL PROGRAMMATION -->
         <div id="scheduleModal" class="modal">
             <div class="modal-content">
                 <h3 id="modalTitle" style="color: #2b7be4; margin-bottom: 15px;">Ajouter un horaire</h3>
@@ -862,6 +1034,8 @@
                     style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #2b7be4; margin: 20px auto; cursor: pointer;">
                 <div class="info-row"><span class="info-label">📧 Email</span><span class="info-value"
                         id="profileEmail">-</span></div>
+                <div class="info-row"><span class="info-label">👑 Rôle</span><span class="info-value"
+                        id="profileRole">-</span></div>
                 <div class="info-row"><span class="info-label">📅 Membre depuis</span><span class="info-value"
                         id="profileSince">-</span></div>
                 <div class="info-row"><span class="info-label">🔄 Total commandes</span><span class="info-value"
@@ -871,17 +1045,194 @@
             </div>
         </div>
 
+        <!-- PAGE ADMINISTRATION -->
+        <div id="adminPage" class="page">
+            <div class="card">
+                <h3>👑 Administration - Panneau de contrôle</h3>
+
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-tab="dashboard">📊 Dashboard</button>
+                    <button class="admin-tab" data-tab="users">👥 Utilisateurs</button>
+                    <button class="admin-tab" data-tab="logs">📜 Logs connexion</button>
+                    <button class="admin-tab" data-tab="schedules">⏰ Horaires globaux</button>
+                    <button class="admin-tab" data-tab="settings">⚙️ Paramètres</button>
+                    <button class="admin-tab" data-tab="export">💾 Export global</button>
+                </div>
+
+                <div id="adminDashboardPane" class="admin-pane active">
+                    <div class="stats-admin">
+                        <div class="stat-admin-card">
+                            <div class="stat-admin-number" id="adminTotalUsers">0</div>
+                            <div class="stat-admin-label">Utilisateurs</div>
+                        </div>
+                        <div class="stat-admin-card">
+                            <div class="stat-admin-number" id="adminTotalCommands">0</div>
+                            <div class="stat-admin-label">Commandes totales</div>
+                        </div>
+                        <div class="stat-admin-card">
+                            <div class="stat-admin-number" id="adminTodayCommands">0</div>
+                            <div class="stat-admin-label">Aujourd'hui</div>
+                        </div>
+                    </div>
+                    <div class="stats-admin">
+                        <div class="stat-admin-card">
+                            <div class="stat-admin-number" id="adminActiveUsers">0</div>
+                            <div class="stat-admin-label">Connectés aujourd'hui</div>
+                        </div>
+                        <div class="stat-admin-card">
+                            <div class="stat-admin-number" id="adminTotalSchedules">0</div>
+                            <div class="stat-admin-label">Horaires programmés</div>
+                        </div>
+                        <div class="stat-admin-card">
+                            <div class="stat-admin-number" id="adminMotorStatus">-</div>
+                            <div class="stat-admin-label">État moteur</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="adminUsersPane" class="admin-pane">
+                    <div style="margin-bottom: 20px;">
+                        <h4>➕ Ajouter un utilisateur</h4>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <input type="email" id="newUserEmail" placeholder="Email"
+                                style="flex:2; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                            <select id="newUserRole"
+                                style="flex:1; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                                <option value="user">👤 Utilisateur</option>
+                                <option value="admin">👑 Administrateur</option>
+                            </select>
+                            <button id="createUserBtn" class="btn btn-secondary">➕ Créer</button>
+                        </div>
+                    </div>
+                    <h4>📋 Liste des utilisateurs</h4>
+                    <div class="user-list" id="usersList">
+                        <div style="text-align:center;padding:20px;">Chargement...</div>
+                    </div>
+                </div>
+
+                <div id="adminLogsPane" class="admin-pane">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+                        <h4>📜 Historique des connexions</h4>
+                        <button id="clearLogsBtn" class="btn"
+                            style="background:#ff6b6b; color:white; padding: 5px 15px;">🗑️ Effacer logs</button>
+                    </div>
+                    <div id="logsList" class="logs-list">
+                        <div style="text-align:center;padding:20px;">Chargement...</div>
+                    </div>
+                </div>
+
+                <div id="adminSchedulesPane" class="admin-pane">
+                    <h4>⏰ Horaires programmés par les utilisateurs</h4>
+                    <div id="allSchedulesList" class="user-list">
+                        <div style="text-align:center;padding:20px;">Chargement...</div>
+                    </div>
+                </div>
+
+                <div id="adminSettingsPane" class="admin-pane">
+                    <div class="setting-item">
+                        <span class="setting-label">🔒 Maintenance mode</span>
+                        <div class="setting-control">
+                            <input type="checkbox" id="maintenanceMode"> Désactiver les commandes
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <span class="setting-label">⏱️ Délai minimum entre commandes (secondes)</span>
+                        <div class="setting-control">
+                            <input type="number" id="commandDelay" min="0" max="60" value="0">
+                            <button id="saveDelayBtn" class="btn btn-secondary" style="margin-left: 10px;">💾
+                                Sauvegarder</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <span class="setting-label">🕐 Nettoyage auto de l'historique (jours)</span>
+                        <div class="setting-control">
+                            <select id="autoCleanDays">
+                                <option value="30">30 jours</option>
+                                <option value="60">60 jours</option>
+                                <option value="90">90 jours</option>
+                                <option value="180">6 mois</option>
+                                <option value="365">1 an</option>
+                            </select>
+                            <button id="cleanHistoryBtn" class="btn btn-secondary" style="margin-left: 10px;">🧹
+                                Nettoyer maintenant</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="adminExportPane" class="admin-pane">
+                    <h4>💾 Export des données</h4>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px;">
+                        <button id="exportAllUsersBtn" class="btn btn-secondary">📥 Export tous les utilisateurs
+                            (CSV)</button>
+                        <button id="exportAllCommandsBtn" class="btn btn-secondary">📥 Export toutes commandes
+                            (CSV)</button>
+                        <button id="exportBackupBtn" class="btn btn-secondary">💾 Backup complet (JSON)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- PAGE À PROPOS -->
         <div id="aboutPage" class="page">
             <div class="card" style="text-align: center;">
-                <h3>ℹ️ À propos</h3>
-                <p style="margin: 20px 0;">Système professionnel de contrôle moteur IoT</p>
-                <p>🔥 Firebase Realtime Database</p>
-                <p>🔐 Authentification sécurisée</p>
-                <p>📱 Interface responsive</p>
-                <p>⏰ Programmation horaire avancée</p>
-                <p>⏱️ Durée en secondes/minutes/heures</p>
-                <p style="margin-top: 20px;">Version 6.0 - Professional</p>
+                <div style="text-align:center; margin-bottom:20px;">
+                    <img src="https://i.ibb.co/TDZ1fMcW/IMG-20250121-220704.jpg" alt="Logo" style="max-width:150px;">
+                </div>
+                <h3>🔧 PROJET IoT - Contrôle Moteur</h3>
+                <p style="margin: 15px 0; color: #666;">Système professionnel de contrôle moteur à distance</p>
+
+                <div style="background: #f8fafd; border-radius: 15px; padding: 20px; margin: 20px 0; text-align: left;">
+                    <h4 style="color: #2b7be4; margin-bottom: 10px;">📋 Informations du projet</h4>
+                    <div class="info-row"><span class="info-label">👤 Développeur</span><span class="info-value">Ir
+                            DIAMONEKA VAKANDA Jonathan</span></div>
+                    <div class="info-row"><span class="info-label">🏢 Entreprise</span><span
+                            class="info-value">DIAMONEKA VAKANDA Corp.</span></div>
+                    <div class="info-row"><span class="info-label">📧 Contact</span><span
+                            class="info-value">johndiams30@gmail.com</span></div>
+                    <div class="info-row"><span class="info-label">📅 Version</span><span class="info-value">6.0 -
+                            Professional</span></div>
+                    <div class="info-row"><span class="info-label">🕐 Dernière mise à jour</span><span
+                            class="info-value">Avril 2026</span></div>
+                </div>
+
+                <div style="background: #f8fafd; border-radius: 15px; padding: 20px; margin: 20px 0; text-align: left;">
+                    <h4 style="color: #2b7be4; margin-bottom: 10px;">⚙️ Technologies utilisées</h4>
+                    <div class="info-row"><span class="info-label">🔥 Base de données</span><span
+                            class="info-value">Firebase Realtime Database</span></div>
+                    <div class="info-row"><span class="info-label">🔐 Authentification</span><span
+                            class="info-value">Firebase Auth (Email/Password)</span></div>
+                    <div class="info-row"><span class="info-label">🌐 Hébergement</span><span class="info-value">GitHub
+                            Pages</span></div>
+                    <div class="info-row"><span class="info-label">📱 Interface</span><span class="info-value">HTML5 /
+                            CSS3 / JavaScript</span></div>
+                    <div class="info-row"><span class="info-label">🔧 Microcontrôleur</span><span
+                            class="info-value">ESP32</span></div>
+                </div>
+
+                <div style="background: #f8fafd; border-radius: 15px; padding: 20px; margin: 20px 0; text-align: left;">
+                    <h4 style="color: #2b7be4; margin-bottom: 10px;">✅ Fonctionnalités</h4>
+                    <div class="info-row"><span class="info-label">🎮</span><span class="info-value">Contrôle moteur en
+                            temps réel</span></div>
+                    <div class="info-row"><span class="info-label">⏰</span><span class="info-value">Programmation
+                            horaire avancée</span></div>
+                    <div class="info-row"><span class="info-label">📜</span><span class="info-value">Historique des
+                            commandes</span></div>
+                    <div class="info-row"><span class="info-label">📊</span><span class="info-value">Statistiques
+                            détaillées</span></div>
+                    <div class="info-row"><span class="info-label">👥</span><span class="info-value">Gestion
+                            multi-utilisateurs</span></div>
+                    <div class="info-row"><span class="info-label">👑</span><span class="info-value">Panneau
+                            administration</span></div>
+                    <div class="info-row"><span class="info-label">💾</span><span class="info-value">Export
+                            CSV/JSON</span></div>
+                    <div class="info-row"><span class="info-label">📸</span><span class="info-value">Photo de profil
+                            utilisateur</span></div>
+                </div>
+
+                <p style="margin-top: 20px; font-size: 12px; color: #888;">
+                    &copy; 2026 Projet IoT - Tous droits réservés
+                </p>
             </div>
         </div>
     </div>
@@ -933,6 +1284,7 @@
         let motorState = 0, motorStartTime = null, cycleCount = 0, totalRunTimeSeconds = 0;
         let schedules = [];
         let scheduledStops = {};
+        let currentUserRole = 'user';
 
         // Navigation
         function navigateTo(page) {
@@ -940,11 +1292,17 @@
             document.getElementById(page + 'Page').classList.add('active');
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
-            const titles = { dashboard: 'Tableau de bord', control: 'Contrôle moteur', history: 'Historique', stats: 'Statistiques', export: 'Export', schedule: 'Programmation', profile: 'Mon profil', about: 'À propos' };
+            const titles = { dashboard: 'Tableau de bord', control: 'Contrôle moteur', history: 'Historique', stats: 'Statistiques', export: 'Export', schedule: 'Programmation', profile: 'Mon profil', admin: 'Administration', about: 'À propos' };
             document.getElementById('pageTitle').textContent = titles[page];
             if (window.innerWidth <= 768) closeMenu();
             if (page === 'profile') updateProfilePage();
             if (page === 'schedule') loadSchedules();
+            if (page === 'admin' && currentUserRole === 'admin') {
+                loadAdminDashboard();
+                loadUsers();
+                loadLogs();
+                loadAllSchedules();
+            }
         }
 
         document.querySelectorAll('.nav-item').forEach(item => {
@@ -987,6 +1345,7 @@
             const user = auth.currentUser;
             if (!user) return;
             document.getElementById('profileEmail').textContent = user.email;
+            document.getElementById('profileRole').textContent = currentUserRole === 'admin' ? '👑 Administrateur' : '👤 Utilisateur';
             if (user.metadata.creationTime) {
                 const date = new Date(user.metadata.creationTime);
                 document.getElementById('profileSince').textContent = date.toLocaleDateString('fr-FR');
@@ -1017,14 +1376,7 @@
         }
 
         function getPeriodLabel(type) {
-            const labels = {
-                recurring: '🔄 Quotidien',
-                once: '📅 Unique',
-                morning: '☀️ Matin',
-                afternoon: '🌙 Après-midi',
-                weekday: '📆 Semaine',
-                weekend: '🎉 Weekend'
-            };
+            const labels = { recurring: '🔄 Quotidien', once: '📅 Unique', morning: '☀️ Matin', afternoon: '🌙 Après-midi', weekday: '📆 Semaine', weekend: '🎉 Weekend' };
             return labels[type] || type;
         }
 
@@ -1061,7 +1413,6 @@
             const user = auth.currentUser;
             if (!user) return;
 
-            // Convertir la durée en secondes
             if (data.dureeValue && data.dureeValue > 0) {
                 const value = parseInt(data.dureeValue);
                 const unit = data.dureeUnit;
@@ -1102,7 +1453,6 @@
                 document.getElementById('scheduleMinute').value = schedule.minute || '';
                 document.getElementById('scheduleAction').value = schedule.action;
 
-                // Gérer la durée
                 if (schedule.duree) {
                     const duree = schedule.duree;
                     if (duree >= 3600 && duree % 3600 === 0) {
@@ -1128,7 +1478,6 @@
 
         window.deleteSchedule = deleteSchedule;
 
-        // Remplir les années
         const yearSelect = document.getElementById('scheduleYear');
         const currentYear = new Date().getFullYear();
         for (let y = currentYear; y <= currentYear + 5; y++) {
@@ -1199,14 +1548,7 @@
                 return;
             }
 
-            let scheduleData = {
-                type,
-                heure: parseInt(heure),
-                minute: parseInt(minute),
-                action: parseInt(action),
-                dureeValue: dureeValue ? parseInt(dureeValue) : null,
-                dureeUnit: dureeUnit
-            };
+            let scheduleData = { type, heure: parseInt(heure), minute: parseInt(minute), action: parseInt(action), dureeValue: dureeValue ? parseInt(dureeValue) : null, dureeUnit: dureeUnit };
 
             if (type === 'once') {
                 const year = document.getElementById('scheduleYear').value;
@@ -1224,72 +1566,249 @@
             document.getElementById('scheduleModal').style.display = 'none';
         });
 
-        // Vérification des horaires
-        function checkSchedules() {
-            const now = new Date();
-            const currentHour = now.getHours();
-            const currentMinute = now.getMinutes();
-            const currentTimestamp = now.getTime();
-            const dayOfWeek = now.getDay();
-            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+        // Admin functions
+        async function loadAdminDashboard() {
+            const usersSnap = await database.ref('users').once('value');
+            document.getElementById('adminTotalUsers').textContent = usersSnap.numChildren();
 
-            schedules.forEach(schedule => {
-                let shouldExecute = false;
+            const historySnap = await database.ref('historique').once('value');
+            const historyData = historySnap.val();
+            const totalCommands = historyData ? Object.keys(historyData).length : 0;
+            document.getElementById('adminTotalCommands').textContent = totalCommands;
 
-                if (schedule.type === 'recurring') {
-                    shouldExecute = schedule.heure === currentHour && schedule.minute === currentMinute;
-                } else if (schedule.type === 'once' && schedule.timestamp) {
-                    shouldExecute = Math.abs(currentTimestamp - schedule.timestamp) < 60000;
-                } else if (schedule.type === 'morning') {
-                    shouldExecute = currentHour >= 6 && currentHour < 12 && schedule.minute === currentMinute;
-                } else if (schedule.type === 'afternoon') {
-                    shouldExecute = currentHour >= 12 && currentHour < 18 && schedule.minute === currentMinute;
-                } else if (schedule.type === 'weekday') {
-                    shouldExecute = !isWeekend && schedule.heure === currentHour && schedule.minute === currentMinute;
-                } else if (schedule.type === 'weekend') {
-                    shouldExecute = isWeekend && schedule.heure === currentHour && schedule.minute === currentMinute;
-                }
+            const today = new Date().toDateString();
+            let todayCommands = 0;
+            if (historyData) {
+                todayCommands = Object.values(historyData).filter(h => new Date(h.timestamp).toDateString() === today).length;
+            }
+            document.getElementById('adminTodayCommands').textContent = todayCommands;
 
-                if (shouldExecute) {
-                    const key = `${schedule.id}_${now.toDateString()}`;
-                    if (window.lastExecution && window.lastExecution[key]) return;
-                    if (!window.lastExecution) window.lastExecution = {};
-                    window.lastExecution[key] = true;
-
-                    sendCommand(schedule.action);
-                    showNotification(`⏰ Programmé: ${schedule.action === 1 ? 'MARCHE' : 'ARRÊT'}`);
-
-                    if (schedule.action === 1 && schedule.duree && schedule.duree > 0) {
-                        const stopTime = currentTimestamp + (schedule.duree * 1000);
-                        scheduledStops[schedule.id] = stopTime;
-                        showNotification(`⏱️ Arrêt auto dans ${formatDuree(schedule.duree)}`);
+            let activeUsers = new Set();
+            if (historyData) {
+                Object.values(historyData).forEach(h => {
+                    if (new Date(h.timestamp).toDateString() === today && h.utilisateur) {
+                        activeUsers.add(h.utilisateur);
                     }
-                }
-            });
+                });
+            }
+            document.getElementById('adminActiveUsers').textContent = activeUsers.size;
 
-            for (const [id, stopTime] of Object.entries(scheduledStops)) {
-                if (currentTimestamp >= stopTime) {
-                    sendCommand(0);
-                    showNotification(`⏱️ Arrêt automatique`);
-                    delete scheduledStops[id];
+            let totalSchedules = 0;
+            const users = usersSnap.val();
+            if (users) {
+                for (const uid of Object.keys(users)) {
+                    const schedulesSnap = await database.ref(`users/${uid}/schedules`).once('value');
+                    const schedules = schedulesSnap.val();
+                    if (schedules) totalSchedules += Object.keys(schedules).length;
                 }
             }
+            document.getElementById('adminTotalSchedules').textContent = totalSchedules;
+
+            const motorSnap = await database.ref('moteur/etat/valeur').once('value');
+            const motorState = motorSnap.val();
+            document.getElementById('adminMotorStatus').innerHTML = motorState === 1 ? '🟢 MARCHE' : '🔴 ARRÊT';
         }
+
+        async function loadUsers() {
+            const snapshot = await database.ref('users').once('value');
+            const users = snapshot.val() || {};
+            const container = document.getElementById('usersList');
+            if (!container) return;
+
+            if (Object.keys(users).length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:20px;">Aucun utilisateur</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            for (const [uid, userData] of Object.entries(users)) {
+                const div = document.createElement('div');
+                div.className = 'user-item';
+                div.innerHTML = `
+                    <div><div class="user-email">${userData.email || uid}</div><div style="font-size: 11px; color: #888;">UID: ${uid.substring(0, 15)}...</div></div>
+                    <div>
+                        <select class="user-role-select" data-uid="${uid}" ${uid === auth.currentUser?.uid ? 'disabled' : ''}>
+                            <option value="user" ${userData.role === 'user' ? 'selected' : ''}>👤 Utilisateur</option>
+                            <option value="admin" ${userData.role === 'admin' ? 'selected' : ''}>👑 Administrateur</option>
+                        </select>
+                        ${uid !== auth.currentUser?.uid ? `<button class="delete-user-btn" data-uid="${uid}">🗑️</button>` : '<span style="font-size:11px;color:#888;">(vous)</span>'}
+                    </div>
+                `;
+                container.appendChild(div);
+            }
+
+            document.querySelectorAll('.user-role-select').forEach(select => {
+                select.onchange = () => updateUserRole(select.dataset.uid, select.value);
+            });
+            document.querySelectorAll('.delete-user-btn').forEach(btn => {
+                btn.onclick = () => deleteUser(btn.dataset.uid);
+            });
+        }
+
+        async function updateUserRole(uid, newRole) {
+            try {
+                await database.ref(`users/${uid}/role`).set(newRole);
+                showNotification(`✅ Rôle mis à jour`);
+                loadUsers();
+            } catch (error) { showNotification(`❌ Erreur: ${error.message}`, true); }
+        }
+
+        async function deleteUser(uid) {
+            if (!confirm('Supprimer définitivement cet utilisateur ?')) return;
+            try {
+                await database.ref(`users/${uid}`).remove();
+                showNotification(`✅ Utilisateur supprimé`);
+                loadUsers();
+                loadAdminDashboard();
+            } catch (error) { showNotification(`❌ Erreur: ${error.message}`, true); }
+        }
+
+        async function loadLogs() {
+            const logsSnap = await database.ref('logs').limitToLast(100).once('value');
+            const logs = logsSnap.val();
+            const container = document.getElementById('logsList');
+            if (!logs) { container.innerHTML = '<div style="text-align:center;padding:20px;">Aucun log</div>'; return; }
+            const logsArray = Object.values(logs).reverse();
+            container.innerHTML = logsArray.map(log => `<div class="log-item"><div><span class="log-user">${log.user || 'Inconnu'}</span> <span class="log-action">- ${log.action}</span></div><div class="log-time">${new Date(log.timestamp).toLocaleString('fr-FR')}</div></div>`).join('');
+        }
+
+        async function loadAllSchedules() {
+            const usersSnap = await database.ref('users').once('value');
+            const users = usersSnap.val();
+            const container = document.getElementById('allSchedulesList');
+            if (!users) { container.innerHTML = '<div style="text-align:center;padding:20px;">Aucun utilisateur</div>'; return; }
+
+            let allSchedules = [];
+            for (const [uid, userData] of Object.entries(users)) {
+                const schedulesSnap = await database.ref(`users/${uid}/schedules`).once('value');
+                const schedules = schedulesSnap.val();
+                if (schedules) {
+                    for (const [sid, schedule] of Object.entries(schedules)) {
+                        allSchedules.push({ user: userData.email || uid, schedule: schedule, id: sid });
+                    }
+                }
+            }
+
+            if (allSchedules.length === 0) { container.innerHTML = '<div style="text-align:center;padding:20px;">Aucun horaire programmé</div>'; return; }
+            container.innerHTML = allSchedules.map(s => `<div class="user-item"><div><div class="user-email">👤 ${s.user}</div><div>⏰ ${s.schedule.heure}h${s.schedule.minute} - ${s.schedule.action === 1 ? 'MARCHE' : 'ARRÊT'}</div>${s.schedule.duree ? `<div>⏱️ Durée: ${s.schedule.duree} sec</div>` : ''}</div><button class="delete-user-btn" onclick="deleteUserSchedule('${s.id}')">🗑️</button></div>`).join('');
+        }
+
+        document.getElementById('cleanHistoryBtn')?.addEventListener('click', async () => {
+            if (!confirm('Supprimer tout l\'historique des commandes ?')) return;
+            await database.ref('historique').remove();
+            showNotification('✅ Historique nettoyé');
+        });
+
+        document.getElementById('exportAllUsersBtn')?.addEventListener('click', async () => {
+            const usersSnap = await database.ref('users').once('value');
+            const users = usersSnap.val();
+            let csv = "UID,Email,Rôle,Date création\n";
+            for (const [uid, data] of Object.entries(users || {})) {
+                csv += `${uid},${data.email || ''},${data.role || 'user'},${data.createdAt ? new Date(data.createdAt).toLocaleDateString() : ''}\n`;
+            }
+            const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'utilisateurs.csv';
+            link.click();
+            showNotification('✅ Export utilisateurs terminé');
+        });
+
+        document.getElementById('exportAllCommandsBtn')?.addEventListener('click', async () => {
+            const historySnap = await database.ref('historique').once('value');
+            const history = historySnap.val();
+            let csv = "Date,Heure,Commande,Appareil,Utilisateur\n";
+            for (const item of Object.values(history || {})) {
+                const date = new Date(item.timestamp);
+                csv += `${date.toLocaleDateString()},${date.toLocaleTimeString()},${item.valeur === 1 ? 'MARCHE' : 'ARRÊT'},${item.appareil},${item.utilisateur}\n`;
+            }
+            const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'commandes.csv';
+            link.click();
+            showNotification('✅ Export commandes terminé');
+        });
+
+        document.getElementById('exportBackupBtn')?.addEventListener('click', async () => {
+            const usersSnap = await database.ref('users').once('value');
+            const historySnap = await database.ref('historique').once('value');
+            const motorSnap = await database.ref('moteur').once('value');
+            const backup = { users: usersSnap.val(), historique: historySnap.val(), moteur: motorSnap.val(), date: new Date().toISOString() };
+            const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `backup_${Date.now()}.json`;
+            link.click();
+            showNotification('✅ Backup complet terminé');
+        });
+
+        document.getElementById('saveDelayBtn')?.addEventListener('click', async () => {
+            const delay = document.getElementById('commandDelay').value;
+            await database.ref('settings/commandDelay').set(parseInt(delay));
+            showNotification('✅ Paramètre sauvegardé');
+        });
+
+        document.querySelectorAll('.admin-tab').forEach(tab => {
+            tab.onclick = () => {
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                document.querySelectorAll('.admin-pane').forEach(pane => pane.classList.remove('active'));
+                document.getElementById(`admin${tab.dataset.tab.charAt(0).toUpperCase() + tab.dataset.tab.slice(1)}Pane`).classList.add('active');
+                if (tab.dataset.tab === 'dashboard') loadAdminDashboard();
+                if (tab.dataset.tab === 'users') loadUsers();
+                if (tab.dataset.tab === 'logs') loadLogs();
+                if (tab.dataset.tab === 'schedules') loadAllSchedules();
+            };
+        });
+
+        document.getElementById('createUserBtn')?.addEventListener('click', () => {
+            const email = document.getElementById('newUserEmail').value;
+            const role = document.getElementById('newUserRole').value;
+            if (!email) { showNotification('❌ Entrez un email', true); return; }
+            showNotification(`📧 Invitation envoyée à ${email} (doit s'inscrire)`);
+            document.getElementById('newUserEmail').value = '';
+        });
+
+        document.getElementById('clearLogsBtn')?.addEventListener('click', async () => {
+            if (!confirm('Effacer tous les logs ?')) return;
+            await database.ref('logs').remove();
+            loadLogs();
+            showNotification('✅ Logs effacés');
+        });
 
         // Auth
         const loginScreen = document.getElementById('loginScreen');
         const registerScreen = document.getElementById('registerScreen');
         const appScreen = document.querySelector('.main-content');
 
-        auth.onAuthStateChanged((user) => {
+        auth.onAuthStateChanged(async (user) => {
             if (user) {
+                const roleSnapshot = await database.ref(`users/${user.uid}/role`).once('value');
+                let role = roleSnapshot.val();
+                const usersSnapshot = await database.ref('users').once('value');
+                const userCount = usersSnapshot.numChildren();
+                if (!role) {
+                    role = userCount === 0 ? 'admin' : 'user';
+                    await database.ref(`users/${user.uid}`).set({ email: user.email, role: role, createdAt: Date.now() });
+                }
+                currentUserRole = role;
+
+                const userEmailSpan = document.getElementById('userEmail');
+                const badge = role === 'admin' ? '<span class="admin-badge">👑 Admin</span>' : '<span class="user-badge">👤 User</span>';
+                userEmailSpan.innerHTML = `${user.email} ${badge}`;
+
+                const adminMenuItem = document.getElementById('adminMenuItem');
+                if (adminMenuItem) adminMenuItem.style.display = role === 'admin' ? 'flex' : 'none';
+
                 loginScreen.style.display = 'none';
                 registerScreen.style.display = 'none';
                 appScreen.style.display = 'block';
-                document.getElementById('userEmail').textContent = user.email;
                 loadProfilePhoto();
                 loadSchedules();
                 initApp();
+
+                await database.ref('logs').push({ userId: user.uid, user: user.email, action: 'Connexion', timestamp: Date.now() });
             } else {
                 loginScreen.style.display = 'block';
                 registerScreen.style.display = 'none';
@@ -1335,8 +1854,9 @@
             const device = getDeviceType();
             try {
                 await database.ref('moteur/etat').set({ valeur: value, appareil: device, timestamp: Date.now() });
-                await database.ref('historique').push({ valeur: value, appareil: device, timestamp: Date.now() });
+                await database.ref('historique').push({ valeur: value, appareil: device, timestamp: Date.now(), utilisateur: auth.currentUser?.email });
                 showNotification(`✅ ${value === 1 ? 'MARCHE' : 'ARRÊT'} envoyé`);
+                await database.ref('logs').push({ userId: auth.currentUser?.uid, user: auth.currentUser?.email, action: value === 1 ? 'MARCHE' : 'ARRÊT', timestamp: Date.now() });
             } catch (e) { showNotification(`❌ Erreur`, true); }
         }
 
@@ -1411,9 +1931,6 @@
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.onclick = () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; updateHistoryDisplay(); };
         });
-
-        setInterval(checkSchedules, 60000);
-        setInterval(() => { if (Object.keys(scheduledStops).length > 0) checkSchedules(); }, 1000);
 
         function initApp() {
             document.getElementById('btnOn').onclick = () => sendCommand(1);
