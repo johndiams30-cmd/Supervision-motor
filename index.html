@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Pro IoT - Contrôle Moteur</title>
+    <title>Pro IoT - Contrôle Moteur Asynchrone</title>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
@@ -165,31 +165,52 @@
             border-left-color: white;
         }
 
-        /* Animation moteur */
-        .motor-animation {
+        /* MOTEUR ASYNCHRONE REALISTE */
+        .motor-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            gap: 40px;
-            flex-wrap: wrap;
             margin: 20px 0;
         }
 
-        .motor-icon {
-            width: 100px;
-            height: 100px;
+        .motor-image {
+            width: 200px;
+            height: 200px;
+            background: #555;
+            border-radius: 20px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 60px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: all 0.3s;
         }
 
-        .motor-spinning {
-            animation: spin 0.8s linear infinite;
+        .motor-image img {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
         }
 
-        @keyframes spin {
+        .motor-fan {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: #c0c0c0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            transition: all 0.3s;
+        }
+
+        .motor-spinning-fan {
+            animation: spinFan 0.5s linear infinite;
+        }
+
+        @keyframes spinFan {
             from {
                 transform: rotate(0deg);
             }
@@ -199,38 +220,102 @@
             }
         }
 
-        /* Ampoule */
-        .bulb {
+        .motor-label {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* LAMPE A INCANDESCENCE REALISTE */
+        .lamp-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .lamp-image {
+            width: 120px;
+            height: 180px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lamp-bulb {
             width: 80px;
             height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 50px;
+            background: radial-gradient(circle, #fff8e0, #ffe4a0);
+            border-radius: 50% 50% 40% 40%;
+            position: relative;
             transition: all 0.3s;
         }
 
-        .bulb-off {
-            filter: grayscale(1);
-            opacity: 0.5;
+        .lamp-bulb::before {
+            content: "💡";
+            font-size: 45px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
-        .bulb-on {
-            filter: drop-shadow(0 0 20px #ffeb3b);
-            animation: pulse 1s infinite;
+        .lamp-bulb-off {
+            background: #888;
+            box-shadow: none;
+            filter: grayscale(0.8);
         }
 
-        @keyframes pulse {
+        .lamp-bulb-on {
+            background: radial-gradient(circle, #fff8e0, #ffe4a0, #ffcc00);
+            box-shadow: 0 0 40px #ffcc00, 0 0 80px #ffaa00;
+            animation: lampPulse 1s infinite;
+        }
+
+        @keyframes lampPulse {
 
             0%,
             100% {
-                transform: scale(1);
+                opacity: 1;
+                box-shadow: 0 0 40px #ffcc00;
             }
 
             50% {
-                transform: scale(1.05);
+                opacity: 0.9;
+                box-shadow: 0 0 60px #ffaa00, 0 0 20px #ffcc00;
             }
+        }
+
+        .lamp-base {
+            width: 30px;
+            height: 40px;
+            background: #b0b0b0;
+            border-radius: 5px 5px 10px 10px;
+            margin-top: -5px;
+        }
+
+        .lamp-wire {
+            width: 4px;
+            height: 30px;
+            background: #888;
+            margin-bottom: 5px;
+        }
+
+        .lamp-label {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        /* Layout moteur + lampe */
+        .equipment-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            margin: 20px 0;
         }
 
         .led {
@@ -238,16 +323,7 @@
             height: 100px;
             border-radius: 50%;
             margin: 20px auto;
-        }
-
-        .led-on {
-            background: radial-gradient(circle at 30% 30%, #fff, #ffeb3b, #ffaa00);
-            box-shadow: 0 0 30px #ffeb3b;
-            animation: pulse 1s infinite;
-        }
-
-        .led-off {
-            background: radial-gradient(circle at 30% 30%, #ccc, #999);
+            display: none;
         }
 
         .motor-status {
@@ -545,6 +621,20 @@
             .btn {
                 width: 100%;
             }
+
+            .equipment-row {
+                gap: 30px;
+            }
+
+            .motor-image {
+                width: 150px;
+                height: 150px;
+            }
+
+            .motor-image img {
+                width: 100px;
+                height: 100px;
+            }
         }
     </style>
 </head>
@@ -555,7 +645,7 @@
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h2>🔧 Pro Moteur IoT</h2>
-            <p>Professional Control System</p>
+            <p>Moteur Asynchrone - Lampe Incandescente</p>
         </div>
         <div class="nav-item active" data-page="dashboard">📊 Tableau de bord</div>
         <div class="nav-item" data-page="control">🎮 Contrôle moteur</div>
@@ -603,12 +693,29 @@
             </div>
 
             <div class="card motor-card">
-                <h3>⚙️ État du moteur</h3>
-                <div class="motor-animation">
-                    <div class="motor-icon" id="motorIcon">⚙️</div>
-                    <div class="bulb bulb-off" id="bulbIcon">💡</div>
+                <h3>⚙️ MOTEUR ASYNCHRONE TRIPHASÉ</h3>
+
+                <div class="equipment-row">
+                    <!-- MOTEUR ASYNCHRONE -->
+                    <div class="motor-container">
+                        <div class="motor-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3796/3796993.png" alt="Moteur Asynchrone">
+                            <div class="motor-fan" id="motorFan">⚙️</div>
+                        </div>
+                        <div class="motor-label">Moteur Asynchrone 3 phases</div>
+                    </div>
+
+                    <!-- LAMPE INCANDESCENTE -->
+                    <div class="lamp-container">
+                        <div class="lamp-image">
+                            <div class="lamp-wire"></div>
+                            <div class="lamp-bulb lamp-bulb-off" id="incandescentLamp"></div>
+                            <div class="lamp-base"></div>
+                        </div>
+                        <div class="lamp-label">Lampe à incandescence 100W</div>
+                    </div>
                 </div>
-                <div class="led led-off" id="led"></div>
+
                 <div class="motor-status" id="motorStatus">ARRÊT</div>
                 <div class="btn-group">
                     <button class="btn btn-primary" id="btnOn">🟢 MARCHE</button>
@@ -619,34 +726,40 @@
 
             <div class="card">
                 <h3>📱 Dernière activité</h3>
-                <div class="info-row">
-                    <span class="info-label">Commande</span>
-                    <span class="info-value" id="lastCommand">-</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Appareil</span>
-                    <span class="info-value" id="lastDevice">-</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Date/Heure</span>
-                    <span class="info-value" id="lastTime">-</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Temps fonctionnement</span>
-                    <span class="info-value" id="runTimeDisplay">0s</span>
-                </div>
+                <div class="info-row"><span class="info-label">Commande</span><span class="info-value"
+                        id="lastCommand">-</span></div>
+                <div class="info-row"><span class="info-label">Appareil</span><span class="info-value"
+                        id="lastDevice">-</span></div>
+                <div class="info-row"><span class="info-label">Date/Heure</span><span class="info-value"
+                        id="lastTime">-</span></div>
+                <div class="info-row"><span class="info-label">Temps fonctionnement</span><span class="info-value"
+                        id="runTimeDisplay">0s</span></div>
             </div>
         </div>
 
         <!-- Contrôle -->
         <div id="controlPage" class="page">
             <div class="card motor-card">
-                <h3>🎮 Contrôle moteur</h3>
-                <div class="motor-animation">
-                    <div class="motor-icon" id="motorIcon2">⚙️</div>
-                    <div class="bulb bulb-off" id="bulbIcon2">💡</div>
+                <h3>🎮 Contrôle Moteur Asynchrone</h3>
+
+                <div class="equipment-row">
+                    <div class="motor-container">
+                        <div class="motor-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3796/3796993.png" alt="Moteur Asynchrone">
+                            <div class="motor-fan" id="motorFan2">⚙️</div>
+                        </div>
+                        <div class="motor-label">Moteur Asynchrone 3 phases</div>
+                    </div>
+                    <div class="lamp-container">
+                        <div class="lamp-image">
+                            <div class="lamp-wire"></div>
+                            <div class="lamp-bulb lamp-bulb-off" id="incandescentLamp2"></div>
+                            <div class="lamp-base"></div>
+                        </div>
+                        <div class="lamp-label">Lampe à incandescence 100W</div>
+                    </div>
                 </div>
-                <div class="led led-off" id="led2"></div>
+
                 <div class="motor-status" id="motorStatus2">ARRÊT</div>
                 <div class="btn-group">
                     <button class="btn btn-primary" id="btnOn2">🟢 MARCHE</button>
@@ -719,14 +832,10 @@
                 <div style="text-align:center">
                     <img id="profileBigPhoto" src="https://via.placeholder.com/150"
                         style="width:150px;height:150px;border-radius:50%;object-fit:cover;border:4px solid #2b7be4;margin:20px auto;cursor:pointer">
-                    <div class="info-row">
-                        <span class="info-label">📧 Email</span>
-                        <span class="info-value" id="profileEmail">-</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">👑 Rôle</span>
-                        <span class="info-value" id="profileRole">-</span>
-                    </div>
+                    <div class="info-row"><span class="info-label">📧 Email</span><span class="info-value"
+                            id="profileEmail">-</span></div>
+                    <div class="info-row"><span class="info-label">👑 Rôle</span><span class="info-value"
+                            id="profileRole">-</span></div>
                     <button class="btn btn-secondary" id="changePhotoBtn">📷 Changer ma photo</button>
                     <input type="file" id="profilePhotoUpload" accept="image/*" style="display:none">
                 </div>
@@ -745,8 +854,8 @@
         <div id="aboutPage" class="page">
             <div class="card">
                 <h3>ℹ️ À propos</h3>
-                <p>Projet IoT - Contrôle Moteur</p>
-                <p>Version 6.0 - Avec commande vocale, synthèse vocale, animations moteur et ampoule</p>
+                <p>Projet IoT - Contrôle Moteur Asynchrone</p>
+                <p>Version 7.0 - Moteur 3 phases + Lampe incandescence</p>
             </div>
         </div>
     </div>
@@ -802,67 +911,50 @@
         let currentUserRole = 'user';
         let recognition = null;
         let synth = null;
-        let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-        // Synthèse vocale (fonctionne sur mobile après interaction utilisateur)
-        function speak(text, onEnd = null) {
+        // Synthèse vocale
+        function speak(text) {
             if (!synth) {
                 synth = window.speechSynthesis;
             }
-
-            // Annuler toute parole en cours
             synth.cancel();
-
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'fr-FR';
             utterance.rate = 0.9;
             utterance.pitch = 1;
-
-            if (onEnd) {
-                utterance.onend = onEnd;
-            }
-
-            // Sur mobile, attendre que la synthèse soit prête
-            setTimeout(() => {
-                synth.speak(utterance);
-            }, 100);
+            setTimeout(() => synth.speak(utterance), 100);
         }
 
-        // Mise à jour des animations
+        // Mise à jour des animations (moteur + lampe)
         function updateAnimations(state) {
-            const motorIcons = document.querySelectorAll('#motorIcon, #motorIcon2');
-            const bulbIcons = document.querySelectorAll('#bulbIcon, #bulbIcon2');
-            const ledElements = document.querySelectorAll('#led, #led2');
+            const motorFans = document.querySelectorAll('#motorFan, #motorFan2');
+            const lamps = document.querySelectorAll('#incandescentLamp, #incandescentLamp2');
             const statusElements = document.querySelectorAll('#motorStatus, #motorStatus2');
 
-            motorIcons.forEach(el => {
+            motorFans.forEach(fan => {
                 if (state === 1) {
-                    el.classList.add('motor-spinning');
+                    fan.classList.add('motor-spinning-fan');
                 } else {
-                    el.classList.remove('motor-spinning');
+                    fan.classList.remove('motor-spinning-fan');
                 }
             });
 
-            bulbIcons.forEach(el => {
+            lamps.forEach(lamp => {
                 if (state === 1) {
-                    el.classList.remove('bulb-off');
-                    el.classList.add('bulb-on');
+                    lamp.classList.remove('lamp-bulb-off');
+                    lamp.classList.add('lamp-bulb-on');
                 } else {
-                    el.classList.remove('bulb-on');
-                    el.classList.add('bulb-off');
+                    lamp.classList.remove('lamp-bulb-on');
+                    lamp.classList.add('lamp-bulb-off');
                 }
-            });
-
-            ledElements.forEach(el => {
-                el.className = state === 1 ? 'led led-on' : 'led led-off';
             });
 
             statusElements.forEach(el => {
-                el.innerHTML = state === 1 ? 'MARCHE ✅' : 'ARRÊT ❌';
+                el.innerHTML = state === 1 ? '🟢 MOTEUR EN MARCHE' : '🔴 MOTEUR À L\'ARRÊT';
             });
         }
 
-        // Commande vocale avec synthèse vocale
+        // Commande vocale avec reconnaissance des mots "arrêt" et "marche"
         function initVoiceRecognition() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -882,7 +974,7 @@
             recognition.maxAlternatives = 1;
 
             async function startVoiceCommand(button) {
-                // Demander la permission microphone si nécessaire
+                // Demander la permission microphone
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                     stream.getTracks().forEach(track => track.stop());
@@ -894,8 +986,9 @@
                 const originalText = button.innerHTML;
                 button.innerHTML = '🎤 Écoutez...';
 
-                // Message vocal de début
-                speak("Je vous écoute, dites Marche ou Arrêt", () => {
+                speak("Je vous écoute, dites Marche ou Arrêt");
+
+                setTimeout(() => {
                     try {
                         recognition.start();
                     } catch (e) {
@@ -903,7 +996,7 @@
                         button.classList.remove('listening');
                         button.innerHTML = originalText;
                     }
-                });
+                }, 500);
 
                 recognition.onresult = (event) => {
                     const transcript = event.results[0][0].transcript.toLowerCase();
@@ -912,24 +1005,30 @@
                     let command = null;
                     let responseText = "";
 
+                    // Détection de la commande MARCHE
                     if (transcript.includes('marche') || transcript.includes('allume') ||
                         transcript.includes('activer') || transcript.includes('démarrer') ||
-                        transcript.includes('on')) {
+                        transcript.includes('on') || transcript.includes('march') ||
+                        transcript.includes('marches') || transcript.includes('marchee')) {
                         command = 1;
-                        responseText = "Commande reçue, je démarre le moteur";
+                        responseText = "Commande reçue, je démarre le moteur asynchrone";
                         showNotification('🎤 Commande vocale: MARCHE');
-                    } else if (transcript.includes('arrêt') || transcript.includes('éteint') ||
+                    }
+                    // Détection de la commande ARRÊT
+                    else if (transcript.includes('arrêt') || transcript.includes('éteint') ||
                         transcript.includes('désactiver') || transcript.includes('couper') ||
-                        transcript.includes('stop') || transcript.includes('off')) {
+                        transcript.includes('stop') || transcript.includes('off') ||
+                        transcript.includes('arete') || transcript.includes('arret') ||
+                        transcript.includes('eteint') || transcript.includes('eteindre')) {
                         command = 0;
-                        responseText = "Commande reçue, j'arrête le moteur";
+                        responseText = "Commande reçue, j'arrête le moteur asynchrone";
                         showNotification('🎤 Commande vocale: ARRÊT');
-                    } else {
+                    }
+                    else {
                         responseText = "Désolé, commande non reconnue. Dites Marche ou Arrêt";
                         showNotification(`🎤 Non reconnu: "${transcript}"`, true);
                     }
 
-                    // Réponse vocale
                     speak(responseText);
 
                     if (command !== null) {
@@ -965,7 +1064,6 @@
             }
 
             document.querySelectorAll('.btn-voice').forEach(btn => {
-                // Supprimer les anciens écouteurs
                 const newBtn = btn.cloneNode(true);
                 btn.parentNode.replaceChild(newBtn, btn);
                 newBtn.addEventListener('click', () => startVoiceCommand(newBtn));
@@ -1021,7 +1119,7 @@
         }
 
         async function sendCommand(value) {
-            const device = isMobile ? "📱 Mobile" : "💻 PC";
+            const device = /mobile|android|iphone/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
             try {
                 await database.ref('moteur/etat').set({ valeur: value, appareil: device, timestamp: Date.now() });
                 await database.ref('historique').push({ valeur: value, appareil: device, timestamp: Date.now(), utilisateur: auth.currentUser?.email });
@@ -1226,9 +1324,8 @@
                 initVoiceRecognition();
                 initTheme();
 
-                // Message de bienvenue vocal
                 setTimeout(() => {
-                    speak("Bienvenue dans le système de contrôle moteur");
+                    speak("Bienvenue dans le système de contrôle du moteur asynchrone");
                 }, 1000);
             } else {
                 loginScreen.style.display = 'block';
