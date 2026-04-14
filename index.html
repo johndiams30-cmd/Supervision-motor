@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Pro IoT - Contrôle Moteur Asynchrone</title>
+    <title>Pro IoT - Moteur Industriel & Lampe</title>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
@@ -38,9 +38,7 @@
 
         body.dark-mode .stat-card,
         body.dark-mode .history-item,
-        body.dark-mode .schedule-item,
-        body.dark-mode .user-item,
-        body.dark-mode .log-item {
+        body.dark-mode .schedule-item {
             background: #2a2a3e;
         }
 
@@ -160,170 +158,216 @@
             text-align: center;
         }
 
-        .motor-card h3 {
-            color: white;
-            border-left-color: white;
-        }
-
-        /* MOTEUR ASYNCHRONE REALISTE */
-        .motor-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 20px 0;
-        }
-
-        .motor-image {
-            width: 200px;
-            height: 200px;
-            background: #555;
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        /* MOTEUR INDUSTRIEL REALISTE */
+        .industrial-motor {
+            display: inline-block;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s;
+            width: 280px;
+            height: 280px;
+            margin: 20px auto;
         }
 
-        .motor-image img {
-            width: 150px;
-            height: 150px;
-            object-fit: contain;
+        .motor-body {
+            width: 220px;
+            height: 180px;
+            background: linear-gradient(145deg, #c0c0c0, #a0a0a0);
+            border-radius: 60px 60px 40px 40px;
+            position: relative;
+            margin: 30px auto;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border: 2px solid #888;
         }
 
-        .motor-fan {
+        .motor-body::before {
+            content: "";
             position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 80px;
-            height: 80px;
-            background: #c0c0c0;
+            height: 40px;
+            background: #b0b0b0;
+            border-radius: 20px 20px 10px 10px;
+            border: 1px solid #888;
+        }
+
+        .motor-coils {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .coil {
+            width: 35px;
+            height: 50px;
+            background: repeating-linear-gradient(45deg, #8B4513, #8B4513 5px, #A0522D 5px, #A0522D 10px);
+            border-radius: 5px;
+            border: 1px solid #654321;
+        }
+
+        .motor-shaft {
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 20px;
+            background: linear-gradient(90deg, #666, #999);
+            border-radius: 5px;
+        }
+
+        .motor-shaft::after {
+            content: "⚙️";
+            position: absolute;
+            right: -25px;
+            top: -15px;
+            font-size: 45px;
+        }
+
+        .motor-fan-blades {
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 70px;
+            height: 70px;
+            background: #aaa;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 50px;
-            transition: all 0.3s;
+            transition: all 0.1s linear;
         }
 
-        .motor-spinning-fan {
-            animation: spinFan 0.5s linear infinite;
+        .spinning {
+            animation: spinMotor 0.3s linear infinite;
         }
 
-        @keyframes spinFan {
+        @keyframes spinMotor {
             from {
-                transform: rotate(0deg);
+                transform: translateY(-50%) rotate(0deg);
             }
 
             to {
-                transform: rotate(360deg);
+                transform: translateY(-50%) rotate(360deg);
             }
         }
 
         .motor-label {
-            margin-top: 10px;
+            margin-top: 15px;
             font-weight: bold;
             font-size: 14px;
         }
 
-        /* LAMPE A INCANDESCENCE REALISTE */
-        .lamp-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 20px 0;
-        }
-
-        .lamp-image {
-            width: 120px;
-            height: 180px;
+        /* LAMPE INCANDESCENTE AGRANDIE */
+        .industrial-lamp {
+            display: inline-block;
             position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            width: 200px;
+            height: 280px;
+            margin: 20px auto;
         }
 
-        .lamp-bulb {
-            width: 80px;
-            height: 80px;
+        .lamp-wire-cord {
+            width: 4px;
+            height: 60px;
+            background: #666;
+            margin: 0 auto;
+        }
+
+        .lamp-glass {
+            width: 140px;
+            height: 140px;
             background: radial-gradient(circle, #fff8e0, #ffe4a0);
-            border-radius: 50% 50% 40% 40%;
+            border-radius: 50% 50% 45% 45%;
+            margin: 0 auto;
             position: relative;
             transition: all 0.3s;
+            cursor: pointer;
         }
 
-        .lamp-bulb::before {
-            content: "💡";
-            font-size: 45px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .lamp-bulb-off {
+        .lamp-glass-off {
             background: #888;
-            box-shadow: none;
             filter: grayscale(0.8);
+            box-shadow: none;
         }
 
-        .lamp-bulb-on {
-            background: radial-gradient(circle, #fff8e0, #ffe4a0, #ffcc00);
-            box-shadow: 0 0 40px #ffcc00, 0 0 80px #ffaa00;
-            animation: lampPulse 1s infinite;
+        .lamp-glass-on {
+            background: radial-gradient(circle, #fff8e0, #ffe4a0, #ffcc00, #ffaa00);
+            box-shadow: 0 0 60px #ffcc00, 0 0 100px #ffaa00;
+            animation: lampGlow 1s infinite;
         }
 
-        @keyframes lampPulse {
+        @keyframes lampGlow {
 
             0%,
             100% {
                 opacity: 1;
-                box-shadow: 0 0 40px #ffcc00;
+                box-shadow: 0 0 60px #ffcc00;
             }
 
             50% {
-                opacity: 0.9;
-                box-shadow: 0 0 60px #ffaa00, 0 0 20px #ffcc00;
+                opacity: 0.85;
+                box-shadow: 0 0 80px #ffaa00, 0 0 30px #ffcc00;
             }
         }
 
-        .lamp-base {
+        .lamp-filament {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 30px;
-            height: 40px;
-            background: #b0b0b0;
-            border-radius: 5px 5px 10px 10px;
-            margin-top: -5px;
+            height: 30px;
+            background: #ff6600;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.3s;
         }
 
-        .lamp-wire {
-            width: 4px;
-            height: 30px;
-            background: #888;
-            margin-bottom: 5px;
+        .lamp-filament-on {
+            opacity: 0.8;
+            box-shadow: 0 0 20px #ff4400;
+            animation: filamentPulse 0.5s infinite;
+        }
+
+        @keyframes filamentPulse {
+
+            0%,
+            100% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .lamp-base-metal {
+            width: 50px;
+            height: 40px;
+            background: linear-gradient(90deg, #b0b0b0, #d0d0d0, #b0b0b0);
+            border-radius: 5px 5px 15px 15px;
+            margin: -5px auto 0;
+            border: 1px solid #888;
         }
 
         .lamp-label {
-            margin-top: 10px;
+            margin-top: 15px;
             font-weight: bold;
-            font-size: 12px;
+            font-size: 14px;
         }
 
-        /* Layout moteur + lampe */
+        /* Layout */
         .equipment-row {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 60px;
+            gap: 80px;
             flex-wrap: wrap;
-            margin: 20px 0;
-        }
-
-        .led {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin: 20px auto;
-            display: none;
+            margin: 30px 0;
         }
 
         .motor-status {
@@ -484,6 +528,90 @@
             gap: 10px;
         }
 
+        .schedule-time {
+            font-weight: bold;
+            color: #2b7be4;
+            font-size: 16px;
+        }
+
+        .schedule-period {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background: #e8f0fe;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .schedule-duration {
+            font-size: 11px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .schedule-action {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .schedule-action.on {
+            background: #00b09b;
+            color: white;
+        }
+
+        .schedule-action.off {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .schedule-delete {
+            background: #ff6b6b;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 400px;
+            margin: auto;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-content select,
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .row-2 {
+            display: flex;
+            gap: 10px;
+        }
+
         .password-wrapper {
             position: relative;
             width: 100%;
@@ -626,12 +754,17 @@
                 gap: 30px;
             }
 
-            .motor-image {
-                width: 150px;
-                height: 150px;
+            .industrial-motor {
+                width: 220px;
+                height: 220px;
             }
 
-            .motor-image img {
+            .industrial-lamp {
+                width: 150px;
+                height: 220px;
+            }
+
+            .lamp-glass {
                 width: 100px;
                 height: 100px;
             }
@@ -645,7 +778,7 @@
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h2>🔧 Pro Moteur IoT</h2>
-            <p>Moteur Asynchrone - Lampe Incandescente</p>
+            <p>Moteur Industriel - Lampe Incandescente</p>
         </div>
         <div class="nav-item active" data-page="dashboard">📊 Tableau de bord</div>
         <div class="nav-item" data-page="control">🎮 Contrôle moteur</div>
@@ -693,26 +826,31 @@
             </div>
 
             <div class="card motor-card">
-                <h3>⚙️ MOTEUR ASYNCHRONE TRIPHASÉ</h3>
+                <h3>⚙️ MOTEUR INDUSTRIEL ASYNCHRONE</h3>
 
                 <div class="equipment-row">
-                    <!-- MOTEUR ASYNCHRONE -->
-                    <div class="motor-container">
-                        <div class="motor-image">
-                            <img src="https://cdn-icons-png.flaticon.com/512/3796/3796993.png" alt="Moteur Asynchrone">
-                            <div class="motor-fan" id="motorFan">⚙️</div>
+                    <!-- MOTEUR INDUSTRIEL -->
+                    <div class="industrial-motor">
+                        <div class="motor-body">
+                            <div class="motor-coils">
+                                <div class="coil"></div>
+                                <div class="coil"></div>
+                                <div class="coil"></div>
+                            </div>
+                            <div class="motor-shaft"></div>
+                            <div class="motor-fan-blades" id="motorFanBlades">⚙️</div>
                         </div>
-                        <div class="motor-label">Moteur Asynchrone 3 phases</div>
+                        <div class="motor-label">Moteur Asynchrone Triphasé 15kW</div>
                     </div>
 
-                    <!-- LAMPE INCANDESCENTE -->
-                    <div class="lamp-container">
-                        <div class="lamp-image">
-                            <div class="lamp-wire"></div>
-                            <div class="lamp-bulb lamp-bulb-off" id="incandescentLamp"></div>
-                            <div class="lamp-base"></div>
+                    <!-- LAMPE INCANDESCENTE AGRANDIE -->
+                    <div class="industrial-lamp">
+                        <div class="lamp-wire-cord"></div>
+                        <div class="lamp-glass lamp-glass-off" id="lampGlass">
+                            <div class="lamp-filament" id="lampFilament"></div>
                         </div>
-                        <div class="lamp-label">Lampe à incandescence 100W</div>
+                        <div class="lamp-base-metal"></div>
+                        <div class="lamp-label">Lampe Incandescente 150W</div>
                     </div>
                 </div>
 
@@ -740,26 +878,29 @@
         <!-- Contrôle -->
         <div id="controlPage" class="page">
             <div class="card motor-card">
-                <h3>🎮 Contrôle Moteur Asynchrone</h3>
-
+                <h3>🎮 Contrôle Moteur Industriel</h3>
                 <div class="equipment-row">
-                    <div class="motor-container">
-                        <div class="motor-image">
-                            <img src="https://cdn-icons-png.flaticon.com/512/3796/3796993.png" alt="Moteur Asynchrone">
-                            <div class="motor-fan" id="motorFan2">⚙️</div>
+                    <div class="industrial-motor">
+                        <div class="motor-body">
+                            <div class="motor-coils">
+                                <div class="coil"></div>
+                                <div class="coil"></div>
+                                <div class="coil"></div>
+                            </div>
+                            <div class="motor-shaft"></div>
+                            <div class="motor-fan-blades" id="motorFanBlades2">⚙️</div>
                         </div>
-                        <div class="motor-label">Moteur Asynchrone 3 phases</div>
+                        <div class="motor-label">Moteur Asynchrone Triphasé 15kW</div>
                     </div>
-                    <div class="lamp-container">
-                        <div class="lamp-image">
-                            <div class="lamp-wire"></div>
-                            <div class="lamp-bulb lamp-bulb-off" id="incandescentLamp2"></div>
-                            <div class="lamp-base"></div>
+                    <div class="industrial-lamp">
+                        <div class="lamp-wire-cord"></div>
+                        <div class="lamp-glass lamp-glass-off" id="lampGlass2">
+                            <div class="lamp-filament" id="lampFilament2"></div>
                         </div>
-                        <div class="lamp-label">Lampe à incandescence 100W</div>
+                        <div class="lamp-base-metal"></div>
+                        <div class="lamp-label">Lampe Incandescente 150W</div>
                     </div>
                 </div>
-
                 <div class="motor-status" id="motorStatus2">ARRÊT</div>
                 <div class="btn-group">
                     <button class="btn btn-primary" id="btnOn2">🟢 MARCHE</button>
@@ -819,9 +960,43 @@
         <div id="schedulePage" class="page">
             <div class="card">
                 <h3>⏰ Programmation horaire</h3>
+                <p style="margin-bottom:15px;color:#666;">Programmez des horaires automatiques</p>
                 <div id="scheduleList">Chargement...</div>
                 <button class="btn btn-secondary" id="addScheduleBtn" style="margin-top:15px; width:100%">➕ Ajouter un
                     horaire</button>
+            </div>
+        </div>
+
+        <div id="scheduleModal" class="modal">
+            <div class="modal-content">
+                <h3 id="modalTitle" style="color:#2b7be4;margin-bottom:15px;">Ajouter un horaire</h3>
+                <select id="scheduleType">
+                    <option value="recurring">🔄 Tous les jours</option>
+                    <option value="once">📅 Une seule fois</option>
+                    <option value="weekday">📆 Lundi au Vendredi</option>
+                    <option value="weekend">🎉 Samedi et Dimanche</option>
+                </select>
+                <div id="dateFields" style="display:none;"><input type="date" id="scheduleDate"></div>
+                <div class="row-2">
+                    <input type="number" id="scheduleHour" placeholder="Heure (0-23)" min="0" max="23">
+                    <input type="number" id="scheduleMinute" placeholder="Minute (0-59)" min="0" max="59">
+                </div>
+                <select id="scheduleAction">
+                    <option value="1">🟢 MARCHE</option>
+                    <option value="0">🔴 ARRÊT</option>
+                </select>
+                <div class="row-2">
+                    <input type="number" id="scheduleDurationValue" placeholder="Durée" min="0">
+                    <select id="scheduleDurationUnit">
+                        <option value="seconds">Secondes</option>
+                        <option value="minutes">Minutes</option>
+                        <option value="hours">Heures</option>
+                    </select>
+                </div>
+                <div style="display:flex;gap:10px;margin-top:15px;">
+                    <button id="saveScheduleBtn" class="btn btn-secondary" style="flex:1;">Enregistrer</button>
+                    <button id="closeModalBtn" class="btn" style="flex:1;background:#ddd;">Annuler</button>
+                </div>
             </div>
         </div>
 
@@ -854,8 +1029,8 @@
         <div id="aboutPage" class="page">
             <div class="card">
                 <h3>ℹ️ À propos</h3>
-                <p>Projet IoT - Contrôle Moteur Asynchrone</p>
-                <p>Version 7.0 - Moteur 3 phases + Lampe incandescence</p>
+                <p>Projet IoT - Contrôle Moteur Industriel</p>
+                <p>Version 8.0 - Moteur réel + Lampe incandescente agrandie</p>
             </div>
         </div>
     </div>
@@ -911,61 +1086,55 @@
         let currentUserRole = 'user';
         let recognition = null;
         let synth = null;
+        let schedules = [];
+        let scheduleCheckerInterval = null;
 
         // Synthèse vocale
         function speak(text) {
-            if (!synth) {
-                synth = window.speechSynthesis;
-            }
+            if (!synth) synth = window.speechSynthesis;
             synth.cancel();
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'fr-FR';
             utterance.rate = 0.9;
-            utterance.pitch = 1;
             setTimeout(() => synth.speak(utterance), 100);
         }
 
-        // Mise à jour des animations (moteur + lampe)
+        // Mise à jour animations moteur et lampe
         function updateAnimations(state) {
-            const motorFans = document.querySelectorAll('#motorFan, #motorFan2');
-            const lamps = document.querySelectorAll('#incandescentLamp, #incandescentLamp2');
+            const fans = document.querySelectorAll('#motorFanBlades, #motorFanBlades2');
+            const lamps = document.querySelectorAll('#lampGlass, #lampGlass2');
+            const filaments = document.querySelectorAll('#lampFilament, #lampFilament2');
             const statusElements = document.querySelectorAll('#motorStatus, #motorStatus2');
 
-            motorFans.forEach(fan => {
-                if (state === 1) {
-                    fan.classList.add('motor-spinning-fan');
-                } else {
-                    fan.classList.remove('motor-spinning-fan');
-                }
+            fans.forEach(fan => {
+                if (state === 1) fan.classList.add('spinning');
+                else fan.classList.remove('spinning');
             });
 
             lamps.forEach(lamp => {
                 if (state === 1) {
-                    lamp.classList.remove('lamp-bulb-off');
-                    lamp.classList.add('lamp-bulb-on');
+                    lamp.classList.remove('lamp-glass-off');
+                    lamp.classList.add('lamp-glass-on');
                 } else {
-                    lamp.classList.remove('lamp-bulb-on');
-                    lamp.classList.add('lamp-bulb-off');
+                    lamp.classList.remove('lamp-glass-on');
+                    lamp.classList.add('lamp-glass-off');
                 }
             });
 
+            filaments.forEach(fil => {
+                if (state === 1) fil.classList.add('lamp-filament-on');
+                else fil.classList.remove('lamp-filament-on');
+            });
+
             statusElements.forEach(el => {
-                el.innerHTML = state === 1 ? '🟢 MOTEUR EN MARCHE' : '🔴 MOTEUR À L\'ARRÊT';
+                el.innerHTML = state === 1 ? '🟢 MOTEUR EN MARCHE - LAMPE ALLUMÉE' : '🔴 MOTEUR À L\'ARRÊT - LAMPE ÉTEINTE';
             });
         }
 
-        // Commande vocale avec reconnaissance des mots "arrêt" et "marche"
+        // Commande vocale avec reconnaissance MARCHE et ARRÊT
         function initVoiceRecognition() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-            if (!SpeechRecognition) {
-                console.warn("Reconnaissance vocale non supportée");
-                document.querySelectorAll('.btn-voice').forEach(btn => {
-                    btn.disabled = true;
-                    btn.title = "Reconnaissance vocale non supportée";
-                });
-                return;
-            }
+            if (!SpeechRecognition) return;
 
             recognition = new SpeechRecognition();
             recognition.lang = 'fr-FR';
@@ -974,13 +1143,10 @@
             recognition.maxAlternatives = 1;
 
             async function startVoiceCommand(button) {
-                // Demander la permission microphone
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                     stream.getTracks().forEach(track => track.stop());
-                } catch (err) {
-                    console.log("Permission microphone:", err);
-                }
+                } catch (err) { }
 
                 button.classList.add('listening');
                 const originalText = button.innerHTML;
@@ -989,13 +1155,7 @@
                 speak("Je vous écoute, dites Marche ou Arrêt");
 
                 setTimeout(() => {
-                    try {
-                        recognition.start();
-                    } catch (e) {
-                        console.log("Erreur démarrage:", e);
-                        button.classList.remove('listening');
-                        button.innerHTML = originalText;
-                    }
+                    try { recognition.start(); } catch (e) { }
                 }, 500);
 
                 recognition.onresult = (event) => {
@@ -1003,58 +1163,49 @@
                     console.log("Commande reçue:", transcript);
 
                     let command = null;
-                    let responseText = "";
+                    let response = "";
 
-                    // Détection de la commande MARCHE
+                    // Détection MARCHE
                     if (transcript.includes('marche') || transcript.includes('allume') ||
                         transcript.includes('activer') || transcript.includes('démarrer') ||
-                        transcript.includes('on') || transcript.includes('march') ||
-                        transcript.includes('marches') || transcript.includes('marchee')) {
+                        transcript.includes('marches') || transcript.includes('on') ||
+                        transcript.includes('demarre') || transcript.includes('demarrer')) {
                         command = 1;
-                        responseText = "Commande reçue, je démarre le moteur asynchrone";
+                        response = "Commande reçue, je démarre le moteur industriel";
                         showNotification('🎤 Commande vocale: MARCHE');
                     }
-                    // Détection de la commande ARRÊT
-                    else if (transcript.includes('arrêt') || transcript.includes('éteint') ||
+                    // Détection ARRÊT (CORRIGÉ)
+                    else if (transcript.includes('arrêt') || transcript.includes('arret') ||
+                        transcript.includes('éteint') || transcript.includes('eteint') ||
                         transcript.includes('désactiver') || transcript.includes('couper') ||
                         transcript.includes('stop') || transcript.includes('off') ||
-                        transcript.includes('arete') || transcript.includes('arret') ||
-                        transcript.includes('eteint') || transcript.includes('eteindre')) {
+                        transcript.includes('arete') || transcript.includes('arreter') ||
+                        transcript.includes('éteindre') || transcript.includes('eteindre')) {
                         command = 0;
-                        responseText = "Commande reçue, j'arrête le moteur asynchrone";
+                        response = "Commande reçue, j'arrête le moteur industriel";
                         showNotification('🎤 Commande vocale: ARRÊT');
                     }
                     else {
-                        responseText = "Désolé, commande non reconnue. Dites Marche ou Arrêt";
+                        response = "Désolé, commande non reconnue. Dites Marche ou Arrêt";
                         showNotification(`🎤 Non reconnu: "${transcript}"`, true);
                     }
 
-                    speak(responseText);
+                    speak(response);
 
-                    if (command !== null) {
-                        sendCommand(command);
-                    }
+                    if (command !== null) sendCommand(command);
 
                     button.classList.remove('listening');
                     button.innerHTML = originalText;
                 };
 
                 recognition.onerror = (event) => {
-                    console.error("Erreur reconnaissance:", event.error);
+                    console.error("Erreur:", event.error);
                     button.classList.remove('listening');
                     button.innerHTML = originalText;
-
-                    let errorMsg = "";
-                    if (event.error === 'not-allowed') {
-                        errorMsg = "Microphone non autorisé. Vérifiez les permissions.";
-                    } else if (event.error === 'no-speech') {
-                        errorMsg = "Je n'ai rien entendu. Réessayez.";
-                    } else {
-                        errorMsg = `Erreur: ${event.error}`;
+                    if (event.error !== 'no-speech') {
+                        speak("Erreur de reconnaissance");
+                        showNotification(`🎤 Erreur: ${event.error}`, true);
                     }
-
-                    speak(errorMsg);
-                    showNotification(`🎤 ${errorMsg}`, true);
                 };
 
                 recognition.onend = () => {
@@ -1070,6 +1221,89 @@
             });
         }
 
+        // Programmation horaire
+        async function loadSchedules() {
+            const user = auth.currentUser;
+            if (!user) return;
+            const snapshot = await database.ref(`users/${user.uid}/schedules`).once('value');
+            const data = snapshot.val();
+            schedules = data ? Object.entries(data).map(([id, s]) => ({ id, ...s })) : [];
+            displaySchedules();
+        }
+
+        function formatDuration(seconds) {
+            if (!seconds) return '';
+            if (seconds >= 3600) return `${seconds / 3600} heure${seconds / 3600 > 1 ? 's' : ''}`;
+            if (seconds >= 60) return `${seconds / 60} minute${seconds / 60 > 1 ? 's' : ''}`;
+            return `${seconds} seconde${seconds > 1 ? 's' : ''}`;
+        }
+
+        function getTypeLabel(type) {
+            const labels = { recurring: 'Tous les jours', once: 'Unique', weekday: 'Lundi-Vendredi', weekend: 'Weekend' };
+            return labels[type] || type;
+        }
+
+        function displaySchedules() {
+            const container = document.getElementById('scheduleList');
+            if (!container) return;
+            if (schedules.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:20px;">Aucun horaire programmé</div>';
+                return;
+            }
+            container.innerHTML = schedules.map(s => `
+                <div class="schedule-item">
+                    <div>
+                        <div class="schedule-time">⏰ ${s.heure.toString().padStart(2, '0')}h${s.minute.toString().padStart(2, '0')}
+                            <span class="schedule-period">${getTypeLabel(s.type)}</span>
+                        </div>
+                        ${s.date ? `<div style="font-size:11px;color:#888;">📅 ${s.date}</div>` : ''}
+                        ${s.duration ? `<div class="schedule-duration">⏱️ Durée: ${formatDuration(s.duration)}</div>` : ''}
+                    </div>
+                    <div><span class="schedule-action ${s.action === 1 ? 'on' : 'off'}">${s.action === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}</span></div>
+                    <div><button class="schedule-delete" onclick="deleteSchedule('${s.id}')">🗑️</button></div>
+                </div>
+            `).join('');
+        }
+
+        window.deleteSchedule = async function (id) {
+            if (!confirm('Supprimer cet horaire ?')) return;
+            const user = auth.currentUser;
+            if (!user) return;
+            await database.ref(`users/${user.uid}/schedules/${id}`).remove();
+            await loadSchedules();
+            showNotification('🗑️ Horaire supprimé');
+        };
+
+        function checkSchedules() {
+            if (!auth.currentUser || schedules.length === 0) return;
+            const now = new Date();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            const today = now.getDay();
+            const todayStr = now.toISOString().split('T')[0];
+
+            schedules.forEach(schedule => {
+                const scheduleTime = schedule.heure * 60 + schedule.minute;
+                const lastExecKey = `lastExec_${schedule.id}_${todayStr}`;
+                if (localStorage.getItem(lastExecKey) === 'executed') return;
+
+                let shouldExecute = false;
+                switch (schedule.type) {
+                    case 'recurring': if (scheduleTime === currentTime) shouldExecute = true; break;
+                    case 'once': if (schedule.date === todayStr && scheduleTime === currentTime) shouldExecute = true; break;
+                    case 'weekday': if (today >= 1 && today <= 5 && scheduleTime === currentTime) shouldExecute = true; break;
+                    case 'weekend': if (today === 0 || today === 6 && scheduleTime === currentTime) shouldExecute = true; break;
+                }
+
+                if (shouldExecute) {
+                    sendCommand(schedule.action);
+                    localStorage.setItem(lastExecKey, 'executed');
+                    if (schedule.action === 1 && schedule.duration && schedule.duration > 0) {
+                        setTimeout(() => sendCommand(0), schedule.duration * 1000);
+                    }
+                }
+            });
+        }
+
         function navigateTo(page) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(page + 'Page').classList.add('active');
@@ -1078,6 +1312,7 @@
             const titles = { dashboard: 'Tableau de bord', control: 'Contrôle moteur', history: 'Historique', stats: 'Statistiques', export: 'Export', schedule: 'Programmation', profile: 'Mon profil', admin: 'Administration', about: 'À propos' };
             document.getElementById('pageTitle').textContent = titles[page];
             if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
+            if (page === 'schedule') loadSchedules();
         }
 
         document.querySelectorAll('.nav-item').forEach(item => {
@@ -1088,10 +1323,7 @@
         async function uploadProfilePhoto(file) {
             const user = auth.currentUser;
             if (!user) return;
-            if (file.size > 2 * 1024 * 1024) {
-                showNotification("❌ Photo trop grande", true);
-                return;
-            }
+            if (file.size > 2 * 1024 * 1024) { showNotification("❌ Photo trop grande", true); return; }
             const reader = new FileReader();
             reader.onloadend = async () => {
                 await database.ref(`users/${user.uid}/photo`).set({ data: reader.result });
@@ -1114,19 +1346,15 @@
             setTimeout(() => d.remove(), 3000);
         }
 
-        function formatDate(ts) {
-            return new Date(ts).toLocaleString('fr-FR');
-        }
+        function formatDate(ts) { return new Date(ts).toLocaleString('fr-FR'); }
 
         async function sendCommand(value) {
-            const device = /mobile|android|iphone/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
+            const device = /mobile/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
             try {
                 await database.ref('moteur/etat').set({ valeur: value, appareil: device, timestamp: Date.now() });
                 await database.ref('historique').push({ valeur: value, appareil: device, timestamp: Date.now(), utilisateur: auth.currentUser?.email });
                 showNotification(`✅ ${value === 1 ? 'MARCHE' : 'ARRÊT'} envoyé`);
-            } catch (e) {
-                showNotification(`❌ Erreur`, true);
-            }
+            } catch (e) { showNotification(`❌ Erreur`, true); }
         }
 
         function listenToMotorState() {
@@ -1157,8 +1385,7 @@
             const snap = await database.ref('historique').once('value');
             const data = snap.val();
             commandHistory = [];
-            onCount = 0;
-            offCount = 0;
+            onCount = offCount = 0;
             if (data) {
                 commandHistory = Object.values(data).reverse();
                 commandHistory.forEach(i => i.valeur === 1 ? onCount++ : offCount++);
@@ -1179,44 +1406,22 @@
             if (currentFilter === "on") filtered = commandHistory.filter(i => i.valeur === 1);
             if (currentFilter === "off") filtered = commandHistory.filter(i => i.valeur === 0);
             const list = document.getElementById('historyList');
-            if (!filtered.length) {
-                list.innerHTML = '<div style="text-align:center;padding:30px;">Aucune commande</div>';
-                return;
-            }
-            list.innerHTML = filtered.slice(0, 30).map(i => `
-                <div class="history-item">
-                    <div>
-                        <span class="${i.valeur === 1 ? 'history-on' : 'history-off'}">
-                            ${i.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}
-                        </span>
-                        <span style="font-size:10px;margin-left:8px;">${i.appareil || 'Inconnu'}</span>
-                    </div>
-                    <div class="timestamp">${formatDate(i.timestamp)}</div>
-                </div>
-            `).join('');
+            if (!filtered.length) { list.innerHTML = '<div style="text-align:center;padding:30px;">Aucune commande</div>'; return; }
+            list.innerHTML = filtered.slice(0, 30).map(i => `<div class="history-item"><div><span class="${i.valeur === 1 ? 'history-on' : 'history-off'}">${i.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}</span><span style="font-size:10px;margin-left:8px;">${i.appareil || 'Inconnu'}</span></div><div class="timestamp">${formatDate(i.timestamp)}</div></div>`).join('');
         }
 
         async function loadStats() {
             const snap = await database.ref('stats').once('value');
             const d = snap.val();
-            if (d) {
-                cycleCount = d.cycleCount || 0;
-                totalRunTimeSeconds = d.totalRunTime || 0;
-                document.getElementById('statCycles').textContent = cycleCount;
-            }
+            if (d) { cycleCount = d.cycleCount || 0; totalRunTimeSeconds = d.totalRunTime || 0; document.getElementById('statCycles').textContent = cycleCount; }
         }
 
-        async function saveStats() {
-            await database.ref('stats').set({ cycleCount, totalRunTime: totalRunTimeSeconds, lastUpdate: Date.now() });
-        }
+        async function saveStats() { await database.ref('stats').set({ cycleCount, totalRunTime: totalRunTimeSeconds, lastUpdate: Date.now() }); }
 
         function exportCSV() {
             if (!commandHistory.length) return showNotification('Aucune donnée', true);
             let csv = "Date,Heure,Commande,Appareil\n";
-            commandHistory.forEach(i => {
-                let d = new Date(i.timestamp);
-                csv += `${d.toLocaleDateString()},${d.toLocaleTimeString()},${i.valeur === 1 ? 'MARCHE' : 'ARRÊT'},${i.appareil}\n`;
-            });
+            commandHistory.forEach(i => { let d = new Date(i.timestamp); csv += `${d.toLocaleDateString()},${d.toLocaleTimeString()},${i.valeur === 1 ? 'MARCHE' : 'ARRÊT'},${i.appareil}\n`; });
             let link = document.createElement('a');
             link.href = URL.createObjectURL(new Blob(["\uFEFF" + csv], { type: 'text/csv' }));
             link.download = `moteur_${Date.now()}.csv`;
@@ -1252,6 +1457,7 @@
             listenToMotorState();
             loadHistory();
             loadStats();
+            loadSchedules();
             setInterval(loadHistory, 5000);
             setInterval(saveStats, 10000);
             setInterval(() => {
@@ -1261,13 +1467,13 @@
                     const m = Math.floor((elapsed % 3600) / 60);
                     const s = elapsed % 60;
                     document.getElementById('runTimeDisplay').innerHTML = h > 0 ? `${h}h ${m}m` : m > 0 ? `${m}m ${s}s` : `${s}s`;
-                } else {
-                    document.getElementById('runTimeDisplay').innerHTML = '0s';
-                }
+                } else { document.getElementById('runTimeDisplay').innerHTML = '0s'; }
             }, 1000);
+            if (scheduleCheckerInterval) clearInterval(scheduleCheckerInterval);
+            scheduleCheckerInterval = setInterval(checkSchedules, 60000);
+            checkSchedules();
         }
 
-        // Thème
         function initTheme() {
             if (localStorage.getItem('theme') === 'dark') {
                 document.body.classList.add('dark-mode');
@@ -1281,7 +1487,6 @@
             document.getElementById('themeToggleBtn').innerHTML = isDark ? '☀️ Thème clair' : '🌙 Thème sombre';
         });
 
-        // Password toggle
         document.querySelectorAll('.toggle-password').forEach(btn => {
             btn.addEventListener('click', () => {
                 const input = document.getElementById(btn.dataset.target);
@@ -1289,6 +1494,50 @@
                 btn.innerHTML = input.type === 'password' ? '👁️' : '🙈';
             });
         });
+
+        // Modal
+        document.getElementById('scheduleType').onchange = function () {
+            document.getElementById('dateFields').style.display = this.value === 'once' ? 'block' : 'none';
+        };
+        document.getElementById('addScheduleBtn').onclick = () => {
+            document.getElementById('scheduleType').value = 'recurring';
+            document.getElementById('dateFields').style.display = 'none';
+            document.getElementById('scheduleHour').value = '';
+            document.getElementById('scheduleMinute').value = '';
+            document.getElementById('scheduleAction').value = '1';
+            document.getElementById('scheduleDurationValue').value = '';
+            document.getElementById('scheduleModal').style.display = 'flex';
+        };
+        document.getElementById('closeModalBtn').onclick = () => document.getElementById('scheduleModal').style.display = 'none';
+        document.getElementById('saveScheduleBtn').onclick = async () => {
+            const type = document.getElementById('scheduleType').value;
+            const heure = parseInt(document.getElementById('scheduleHour').value);
+            const minute = parseInt(document.getElementById('scheduleMinute').value);
+            const action = parseInt(document.getElementById('scheduleAction').value);
+            const durationValue = document.getElementById('scheduleDurationValue').value;
+            const durationUnit = document.getElementById('scheduleDurationUnit').value;
+            if (isNaN(heure) || isNaN(minute)) { showNotification('❌ Heure requise', true); return; }
+            let scheduleData = { type, heure, minute, action, durationValue: durationValue ? parseInt(durationValue) : null, durationUnit };
+            if (type === 'once') {
+                const date = document.getElementById('scheduleDate').value;
+                if (!date) { showNotification('❌ Date requise', true); return; }
+                scheduleData.date = date;
+            }
+            const user = auth.currentUser;
+            if (!user) return;
+            if (scheduleData.durationValue && scheduleData.durationValue > 0) {
+                const val = parseInt(scheduleData.durationValue);
+                if (scheduleData.durationUnit === 'minutes') scheduleData.duration = val * 60;
+                else if (scheduleData.durationUnit === 'hours') scheduleData.duration = val * 3600;
+                else scheduleData.duration = val;
+                delete scheduleData.durationValue;
+                delete scheduleData.durationUnit;
+            } else { scheduleData.duration = null; delete scheduleData.durationValue; delete scheduleData.durationUnit; }
+            await database.ref(`users/${user.uid}/schedules`).push(scheduleData);
+            await loadSchedules();
+            showNotification('✅ Horaire enregistré');
+            document.getElementById('scheduleModal').style.display = 'none';
+        };
 
         // Auth
         const loginScreen = document.getElementById('loginScreen');
@@ -1323,11 +1572,9 @@
                 initApp();
                 initVoiceRecognition();
                 initTheme();
-
-                setTimeout(() => {
-                    speak("Bienvenue dans le système de contrôle du moteur asynchrone");
-                }, 1000);
+                speak("Bienvenue dans le système de contrôle du moteur industriel");
             } else {
+                if (scheduleCheckerInterval) clearInterval(scheduleCheckerInterval);
                 loginScreen.style.display = 'block';
                 registerScreen.style.display = 'none';
                 appScreen.style.display = 'none';
@@ -1335,29 +1582,15 @@
         });
 
         document.getElementById('doLogin').onclick = async () => {
-            try {
-                await auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value);
-                document.getElementById('loginError').textContent = '';
-            } catch (e) {
-                document.getElementById('loginError').textContent = e.message;
-            }
+            try { await auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value); document.getElementById('loginError').textContent = ''; }
+            catch (e) { document.getElementById('loginError').textContent = e.message; }
         };
         document.getElementById('doRegister').onclick = async () => {
-            try {
-                await auth.createUserWithEmailAndPassword(document.getElementById('registerEmail').value, document.getElementById('registerPassword').value);
-                document.getElementById('registerError').textContent = '';
-            } catch (e) {
-                document.getElementById('registerError').textContent = e.message;
-            }
+            try { await auth.createUserWithEmailAndPassword(document.getElementById('registerEmail').value, document.getElementById('registerPassword').value); document.getElementById('registerError').textContent = ''; }
+            catch (e) { document.getElementById('registerError').textContent = e.message; }
         };
-        document.getElementById('showRegister').onclick = () => {
-            loginScreen.style.display = 'none';
-            registerScreen.style.display = 'block';
-        };
-        document.getElementById('showLogin').onclick = () => {
-            loginScreen.style.display = 'block';
-            registerScreen.style.display = 'none';
-        };
+        document.getElementById('showRegister').onclick = () => { loginScreen.style.display = 'none'; registerScreen.style.display = 'block'; };
+        document.getElementById('showLogin').onclick = () => { loginScreen.style.display = 'block'; registerScreen.style.display = 'none'; };
         document.getElementById('logoutBtn').onclick = () => auth.signOut();
     </script>
 </body>
