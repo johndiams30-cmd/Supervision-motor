@@ -25,121 +25,23 @@
             transition: background 0.3s, color 0.3s;
         }
 
-        /* Thème noir */
         body.dark-mode {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: #e0e0e0;
         }
 
-        body.dark-mode .sidebar {
-            background: #1e1e2e;
-            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.3);
-        }
-
-        body.dark-mode .sidebar-header {
-            border-bottom-color: #2b7be4;
-        }
-
-        body.dark-mode .sidebar-header h2 {
-            color: #4a9eff;
-        }
-
-        body.dark-mode .nav-item {
-            color: #c0c0c0;
-        }
-
-        body.dark-mode .nav-item:hover {
-            background: #2a2a3e;
-            color: #4a9eff;
-        }
-
-        body.dark-mode .nav-item.active {
-            background: #2b7be4;
-            color: white;
-        }
-
-        body.dark-mode .header {
-            background: #1e1e2e;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
+        body.dark-mode .sidebar,
+        body.dark-mode .header,
         body.dark-mode .card {
             background: #1e1e2e;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
-        body.dark-mode .card h3 {
-            color: #4a9eff;
-        }
-
-        body.dark-mode .stat-card {
-            background: #2a2a3e;
-        }
-
-        body.dark-mode .stat-number {
-            color: #4a9eff;
-        }
-
-        body.dark-mode .info-row {
-            border-bottom-color: #333;
-        }
-
-        body.dark-mode .info-label {
-            color: #aaa;
-        }
-
-        body.dark-mode .history-item {
-            background: #2a2a3e;
-        }
-
-        body.dark-mode .schedule-item {
-            background: #2a2a3e;
-        }
-
-        body.dark-mode .schedule-period {
-            background: #2a2a3e;
-            color: #4a9eff;
-        }
-
-        body.dark-mode .filter-btn {
-            background: #2a2a3e;
-            border-color: #4a9eff;
-            color: #4a9eff;
-        }
-
-        body.dark-mode .filter-btn.active {
-            background: #2b7be4;
-            color: white;
-        }
-
-        body.dark-mode .user-item {
-            background: #2a2a3e;
-        }
-
+        body.dark-mode .stat-card,
+        body.dark-mode .history-item,
+        body.dark-mode .schedule-item,
+        body.dark-mode .user-item,
         body.dark-mode .log-item {
             background: #2a2a3e;
-        }
-
-        body.dark-mode .modal-content {
-            background: #1e1e2e;
-            color: #e0e0e0;
-        }
-
-        body.dark-mode .modal-content input,
-        body.dark-mode .modal-content select {
-            background: #2a2a3e;
-            border-color: #444;
-            color: #e0e0e0;
-        }
-
-        body.dark-mode .login-card {
-            background: #1e1e2e;
-        }
-
-        body.dark-mode .login-input {
-            background: #2a2a3e;
-            border-color: #444;
-            color: #e0e0e0;
         }
 
         .sidebar {
@@ -164,16 +66,6 @@
         .sidebar-header h2 {
             color: #2b7be4;
             font-size: 22px;
-        }
-
-        .sidebar-header p {
-            font-size: 11px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        body.dark-mode .sidebar-header p {
-            color: #aaa;
         }
 
         .nav-item {
@@ -224,17 +116,9 @@
             flex-wrap: wrap;
         }
 
-        .user-email {
-            font-size: 14px;
-            color: #666;
-        }
-
-        body.dark-mode .user-email {
-            color: #aaa;
-        }
-
-        .logout-btn {
-            background: #ff6b6b;
+        .logout-btn,
+        .theme-toggle {
+            background: #2b7be4;
             border: none;
             padding: 8px 16px;
             border-radius: 8px;
@@ -242,9 +126,8 @@
             cursor: pointer;
         }
 
-        .profile-photo-container {
-            position: relative;
-            cursor: pointer;
+        .logout-btn {
+            background: #ff6b6b;
         }
 
         .profile-photo {
@@ -253,6 +136,7 @@
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #2b7be4;
+            cursor: pointer;
         }
 
         .card {
@@ -281,6 +165,107 @@
             border-left-color: white;
         }
 
+        /* Animation moteur qui tourne */
+        .motor-animation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .motor-icon {
+            width: 120px;
+            height: 120px;
+            position: relative;
+        }
+
+        .motor-spinning {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .motor-body {
+            width: 80px;
+            height: 80px;
+            background: #555;
+            border-radius: 50%;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .motor-body::before {
+            content: "⚙️";
+            font-size: 60px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Ampoule */
+        .bulb {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .bulb-off {
+            background: #999;
+            box-shadow: none;
+        }
+
+        .bulb-on {
+            background: radial-gradient(circle at 30% 30%, #fff, #ffeb3b, #ffaa00);
+            box-shadow: 0 0 30px #ffeb3b;
+            animation: pulse 1s infinite;
+        }
+
+        .bulb-on::before {
+            content: "💡";
+            font-size: 40px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .bulb-off::before {
+            content: "💡";
+            font-size: 40px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.5;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.9;
+            }
+        }
+
         .led {
             width: 100px;
             height: 100px;
@@ -298,18 +283,6 @@
             background: radial-gradient(circle at 30% 30%, #ccc, #999);
         }
 
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
         .motor-status {
             font-size: 28px;
             font-weight: bold;
@@ -321,6 +294,7 @@
             gap: 20px;
             justify-content: center;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
 
         .btn {
@@ -348,16 +322,9 @@
             color: white;
         }
 
-        .btn:hover {
-            transform: scale(1.02);
-            opacity: 0.9;
-        }
-
-        /* Bouton voix */
         .btn-voice {
             background: #9b59b6;
             color: white;
-            position: relative;
         }
 
         .btn-voice.listening {
@@ -382,38 +349,9 @@
             }
         }
 
-        /* Bouton thème */
-        .theme-toggle {
-            background: #2b7be4;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        /* Password wrapper */
-        .password-wrapper {
-            position: relative;
-            width: 100%;
-        }
-
-        .password-wrapper input {
-            width: 100%;
-            padding-right: 40px;
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            font-size: 18px;
-            background: none;
-            border: none;
-            z-index: 10;
+        .btn:hover {
+            transform: scale(1.02);
+            opacity: 0.9;
         }
 
         .stats-grid {
@@ -433,16 +371,6 @@
             font-size: 28px;
             font-weight: bold;
             color: #2b7be4;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        body.dark-mode .stat-label {
-            color: #aaa;
         }
 
         .info-row {
@@ -499,22 +427,6 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .history-on {
-            color: #00b09b;
-            font-weight: bold;
-        }
-
-        .history-off {
-            color: #ff6b6b;
-            font-weight: bold;
-        }
-
-        .timestamp {
-            font-size: 11px;
-            color: #999;
         }
 
         .page {
@@ -525,7 +437,6 @@
             display: block;
         }
 
-        /* Styles programmation */
         .schedule-item {
             background: #f8fafd;
             padding: 12px 15px;
@@ -538,332 +449,25 @@
             gap: 10px;
         }
 
-        .schedule-date {
-            font-size: 11px;
-            color: #888;
-            margin-top: 2px;
-        }
-
-        .schedule-time {
-            font-weight: bold;
-            color: #2b7be4;
-            font-size: 16px;
-        }
-
-        .schedule-period {
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 10px;
-            background: #e8f0fe;
-            display: inline-block;
-            margin-left: 5px;
-        }
-
-        .schedule-duration {
-            font-size: 11px;
-            color: #888;
-            margin-top: 4px;
-        }
-
-        .schedule-action {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .schedule-action.on {
-            background: #00b09b;
-            color: white;
-        }
-
-        .schedule-action.off {
-            background: #ff6b6b;
-            color: white;
-        }
-
-        .schedule-delete {
-            background: #ff6b6b;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
-        }
-
-        .schedule-edit {
-            background: #2b7be4;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
-            margin-right: 5px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            max-width: 400px;
-            margin: auto;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-content select,
-        .modal-content input {
+        .password-wrapper {
+            position: relative;
             width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 10px;
-            border: 1px solid #ddd;
         }
 
-        .row-2 {
-            display: flex;
-            gap: 10px;
+        .password-wrapper input {
+            width: 100%;
+            padding-right: 40px;
         }
 
-        .row-2 select,
-        .row-2 input {
-            flex: 1;
-        }
-
-        /* Admin styles */
-        .admin-badge {
-            background: #ff6b6b;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 10px;
-            margin-left: 8px;
-        }
-
-        .user-badge {
-            background: #00b09b;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 10px;
-            margin-left: 8px;
-        }
-
-        .user-list {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .user-item {
-            background: #f8fafd;
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .user-email {
-            font-weight: bold;
-            color: #2b7be4;
-        }
-
-        .user-role-select {
-            padding: 5px 10px;
-            border-radius: 8px;
-            border: 1px solid #2b7be4;
-            background: white;
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
             cursor: pointer;
-        }
-
-        .delete-user-btn {
-            background: #ff6b6b;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
-        }
-
-        .stats-admin {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-admin-card {
-            background: linear-gradient(135deg, #2b7be4, #1a5bc4);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-        }
-
-        .stat-admin-number {
-            font-size: 32px;
-            font-weight: bold;
-        }
-
-        .stat-admin-label {
-            font-size: 12px;
-            opacity: 0.9;
-            margin-top: 5px;
-        }
-
-        .log-item {
-            background: #f8fafd;
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 8px;
-            font-size: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .log-time {
-            color: #888;
-            font-size: 10px;
-        }
-
-        .log-user {
-            font-weight: bold;
-            color: #2b7be4;
-        }
-
-        .log-action {
-            color: #666;
-        }
-
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .setting-label {
-            font-weight: bold;
-            color: #444;
-        }
-
-        .setting-control input,
-        .setting-control select {
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-        }
-
-        .admin-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-
-        .admin-tab {
-            padding: 8px 16px;
             background: none;
             border: none;
-            cursor: pointer;
-            color: #666;
-            font-weight: bold;
-        }
-
-        .admin-tab.active {
-            color: #2b7be4;
-            border-bottom: 2px solid #2b7be4;
-        }
-
-        .admin-pane {
-            display: none;
-        }
-
-        .admin-pane.active {
-            display: block;
-        }
-
-        /* Login */
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-        }
-
-        .login-card {
-            background: white;
-            border-radius: 20px;
-            padding: 40px 30px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .login-card h2 {
-            color: #2b7be4;
-            margin-bottom: 20px;
-        }
-
-        .login-input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 14px;
-        }
-
-        .login-input:focus {
-            outline: none;
-            border-color: #2b7be4;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            margin-top: 15px;
-            background: #2b7be4;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .switch-btn {
-            margin-top: 15px;
-            color: #2b7be4;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .error-msg {
-            color: #ff6b6b;
-            font-size: 12px;
-            margin-top: 10px;
+            font-size: 18px;
         }
 
         .notification {
@@ -909,6 +513,49 @@
             cursor: pointer;
         }
 
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-card h2 {
+            color: #2b7be4;
+            margin-bottom: 20px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background: #2b7be4;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .switch-btn {
+            margin-top: 15px;
+            color: #2b7be4;
+            cursor: pointer;
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -932,13 +579,8 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .stats-admin {
-                grid-template-columns: repeat(1, 1fr);
-            }
-
             .btn-group {
                 flex-direction: column;
-                gap: 10px;
             }
 
             .btn {
@@ -951,57 +593,36 @@
 <body>
     <button class="menu-toggle" id="menuToggle">☰</button>
 
-    <!-- MENU LATÉRAL -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h2>🔧 Pro Moteur IoT</h2>
             <p>Professional Control System</p>
         </div>
-        <div class="nav-item active" data-page="dashboard">
-            <span>📊</span> Tableau de bord
-        </div>
-        <div class="nav-item" data-page="control">
-            <span>🎮</span> Contrôle moteur
-        </div>
-        <div class="nav-item" data-page="history">
-            <span>📜</span> Historique
-        </div>
-        <div class="nav-item" data-page="stats">
-            <span>📈</span> Statistiques
-        </div>
-        <div class="nav-item" data-page="export">
-            <span>💾</span> Export
-        </div>
-        <div class="nav-item" data-page="schedule">
-            <span>⏰</span> Programmation
-        </div>
-        <div class="nav-item" data-page="profile">
-            <span>👤</span> Mon profil
-        </div>
-        <div class="nav-item" data-page="admin" id="adminMenuItem" style="display: none;">
-            <span>👑</span> Administration
-        </div>
-        <div class="nav-item" data-page="about">
-            <span>ℹ️</span> À propos
-        </div>
+        <div class="nav-item active" data-page="dashboard">📊 Tableau de bord</div>
+        <div class="nav-item" data-page="control">🎮 Contrôle moteur</div>
+        <div class="nav-item" data-page="history">📜 Historique</div>
+        <div class="nav-item" data-page="stats">📈 Statistiques</div>
+        <div class="nav-item" data-page="export">💾 Export</div>
+        <div class="nav-item" data-page="schedule">⏰ Programmation</div>
+        <div class="nav-item" data-page="profile">👤 Mon profil</div>
+        <div class="nav-item" data-page="admin" id="adminMenuItem" style="display:none;">👑 Administration</div>
+        <div class="nav-item" data-page="about">ℹ️ À propos</div>
     </div>
 
-    <!-- CONTENU PRINCIPAL -->
     <div class="main-content">
         <div class="header">
             <h2 id="pageTitle">Tableau de bord</h2>
             <div class="user-info">
                 <button class="theme-toggle" id="themeToggleBtn">🌙 Thème sombre</button>
-                <div class="profile-photo-container" id="headerProfileContainer">
-                    <img id="headerProfilePhoto" class="profile-photo" src="https://via.placeholder.com/45" alt="Photo">
-                    <input type="file" id="photoUpload" accept="image/*" style="display: none;">
-                </div>
+                <img id="headerProfilePhoto" class="profile-photo" src="https://via.placeholder.com/45" alt="Photo"
+                    onclick="document.getElementById('photoUpload').click()">
+                <input type="file" id="photoUpload" accept="image/*" style="display:none">
                 <span class="user-email" id="userEmail"></span>
                 <button class="logout-btn" id="logoutBtn">🚪 Déconnexion</button>
             </div>
         </div>
 
-        <!-- PAGE DASHBOARD -->
+        <!-- Dashboard -->
         <div id="dashboardPage" class="page active">
             <div class="stats-grid">
                 <div class="stat-card">
@@ -1024,6 +645,12 @@
 
             <div class="card motor-card">
                 <h3>⚙️ État du moteur</h3>
+                <div class="motor-animation">
+                    <div class="motor-icon">
+                        <div class="motor-body" id="motorAnimation"></div>
+                    </div>
+                    <div class="bulb bulb-off" id="bulbAnimation"></div>
+                </div>
                 <div class="led led-off" id="led"></div>
                 <div class="motor-status" id="motorStatus">ARRÊT</div>
                 <div class="btn-group">
@@ -1035,29 +662,27 @@
 
             <div class="card">
                 <h3>📱 Dernière activité</h3>
-                <div class="info-row">
-                    <span class="info-label">Commande</span>
-                    <span class="info-value" id="lastCommand">-</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Appareil</span>
-                    <span class="info-value" id="lastDevice">-</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Date/Heure</span>
-                    <span class="info-value" id="lastTime">-</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Temps fonctionnement</span>
-                    <span class="info-value" id="runTimeDisplay">0s</span>
-                </div>
+                <div class="info-row"><span class="info-label">Commande</span><span class="info-value"
+                        id="lastCommand">-</span></div>
+                <div class="info-row"><span class="info-label">Appareil</span><span class="info-value"
+                        id="lastDevice">-</span></div>
+                <div class="info-row"><span class="info-label">Date/Heure</span><span class="info-value"
+                        id="lastTime">-</span></div>
+                <div class="info-row"><span class="info-label">Temps fonctionnement</span><span class="info-value"
+                        id="runTimeDisplay">0s</span></div>
             </div>
         </div>
 
-        <!-- PAGE CONTRÔLE -->
+        <!-- Contrôle -->
         <div id="controlPage" class="page">
             <div class="card motor-card">
                 <h3>🎮 Contrôle moteur</h3>
+                <div class="motor-animation">
+                    <div class="motor-icon">
+                        <div class="motor-body" id="motorAnimation2"></div>
+                    </div>
+                    <div class="bulb bulb-off" id="bulbAnimation2"></div>
+                </div>
                 <div class="led led-off" id="led2"></div>
                 <div class="motor-status" id="motorStatus2">ARRÊT</div>
                 <div class="btn-group">
@@ -1066,38 +691,22 @@
                     <button class="btn btn-voice" id="voiceCommandBtn2">🎤 Commande vocale</button>
                 </div>
             </div>
-            <div class="card">
-                <h3>⏱️ Temps de fonctionnement</h3>
-                <div class="info-row">
-                    <span class="info-label">Session actuelle</span>
-                    <span class="info-value" id="currentRunTime">0s</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Temps total</span>
-                    <span class="info-value" id="totalRunTime">0h</span>
-                </div>
-            </div>
         </div>
 
-        <!-- PAGE HISTORIQUE -->
+        <!-- Historique -->
         <div id="historyPage" class="page">
             <div class="card">
-                <div
-                    style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
-                    <h3>📜 Historique des commandes</h3>
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" data-filter="all">Tous</button>
-                        <button class="filter-btn" data-filter="on">MARCHE</button>
-                        <button class="filter-btn" data-filter="off">ARRÊT</button>
-                    </div>
+                <h3>📜 Historique des commandes</h3>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">Tous</button>
+                    <button class="filter-btn" data-filter="on">MARCHE</button>
+                    <button class="filter-btn" data-filter="off">ARRÊT</button>
                 </div>
-                <div class="history-list" id="historyList">
-                    <div style="text-align:center;padding:30px;">Chargement...</div>
-                </div>
+                <div class="history-list" id="historyList">Chargement...</div>
             </div>
         </div>
 
-        <!-- PAGE STATISTIQUES -->
+        <!-- Statistiques -->
         <div id="statsPage" class="page">
             <div class="stats-grid">
                 <div class="stat-card">
@@ -1117,351 +726,85 @@
                     <div class="stat-label">Total</div>
                 </div>
             </div>
-            <div class="card">
-                <h3>📊 Répartition par appareil</h3>
-                <div class="info-row">
-                    <span class="info-label">💻 PC</span>
-                    <span class="info-value" id="pcStat">0</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">📱 Mobile</span>
-                    <span class="info-value" id="mobileStat">0</span>
-                </div>
-            </div>
         </div>
 
-        <!-- PAGE EXPORT -->
+        <!-- Export -->
         <div id="exportPage" class="page">
-            <div class="card" style="text-align: center;">
+            <div class="card">
                 <h3>💾 Exporter les données</h3>
-                <div class="btn-group" style="flex-direction: row; flex-wrap: wrap;">
+                <div class="btn-group">
                     <button class="btn btn-secondary" id="exportCSV">📥 CSV</button>
                     <button class="btn btn-secondary" id="exportJSON">📄 JSON</button>
                 </div>
             </div>
         </div>
 
-        <!-- PAGE PROGRAMMATION HORAIRE -->
+        <!-- Programmation -->
         <div id="schedulePage" class="page">
             <div class="card">
                 <h3>⏰ Programmation horaire</h3>
-                <p style="margin-bottom: 15px; color: #666;">Définissez les horaires de fonctionnement du moteur</p>
-                <div id="scheduleList">
-                    <div style="text-align:center;padding:20px;">Chargement...</div>
-                </div>
-                <button class="btn btn-secondary" id="addScheduleBtn" style="margin-top: 15px; width: 100%;">➕ Ajouter
-                    un horaire</button>
+                <div id="scheduleList">Chargement...</div>
+                <button class="btn btn-secondary" id="addScheduleBtn" style="margin-top:15px; width:100%">➕ Ajouter un
+                    horaire</button>
             </div>
         </div>
 
-        <!-- MODAL PROGRAMMATION -->
-        <div id="scheduleModal" class="modal">
-            <div class="modal-content">
-                <h3 id="modalTitle" style="color: #2b7be4; margin-bottom: 15px;">Ajouter un horaire</h3>
-
-                <select id="scheduleType">
-                    <option value="recurring">🔄 Récurrent (chaque jour)</option>
-                    <option value="once">📅 Une seule fois</option>
-                    <option value="morning">☀️ Tous les matins (6h-12h)</option>
-                    <option value="afternoon">🌙 Tous les après-midis (12h-18h)</option>
-                    <option value="weekday">📆 Lundi au Vendredi</option>
-                    <option value="weekend">🎉 Samedi et Dimanche</option>
-                </select>
-
-                <div id="dateFields" style="display: none;">
-                    <select id="scheduleYear">
-                        <option value="">Année</option>
-                    </select>
-                    <select id="scheduleMonth">
-                        <option value="">Mois</option>
-                        <option value="0">Janvier</option>
-                        <option value="1">Février</option>
-                        <option value="2">Mars</option>
-                        <option value="3">Avril</option>
-                        <option value="4">Mai</option>
-                        <option value="5">Juin</option>
-                        <option value="6">Juillet</option>
-                        <option value="7">Août</option>
-                        <option value="8">Septembre</option>
-                        <option value="9">Octobre</option>
-                        <option value="10">Novembre</option>
-                        <option value="11">Décembre</option>
-                    </select>
-                    <select id="scheduleDay">
-                        <option value="">Jour</option>
-                    </select>
-                </div>
-
-                <div class="row-2">
-                    <input type="number" id="scheduleHour" placeholder="Heure (0-23)" min="0" max="23"
-                        style="flex:1; padding:10px; border-radius:10px; border:1px solid #ddd;">
-                    <input type="number" id="scheduleMinute" placeholder="Minute (0-59)" min="0" max="59"
-                        style="flex:1; padding:10px; border-radius:10px; border:1px solid #ddd;">
-                </div>
-
-                <select id="scheduleAction">
-                    <option value="1">🟢 MARCHE</option>
-                    <option value="0">🔴 ARRÊT</option>
-                </select>
-
-                <div class="row-2">
-                    <input type="number" id="scheduleDurationValue" placeholder="Durée" min="0" step="1"
-                        style="flex:2; padding:10px; border-radius:10px; border:1px solid #ddd;">
-                    <select id="scheduleDurationUnit"
-                        style="flex:1; padding:10px; border-radius:10px; border:1px solid #ddd;">
-                        <option value="seconds">Secondes</option>
-                        <option value="minutes">Minutes</option>
-                        <option value="hours">Heures</option>
-                    </select>
-                </div>
-
-                <div style="display: flex; gap: 10px; margin-top: 15px;">
-                    <button id="saveScheduleBtn" class="btn btn-secondary" style="flex:1;">Enregistrer</button>
-                    <button id="closeModalBtn" class="btn" style="flex:1; background:#ddd;">Annuler</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- PAGE PROFIL -->
+        <!-- Profil -->
         <div id="profilePage" class="page">
-            <div class="card" style="text-align: center;">
+            <div class="card">
                 <h3>👤 Mon profil</h3>
-                <img id="profileBigPhoto" src="https://via.placeholder.com/150" alt="Photo"
-                    style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #2b7be4; margin: 20px auto; cursor: pointer;">
-                <div class="info-row"><span class="info-label">📧 Email</span><span class="info-value"
-                        id="profileEmail">-</span></div>
-                <div class="info-row"><span class="info-label">👑 Rôle</span><span class="info-value"
-                        id="profileRole">-</span></div>
-                <div class="info-row"><span class="info-label">📅 Membre depuis</span><span class="info-value"
-                        id="profileSince">-</span></div>
-                <div class="info-row"><span class="info-label">🔄 Total commandes</span><span class="info-value"
-                        id="profileTotalCommands">0</span></div>
-                <button class="btn btn-secondary" id="changePhotoBtn">📷 Changer ma photo</button>
-                <input type="file" id="profilePhotoUpload" accept="image/*" style="display: none;">
+                <div style="text-align:center">
+                    <img id="profileBigPhoto" src="https://via.placeholder.com/150"
+                        style="width:150px;height:150px;border-radius:50%;object-fit:cover;border:4px solid #2b7be4;margin:20px auto;cursor:pointer">
+                    <div class="info-row"><span class="info-label">📧 Email</span><span class="info-value"
+                            id="profileEmail">-</span></div>
+                    <div class="info-row"><span class="info-label">👑 Rôle</span><span class="info-value"
+                            id="profileRole">-</span></div>
+                    <button class="btn btn-secondary" id="changePhotoBtn">📷 Changer ma photo</button>
+                    <input type="file" id="profilePhotoUpload" accept="image/*" style="display:none">
+                </div>
             </div>
         </div>
 
-        <!-- PAGE ADMINISTRATION -->
+        <!-- Admin -->
         <div id="adminPage" class="page">
             <div class="card">
-                <h3>👑 Administration - Panneau de contrôle</h3>
-
-                <div class="admin-tabs">
-                    <button class="admin-tab active" data-tab="dashboard">📊 Dashboard</button>
-                    <button class="admin-tab" data-tab="users">👥 Utilisateurs</button>
-                    <button class="admin-tab" data-tab="logs">📜 Logs connexion</button>
-                    <button class="admin-tab" data-tab="schedules">⏰ Horaires globaux</button>
-                    <button class="admin-tab" data-tab="settings">⚙️ Paramètres</button>
-                    <button class="admin-tab" data-tab="export">💾 Export global</button>
-                </div>
-
-                <div id="adminDashboardPane" class="admin-pane active">
-                    <div class="stats-admin">
-                        <div class="stat-admin-card">
-                            <div class="stat-admin-number" id="adminTotalUsers">0</div>
-                            <div class="stat-admin-label">Utilisateurs</div>
-                        </div>
-                        <div class="stat-admin-card">
-                            <div class="stat-admin-number" id="adminTotalCommands">0</div>
-                            <div class="stat-admin-label">Commandes totales</div>
-                        </div>
-                        <div class="stat-admin-card">
-                            <div class="stat-admin-number" id="adminTodayCommands">0</div>
-                            <div class="stat-admin-label">Aujourd'hui</div>
-                        </div>
-                    </div>
-                    <div class="stats-admin">
-                        <div class="stat-admin-card">
-                            <div class="stat-admin-number" id="adminActiveUsers">0</div>
-                            <div class="stat-admin-label">Connectés aujourd'hui</div>
-                        </div>
-                        <div class="stat-admin-card">
-                            <div class="stat-admin-number" id="adminTotalSchedules">0</div>
-                            <div class="stat-admin-label">Horaires programmés</div>
-                        </div>
-                        <div class="stat-admin-card">
-                            <div class="stat-admin-number" id="adminMotorStatus">-</div>
-                            <div class="stat-admin-label">État moteur</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="adminUsersPane" class="admin-pane">
-                    <div style="margin-bottom: 20px;">
-                        <h4>➕ Ajouter un utilisateur</h4>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                            <input type="email" id="newUserEmail" placeholder="Email"
-                                style="flex:2; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
-                            <select id="newUserRole"
-                                style="flex:1; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
-                                <option value="user">👤 Utilisateur</option>
-                                <option value="admin">👑 Administrateur</option>
-                            </select>
-                            <button id="createUserBtn" class="btn btn-secondary">➕ Créer</button>
-                        </div>
-                    </div>
-                    <h4>📋 Liste des utilisateurs</h4>
-                    <div class="user-list" id="usersList">
-                        <div style="text-align:center;padding:20px;">Chargement...</div>
-                    </div>
-                </div>
-
-                <div id="adminLogsPane" class="admin-pane">
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
-                        <h4>📜 Historique des connexions</h4>
-                        <button id="clearLogsBtn" class="btn"
-                            style="background:#ff6b6b; color:white; padding: 5px 15px;">🗑️ Effacer logs</button>
-                    </div>
-                    <div id="logsList" class="logs-list">
-                        <div style="text-align:center;padding:20px;">Chargement...</div>
-                    </div>
-                </div>
-
-                <div id="adminSchedulesPane" class="admin-pane">
-                    <h4>⏰ Horaires programmés par les utilisateurs</h4>
-                    <div id="allSchedulesList" class="user-list">
-                        <div style="text-align:center;padding:20px;">Chargement...</div>
-                    </div>
-                </div>
-
-                <div id="adminSettingsPane" class="admin-pane">
-                    <div class="setting-item">
-                        <span class="setting-label">🔒 Maintenance mode</span>
-                        <div class="setting-control">
-                            <input type="checkbox" id="maintenanceMode"> Désactiver les commandes
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <span class="setting-label">⏱️ Délai minimum entre commandes (secondes)</span>
-                        <div class="setting-control">
-                            <input type="number" id="commandDelay" min="0" max="60" value="0">
-                            <button id="saveDelayBtn" class="btn btn-secondary" style="margin-left: 10px;">💾
-                                Sauvegarder</button>
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <span class="setting-label">🕐 Nettoyage auto de l'historique (jours)</span>
-                        <div class="setting-control">
-                            <select id="autoCleanDays">
-                                <option value="30">30 jours</option>
-                                <option value="60">60 jours</option>
-                                <option value="90">90 jours</option>
-                                <option value="180">6 mois</option>
-                                <option value="365">1 an</option>
-                            </select>
-                            <button id="cleanHistoryBtn" class="btn btn-secondary" style="margin-left: 10px;">🧹
-                                Nettoyer maintenant</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="adminExportPane" class="admin-pane">
-                    <h4>💾 Export des données</h4>
-                    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px;">
-                        <button id="exportAllUsersBtn" class="btn btn-secondary">📥 Export tous les utilisateurs
-                            (CSV)</button>
-                        <button id="exportAllCommandsBtn" class="btn btn-secondary">📥 Export toutes commandes
-                            (CSV)</button>
-                        <button id="exportBackupBtn" class="btn btn-secondary">💾 Backup complet (JSON)</button>
-                    </div>
-                </div>
+                <h3>👑 Administration</h3>
+                <div id="adminContent">Chargement...</div>
             </div>
         </div>
 
-        <!-- PAGE À PROPOS -->
+        <!-- À propos -->
         <div id="aboutPage" class="page">
-            <div class="card" style="text-align: center;">
-                <div style="text-align:center; margin-bottom:20px;">
-                    <img src="https://i.ibb.co/TDZ1fMcW/IMG-20250121-220704.jpg" alt="Logo" style="max-width:150px;">
-                </div>
-                <h3>🔧 PROJET IoT - Contrôle Moteur</h3>
-                <p style="margin: 15px 0; color: #666;">Système professionnel de contrôle moteur à distance</p>
-
-                <div style="background: #f8fafd; border-radius: 15px; padding: 20px; margin: 20px 0; text-align: left;">
-                    <h4 style="color: #2b7be4; margin-bottom: 10px;">📋 Informations du projet</h4>
-                    <div class="info-row"><span class="info-label">👤 Développeur</span><span class="info-value">Ir
-                            DIAMONEKA VAKANDA Jonathan</span></div>
-                    <div class="info-row"><span class="info-label">🏢 Entreprise</span><span
-                            class="info-value">DIAMONEKA VAKANDA Corp.</span></div>
-                    <div class="info-row"><span class="info-label">📧 Contact</span><span
-                            class="info-value">johndiams30@gmail.com</span></div>
-                    <div class="info-row"><span class="info-label">📅 Version</span><span class="info-value">6.0 -
-                            Professional</span></div>
-                    <div class="info-row"><span class="info-label">🕐 Dernière mise à jour</span><span
-                            class="info-value">Avril 2026</span></div>
-                </div>
-
-                <div style="background: #f8fafd; border-radius: 15px; padding: 20px; margin: 20px 0; text-align: left;">
-                    <h4 style="color: #2b7be4; margin-bottom: 10px;">⚙️ Technologies utilisées</h4>
-                    <div class="info-row"><span class="info-label">🔥 Base de données</span><span
-                            class="info-value">Firebase Realtime Database</span></div>
-                    <div class="info-row"><span class="info-label">🔐 Authentification</span><span
-                            class="info-value">Firebase Auth (Email/Password)</span></div>
-                    <div class="info-row"><span class="info-label">🌐 Hébergement</span><span class="info-value">GitHub
-                            Pages</span></div>
-                    <div class="info-row"><span class="info-label">📱 Interface</span><span class="info-value">HTML5 /
-                            CSS3 / JavaScript</span></div>
-                    <div class="info-row"><span class="info-label">🔧 Microcontrôleur</span><span
-                            class="info-value">ESP32</span></div>
-                </div>
-
-                <div style="background: #f8fafd; border-radius: 15px; padding: 20px; margin: 20px 0; text-align: left;">
-                    <h4 style="color: #2b7be4; margin-bottom: 10px;">✅ Fonctionnalités</h4>
-                    <div class="info-row"><span class="info-label">🎮</span><span class="info-value">Contrôle moteur en
-                            temps réel</span></div>
-                    <div class="info-row"><span class="info-label">⏰</span><span class="info-value">Programmation
-                            horaire avancée</span></div>
-                    <div class="info-row"><span class="info-label">🎤</span><span class="info-value">Commande
-                            vocale</span></div>
-                    <div class="info-row"><span class="info-label">🌙</span><span class="info-value">Thème sombre</span>
-                    </div>
-                    <div class="info-row"><span class="info-label">📜</span><span class="info-value">Historique des
-                            commandes</span></div>
-                    <div class="info-row"><span class="info-label">📊</span><span class="info-value">Statistiques
-                            détaillées</span></div>
-                    <div class="info-row"><span class="info-label">👥</span><span class="info-value">Gestion
-                            multi-utilisateurs</span></div>
-                    <div class="info-row"><span class="info-label">👑</span><span class="info-value">Panneau
-                            administration</span></div>
-                    <div class="info-row"><span class="info-label">💾</span><span class="info-value">Export
-                            CSV/JSON</span></div>
-                    <div class="info-row"><span class="info-label">📸</span><span class="info-value">Photo de profil
-                            utilisateur</span></div>
-                </div>
-
-                <p style="margin-top: 20px; font-size: 12px; color: #888;">
-                    &copy; 2026 Projet IoT - Tous droits réservés
-                </p>
+            <div class="card">
+                <h3>ℹ️ À propos</h3>
+                <p>Projet IoT - Contrôle Moteur</p>
+                <p>Version 6.0 - Avec commande vocale, synthèse vocale, animations moteur et ampoule</p>
             </div>
         </div>
     </div>
 
-    <!-- ÉCRANS DE CONNEXION -->
+    <!-- Login -->
     <div class="login-container" id="loginScreen">
         <div class="login-card">
-            <div style="text-align:center; margin-bottom:15px;">
-                <img src="https://i.ibb.co/TDZ1fMcW/IMG-20250121-220704.jpg" alt="Logo" style="max-width:120px;">
-            </div>
-            <h2>🔐 Accès sécurisé</h2>
+            <h2>🔐 Connexion</h2>
             <input type="email" id="loginEmail" class="login-input" placeholder="Email">
             <div class="password-wrapper">
                 <input type="password" id="loginPassword" class="login-input" placeholder="Mot de passe">
                 <button type="button" class="toggle-password" data-target="loginPassword">👁️</button>
             </div>
             <button id="doLogin" class="login-btn">Se connecter</button>
-            <div class="switch-btn" id="showRegister">Pas de compte ? Créer un compte</div>
+            <div class="switch-btn" id="showRegister">Créer un compte</div>
             <div id="loginError" class="error-msg"></div>
         </div>
     </div>
 
-    <div class="login-container" id="registerScreen" style="display: none;">
+    <div class="login-container" id="registerScreen" style="display:none">
         <div class="login-card">
-            <h2>📝 Créer un compte</h2>
+            <h2>📝 Inscription</h2>
             <input type="email" id="registerEmail" class="login-input" placeholder="Email">
             <div class="password-wrapper">
-                <input type="password" id="registerPassword" class="login-input"
-                    placeholder="Mot de passe (6+ caractères)">
+                <input type="password" id="registerPassword" class="login-input" placeholder="Mot de passe">
                 <button type="button" class="toggle-password" data-target="registerPassword">👁️</button>
             </div>
             <button id="doRegister" class="login-btn">Créer le compte</button>
@@ -1487,91 +830,124 @@
 
         let currentFilter = "all";
         let commandHistory = [];
-        let onCount = 0, offCount = 0, pcCount = 0, mobileCount = 0;
+        let onCount = 0, offCount = 0;
         let motorState = 0, motorStartTime = null, cycleCount = 0, totalRunTimeSeconds = 0;
-        let schedules = [];
-        let scheduledStops = {};
         let currentUserRole = 'user';
-        let scheduleCheckerInterval = null;
         let recognition = null;
+        let synth = null;
 
-        // ========== THÈME SOMBRE ==========
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.body.classList.add('dark-mode');
-                document.getElementById('themeToggleBtn').innerHTML = '☀️ Thème clair';
-            } else {
-                document.getElementById('themeToggleBtn').innerHTML = '🌙 Thème sombre';
+        // Synthèse vocale
+        function speak(text) {
+            if (!synth) {
+                synth = window.speechSynthesis;
             }
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'fr-FR';
+            utterance.rate = 0.9;
+            synth.cancel();
+            synth.speak(utterance);
         }
 
-        document.getElementById('themeToggleBtn').addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            if (document.body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark');
-                document.getElementById('themeToggleBtn').innerHTML = '☀️ Thème clair';
-            } else {
-                localStorage.setItem('theme', 'light');
-                document.getElementById('themeToggleBtn').innerHTML = '🌙 Thème sombre';
-            }
-        });
+        // Mise à jour des animations moteur et ampoule
+        function updateAnimations(state) {
+            const motorElements = document.querySelectorAll('#motorAnimation, #motorAnimation2');
+            const bulbElements = document.querySelectorAll('#bulbAnimation, #bulbAnimation2');
+            const ledElements = document.querySelectorAll('#led, #led2');
+            const statusElements = document.querySelectorAll('#motorStatus, #motorStatus2');
 
-        // ========== AFFICHAGE MOT DE PASSE ==========
-        function initPasswordToggle() {
-            document.querySelectorAll('.toggle-password').forEach(button => {
-                button.addEventListener('click', function () {
-                    const targetId = this.getAttribute('data-target');
-                    const input = document.getElementById(targetId);
-                    if (input.type === 'password') {
-                        input.type = 'text';
-                        this.innerHTML = '🙈';
-                    } else {
-                        input.type = 'password';
-                        this.innerHTML = '👁️';
-                    }
-                });
+            motorElements.forEach(el => {
+                if (state === 1) {
+                    el.classList.add('motor-spinning');
+                } else {
+                    el.classList.remove('motor-spinning');
+                }
+            });
+
+            bulbElements.forEach(el => {
+                if (state === 1) {
+                    el.classList.remove('bulb-off');
+                    el.classList.add('bulb-on');
+                } else {
+                    el.classList.remove('bulb-on');
+                    el.classList.add('bulb-off');
+                }
+            });
+
+            ledElements.forEach(el => {
+                el.className = state === 1 ? 'led led-on' : 'led led-off';
+            });
+
+            statusElements.forEach(el => {
+                el.innerHTML = state === 1 ? 'MARCHE ✅' : 'ARRÊT ❌';
             });
         }
 
-        // ========== COMMANDE VOCALE ==========
+        // Thème
+        function initTheme() {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeToggleBtn').innerHTML = '☀️ Thème clair';
+            }
+        }
+        document.getElementById('themeToggleBtn').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.getElementById('themeToggleBtn').innerHTML = isDark ? '☀️ Thème clair' : '🌙 Thème sombre';
+        });
+
+        // Password toggle
+        document.querySelectorAll('.toggle-password').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const input = document.getElementById(btn.dataset.target);
+                input.type = input.type === 'password' ? 'text' : 'password';
+                btn.innerHTML = input.type === 'password' ? '👁️' : '🙈';
+            });
+        });
+
+        // Commande vocale avec confirmation vocale
         function initVoiceRecognition() {
-            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
                 console.warn("Reconnaissance vocale non supportée");
-                document.querySelectorAll('.btn-voice').forEach(btn => {
-                    btn.disabled = true;
-                    btn.title = "Reconnaissance vocale non supportée par ce navigateur";
-                });
                 return;
             }
 
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             recognition = new SpeechRecognition();
             recognition.lang = 'fr-FR';
             recognition.continuous = false;
             recognition.interimResults = false;
 
-            function startVoiceCommand(button) {
-                if (!recognition) return;
-
+            async function startVoiceCommand(button) {
                 button.classList.add('listening');
+                const originalText = button.innerHTML;
                 button.innerHTML = '🎤 Écoute...';
 
-                recognition.start();
+                try {
+                    recognition.start();
+                } catch (e) {
+                    recognition.abort();
+                    setTimeout(() => recognition.start(), 100);
+                }
 
                 recognition.onresult = (event) => {
                     const transcript = event.results[0][0].transcript.toLowerCase();
-                    console.log("Commande vocale reçue:", transcript);
+                    console.log("Commande reçue:", transcript);
 
                     let command = null;
-                    if (transcript.includes('marche') || transcript.includes('allume') || transcript.includes('activer') || transcript.includes('démarrer')) {
+                    if (transcript.includes('marche') || transcript.includes('allume') ||
+                        transcript.includes('activer') || transcript.includes('démarrer')) {
                         command = 1;
-                        showNotification(`🎤 Commande vocale: MARCHE`);
-                    } else if (transcript.includes('arrêt') || transcript.includes('éteint') || transcript.includes('désactiver') || transcript.includes('couper') || transcript.includes('stop')) {
+                        speak("Commande reçue, je démarre le moteur");
+                        showNotification('🎤 Commande: MARCHE');
+                    } else if (transcript.includes('arrêt') || transcript.includes('éteint') ||
+                        transcript.includes('désactiver') || transcript.includes('couper')) {
                         command = 0;
-                        showNotification(`🎤 Commande vocale: ARRÊT`);
+                        speak("Commande reçue, j'arrête le moteur");
+                        showNotification('🎤 Commande: ARRÊT');
                     } else {
-                        showNotification(`🎤 Commande non reconnue: "${transcript}"`, true);
+                        speak("Désolé, commande non reconnue");
+                        showNotification(`🎤 Non reconnu: "${transcript}"`, true);
                     }
 
                     if (command !== null) {
@@ -1579,21 +955,21 @@
                     }
 
                     button.classList.remove('listening');
-                    button.innerHTML = '🎤 Commande vocale';
+                    button.innerHTML = originalText;
                 };
 
                 recognition.onerror = (event) => {
-                    console.error("Erreur reconnaissance vocale:", event.error);
+                    console.error("Erreur:", event.error);
                     button.classList.remove('listening');
-                    button.innerHTML = '🎤 Commande vocale';
+                    button.innerHTML = originalText;
                     if (event.error !== 'no-speech') {
-                        showNotification(`🎤 Erreur: ${event.error}`, true);
+                        speak("Erreur de reconnaissance vocale");
                     }
                 };
 
                 recognition.onend = () => {
                     button.classList.remove('listening');
-                    button.innerHTML = '🎤 Commande vocale';
+                    button.innerHTML = originalText;
                 };
             }
 
@@ -1602,7 +978,6 @@
             });
         }
 
-        // Navigation
         function navigateTo(page) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(page + 'Page').classList.add('active');
@@ -1610,636 +985,48 @@
             document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
             const titles = { dashboard: 'Tableau de bord', control: 'Contrôle moteur', history: 'Historique', stats: 'Statistiques', export: 'Export', schedule: 'Programmation', profile: 'Mon profil', admin: 'Administration', about: 'À propos' };
             document.getElementById('pageTitle').textContent = titles[page];
-            if (window.innerWidth <= 768) closeMenu();
-            if (page === 'profile') updateProfilePage();
-            if (page === 'schedule') loadSchedules();
-            if (page === 'admin' && currentUserRole === 'admin') {
-                loadAdminDashboard();
-                loadUsers();
-                loadLogs();
-                loadAllSchedules();
-            }
+            if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
         }
 
         document.querySelectorAll('.nav-item').forEach(item => {
             item.onclick = () => navigateTo(item.dataset.page);
         });
-
-        function closeMenu() { document.getElementById('sidebar').classList.remove('open'); }
         document.getElementById('menuToggle').onclick = () => document.getElementById('sidebar').classList.toggle('open');
 
-        // Gestion photo
         async function uploadProfilePhoto(file) {
             const user = auth.currentUser;
             if (!user) return;
-            if (file.size > 2 * 1024 * 1024) { showNotification("❌ Photo trop grande (max 2MB)", true); return; }
-            showNotification("📤 Upload en cours...");
+            if (file.size > 2 * 1024 * 1024) { showNotification("❌ Photo trop grande", true); return; }
             const reader = new FileReader();
-            reader.onloadend = async function () {
-                try {
-                    await database.ref(`users/${user.uid}/photo`).set({ data: reader.result, lastUpdate: Date.now(), email: user.email });
-                    document.getElementById('headerProfilePhoto').src = reader.result;
-                    document.getElementById('profileBigPhoto').src = reader.result;
-                    showNotification("✅ Photo mise à jour !");
-                } catch (error) { showNotification("❌ Erreur: " + error.message, true); }
+            reader.onloadend = async () => {
+                await database.ref(`users/${user.uid}/photo`).set({ data: reader.result });
+                document.getElementById('headerProfilePhoto').src = reader.result;
+                document.getElementById('profileBigPhoto').src = reader.result;
+                showNotification("✅ Photo mise à jour");
             };
             reader.readAsDataURL(file);
         }
 
-        async function loadProfilePhoto() {
-            const user = auth.currentUser;
-            if (!user) return;
-            const snapshot = await database.ref(`users/${user.uid}/photo`).once('value');
-            const data = snapshot.val();
-            if (data && data.data) {
-                document.getElementById('headerProfilePhoto').src = data.data;
-                document.getElementById('profileBigPhoto').src = data.data;
-            }
-        }
-
-        async function updateProfilePage() {
-            const user = auth.currentUser;
-            if (!user) return;
-            document.getElementById('profileEmail').textContent = user.email;
-            document.getElementById('profileRole').textContent = currentUserRole === 'admin' ? '👑 Administrateur' : '👤 Utilisateur';
-            if (user.metadata.creationTime) {
-                const date = new Date(user.metadata.creationTime);
-                document.getElementById('profileSince').textContent = date.toLocaleDateString('fr-FR');
-            }
-            document.getElementById('profileTotalCommands').textContent = onCount + offCount;
-        }
-
-        document.getElementById('headerProfileContainer').onclick = () => document.getElementById('photoUpload').click();
-        document.getElementById('photoUpload').onchange = (e) => { if (e.target.files && e.target.files[0]) uploadProfilePhoto(e.target.files[0]); };
+        document.getElementById('photoUpload').onchange = (e) => e.target.files[0] && uploadProfilePhoto(e.target.files[0]);
         document.getElementById('changePhotoBtn').onclick = () => document.getElementById('profilePhotoUpload').click();
-        document.getElementById('profilePhotoUpload').onchange = (e) => { if (e.target.files && e.target.files[0]) uploadProfilePhoto(e.target.files[0]); };
-
-        // Programmation horaire
-        async function loadSchedules() {
-            const user = auth.currentUser;
-            if (!user) return;
-            const snapshot = await database.ref(`users/${user.uid}/schedules`).once('value');
-            const data = snapshot.val();
-            schedules = data ? Object.entries(data).map(([id, s]) => ({ id, ...s })) : [];
-            displaySchedules();
-        }
-
-        function formatDuree(seconds) {
-            if (!seconds) return '';
-            if (seconds >= 3600 && seconds % 3600 === 0) return `${seconds / 3600} heure${seconds / 3600 > 1 ? 's' : ''}`;
-            if (seconds >= 60 && seconds % 60 === 0) return `${seconds / 60} minute${seconds / 60 > 1 ? 's' : ''}`;
-            return `${seconds} seconde${seconds > 1 ? 's' : ''}`;
-        }
-
-        function getPeriodLabel(type) {
-            const labels = { recurring: '🔄 Quotidien', once: '📅 Unique', morning: '☀️ Matin', afternoon: '🌙 Après-midi', weekday: '📆 Semaine', weekend: '🎉 Weekend' };
-            return labels[type] || type;
-        }
-
-        function displaySchedules() {
-            const container = document.getElementById('scheduleList');
-            if (!container) return;
-            if (schedules.length === 0) {
-                container.innerHTML = '<div style="text-align:center;padding:20px;">Aucun horaire programmé</div>';
-                return;
-            }
-            container.innerHTML = schedules.map(s => `
-                <div class="schedule-item">
-                    <div>
-                        <div class="schedule-time">⏰ ${s.heure?.toString().padStart(2, '0') || '--'}h${s.minute?.toString().padStart(2, '0') || '--'}
-                            <span class="schedule-period">${getPeriodLabel(s.type)}</span>
-                        </div>
-                        ${s.date ? `<div class="schedule-date">📅 ${s.date}</div>` : ''}
-                        ${s.duree ? `<div class="schedule-duration">⏱️ Durée: ${formatDuree(s.duree)}</div>` : ''}
-                    </div>
-                    <div>
-                        <span class="schedule-action ${s.action === 1 ? 'on' : 'off'}">
-                            ${s.action === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}
-                        </span>
-                    </div>
-                    <div>
-                        <button class="schedule-edit" onclick="editSchedule('${s.id}')">✏️</button>
-                        <button class="schedule-delete" onclick="deleteSchedule('${s.id}')">🗑️</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        async function saveSchedule(id, data) {
-            const user = auth.currentUser;
-            if (!user) return;
-
-            if (data.dureeValue && data.dureeValue > 0) {
-                const value = parseInt(data.dureeValue);
-                const unit = data.dureeUnit;
-                if (unit === 'seconds') data.duree = value;
-                else if (unit === 'minutes') data.duree = value * 60;
-                else if (unit === 'hours') data.duree = value * 3600;
-                delete data.dureeValue;
-                delete data.dureeUnit;
-            } else {
-                data.duree = null;
-                delete data.dureeValue;
-                delete data.dureeUnit;
-            }
-
-            if (id) {
-                await database.ref(`users/${user.uid}/schedules/${id}`).update(data);
-            } else {
-                await database.ref(`users/${user.uid}/schedules`).push(data);
-            }
-            await loadSchedules();
-            showNotification('✅ Horaire enregistré');
-        }
-
-        async function deleteSchedule(id) {
-            if (!confirm('Supprimer cet horaire ?')) return;
-            const user = auth.currentUser;
-            if (!user) return;
-            await database.ref(`users/${user.uid}/schedules/${id}`).remove();
-            await loadSchedules();
-            showNotification('🗑️ Horaire supprimé');
-        }
-
-        window.editSchedule = function (id) {
-            const schedule = schedules.find(s => s.id === id);
-            if (schedule) {
-                document.getElementById('scheduleType').value = schedule.type || 'recurring';
-                document.getElementById('scheduleHour').value = schedule.heure || '';
-                document.getElementById('scheduleMinute').value = schedule.minute || '';
-                document.getElementById('scheduleAction').value = schedule.action;
-
-                if (schedule.duree) {
-                    const duree = schedule.duree;
-                    if (duree >= 3600 && duree % 3600 === 0) {
-                        document.getElementById('scheduleDurationValue').value = duree / 3600;
-                        document.getElementById('scheduleDurationUnit').value = 'hours';
-                    } else if (duree >= 60 && duree % 60 === 0) {
-                        document.getElementById('scheduleDurationValue').value = duree / 60;
-                        document.getElementById('scheduleDurationUnit').value = 'minutes';
-                    } else {
-                        document.getElementById('scheduleDurationValue').value = duree;
-                        document.getElementById('scheduleDurationUnit').value = 'seconds';
-                    }
-                } else {
-                    document.getElementById('scheduleDurationValue').value = '';
-                    document.getElementById('scheduleDurationUnit').value = 'minutes';
-                }
-
-                document.getElementById('modalTitle').textContent = 'Modifier l\'horaire';
-                window.currentEditId = id;
-                document.getElementById('scheduleModal').style.display = 'flex';
-            }
-        };
-
-        window.deleteSchedule = deleteSchedule;
-
-        const yearSelect = document.getElementById('scheduleYear');
-        const currentYear = new Date().getFullYear();
-        for (let y = currentYear; y <= currentYear + 5; y++) {
-            const option = document.createElement('option');
-            option.value = y;
-            option.textContent = y;
-            yearSelect.appendChild(option);
-        }
-
-        document.getElementById('scheduleType').onchange = function () {
-            const dateFields = document.getElementById('dateFields');
-            dateFields.style.display = this.value === 'once' ? 'block' : 'none';
-        };
-
-        document.getElementById('scheduleMonth').onchange = function () {
-            const year = document.getElementById('scheduleYear').value;
-            const month = this.value;
-            if (year && month !== '') {
-                const daysInMonth = new Date(parseInt(year), parseInt(month) + 1, 0).getDate();
-                const daySelect = document.getElementById('scheduleDay');
-                daySelect.innerHTML = '<option value="">Jour</option>';
-                for (let d = 1; d <= daysInMonth; d++) {
-                    const option = document.createElement('option');
-                    option.value = d;
-                    option.textContent = d;
-                    daySelect.appendChild(option);
-                }
-            }
-        };
-
-        document.getElementById('addScheduleBtn')?.addEventListener('click', () => {
-            document.getElementById('scheduleType').value = 'recurring';
-            document.getElementById('dateFields').style.display = 'none';
-            document.getElementById('scheduleHour').value = '';
-            document.getElementById('scheduleMinute').value = '';
-            document.getElementById('scheduleAction').value = '1';
-            document.getElementById('scheduleDurationValue').value = '';
-            document.getElementById('scheduleDurationUnit').value = 'minutes';
-            document.getElementById('modalTitle').textContent = 'Ajouter un horaire';
-            window.currentEditId = null;
-            document.getElementById('scheduleModal').style.display = 'flex';
-        });
-
-        document.getElementById('closeModalBtn')?.addEventListener('click', () => {
-            document.getElementById('scheduleModal').style.display = 'none';
-        });
-
-        document.getElementById('saveScheduleBtn')?.addEventListener('click', async () => {
-            const type = document.getElementById('scheduleType').value;
-            const heure = document.getElementById('scheduleHour').value;
-            const minute = document.getElementById('scheduleMinute').value;
-            const action = document.getElementById('scheduleAction').value;
-            const dureeValue = document.getElementById('scheduleDurationValue').value;
-            const dureeUnit = document.getElementById('scheduleDurationUnit').value;
-
-            if (heure === '' || minute === '') {
-                showNotification('❌ Veuillez saisir une heure et une minute', true);
-                return;
-            }
-
-            if (heure < 0 || heure > 23) {
-                showNotification('❌ Heure doit être entre 0 et 23', true);
-                return;
-            }
-
-            if (minute < 0 || minute > 59) {
-                showNotification('❌ Minute doit être entre 0 et 59', true);
-                return;
-            }
-
-            let scheduleData = { type, heure: parseInt(heure), minute: parseInt(minute), action: parseInt(action), dureeValue: dureeValue ? parseInt(dureeValue) : null, dureeUnit: dureeUnit };
-
-            if (type === 'once') {
-                const year = document.getElementById('scheduleYear').value;
-                const month = document.getElementById('scheduleMonth').value;
-                const day = document.getElementById('scheduleDay').value;
-                if (!year || !month || !day) {
-                    showNotification('❌ Veuillez sélectionner une date complète', true);
-                    return;
-                }
-                scheduleData.date = `${year}-${parseInt(month) + 1}-${day}`;
-                scheduleData.timestamp = new Date(parseInt(year), parseInt(month), parseInt(day), parseInt(heure), parseInt(minute)).getTime();
-            }
-
-            await saveSchedule(window.currentEditId, scheduleData);
-            document.getElementById('scheduleModal').style.display = 'none';
-        });
-
-        // Vérification des horaires programmés
-        function checkSchedules() {
-            if (!auth.currentUser) return;
-
-            const now = new Date();
-            const currentHour = now.getHours();
-            const currentMinute = now.getMinutes();
-            const currentTime = currentHour * 60 + currentMinute;
-
-            schedules.forEach(schedule => {
-                let shouldExecute = false;
-                const scheduleTime = schedule.heure * 60 + schedule.minute;
-
-                const lastExecKey = `lastExec_${schedule.id}`;
-                const currentHourKey = `${now.getDate()}_${now.getMonth()}_${now.getFullYear()}_${schedule.heure}_${schedule.minute}`;
-
-                if (lastExecHour === currentHourKey) return;
-
-                switch (schedule.type) {
-                    case 'recurring':
-                        if (scheduleTime === currentTime) shouldExecute = true;
-                        break;
-                    case 'once':
-                        if (schedule.date && schedule.timestamp) {
-                            const scheduleDate = new Date(schedule.timestamp);
-                            if (now >= scheduleDate && now < new Date(scheduleDate.getTime() + 60000)) {
-                                shouldExecute = true;
-                            }
-                        }
-                        break;
-                    case 'morning':
-                        if (currentHour >= 6 && currentHour < 12 && scheduleTime === currentTime) shouldExecute = true;
-                        break;
-                    case 'afternoon':
-                        if (currentHour >= 12 && currentHour < 18 && scheduleTime === currentTime) shouldExecute = true;
-                        break;
-                    case 'weekday':
-                        if (now.getDay() >= 1 && now.getDay() <= 5 && scheduleTime === currentTime) shouldExecute = true;
-                        break;
-                    case 'weekend':
-                        if (now.getDay() === 0 || now.getDay() === 6 && scheduleTime === currentTime) shouldExecute = true;
-                        break;
-                }
-
-                if (shouldExecute) {
-                    sendCommand(schedule.action);
-                    localStorage.setItem(lastExecKey, currentHourKey);
-
-                    if (schedule.action === 1 && schedule.duree && schedule.duree > 0) {
-                        if (scheduledStops[schedule.id]) clearTimeout(scheduledStops[schedule.id]);
-                        scheduledStops[schedule.id] = setTimeout(() => {
-                            sendCommand(0);
-                            delete scheduledStops[schedule.id];
-                        }, schedule.duree * 1000);
-                    }
-                }
-            });
-        }
-
-        // Admin functions
-        async function loadAdminDashboard() {
-            const usersSnap = await database.ref('users').once('value');
-            document.getElementById('adminTotalUsers').textContent = usersSnap.numChildren();
-
-            const historySnap = await database.ref('historique').once('value');
-            const historyData = historySnap.val();
-            const totalCommands = historyData ? Object.keys(historyData).length : 0;
-            document.getElementById('adminTotalCommands').textContent = totalCommands;
-
-            const today = new Date().toDateString();
-            let todayCommands = 0;
-            if (historyData) {
-                todayCommands = Object.values(historyData).filter(h => new Date(h.timestamp).toDateString() === today).length;
-            }
-            document.getElementById('adminTodayCommands').textContent = todayCommands;
-
-            let activeUsers = new Set();
-            if (historyData) {
-                Object.values(historyData).forEach(h => {
-                    if (new Date(h.timestamp).toDateString() === today && h.utilisateur) {
-                        activeUsers.add(h.utilisateur);
-                    }
-                });
-            }
-            document.getElementById('adminActiveUsers').textContent = activeUsers.size;
-
-            let totalSchedules = 0;
-            const users = usersSnap.val();
-            if (users) {
-                for (const uid of Object.keys(users)) {
-                    const schedulesSnap = await database.ref(`users/${uid}/schedules`).once('value');
-                    const schedules = schedulesSnap.val();
-                    if (schedules) totalSchedules += Object.keys(schedules).length;
-                }
-            }
-            document.getElementById('adminTotalSchedules').textContent = totalSchedules;
-
-            const motorSnap = await database.ref('moteur/etat/valeur').once('value');
-            const motorState = motorSnap.val();
-            document.getElementById('adminMotorStatus').innerHTML = motorState === 1 ? '🟢 MARCHE' : '🔴 ARRÊT';
-        }
-
-        async function loadUsers() {
-            const snapshot = await database.ref('users').once('value');
-            const users = snapshot.val() || {};
-            const container = document.getElementById('usersList');
-            if (!container) return;
-
-            if (Object.keys(users).length === 0) {
-                container.innerHTML = '<div style="text-align:center;padding:20px;">Aucun utilisateur</div>';
-                return;
-            }
-
-            container.innerHTML = '';
-            for (const [uid, userData] of Object.entries(users)) {
-                const div = document.createElement('div');
-                div.className = 'user-item';
-                div.innerHTML = `
-                    <div><div class="user-email">${userData.email || uid}</div><div style="font-size: 11px; color: #888;">UID: ${uid.substring(0, 15)}...</div></div>
-                    <div>
-                        <select class="user-role-select" data-uid="${uid}" ${uid === auth.currentUser?.uid ? 'disabled' : ''}>
-                            <option value="user" ${userData.role === 'user' ? 'selected' : ''}>👤 Utilisateur</option>
-                            <option value="admin" ${userData.role === 'admin' ? 'selected' : ''}>👑 Administrateur</option>
-                        </select>
-                        ${uid !== auth.currentUser?.uid ? `<button class="delete-user-btn" data-uid="${uid}">🗑️</button>` : '<span style="font-size:11px;color:#888;">(vous)</span>'}
-                    </div>
-                `;
-                container.appendChild(div);
-            }
-
-            document.querySelectorAll('.user-role-select').forEach(select => {
-                select.onchange = () => updateUserRole(select.dataset.uid, select.value);
-            });
-            document.querySelectorAll('.delete-user-btn').forEach(btn => {
-                btn.onclick = () => deleteUser(btn.dataset.uid);
-            });
-        }
-
-        async function updateUserRole(uid, newRole) {
-            try {
-                await database.ref(`users/${uid}/role`).set(newRole);
-                showNotification(`✅ Rôle mis à jour`);
-                loadUsers();
-            } catch (error) { showNotification(`❌ Erreur: ${error.message}`, true); }
-        }
-
-        async function deleteUser(uid) {
-            if (!confirm('Supprimer définitivement cet utilisateur ?')) return;
-            try {
-                await database.ref(`users/${uid}`).remove();
-                showNotification(`✅ Utilisateur supprimé`);
-                loadUsers();
-                loadAdminDashboard();
-            } catch (error) { showNotification(`❌ Erreur: ${error.message}`, true); }
-        }
-
-        async function loadLogs() {
-            const logsSnap = await database.ref('logs').limitToLast(100).once('value');
-            const logs = logsSnap.val();
-            const container = document.getElementById('logsList');
-            if (!logs) { container.innerHTML = '<div style="text-align:center;padding:20px;">Aucun log</div>'; return; }
-            const logsArray = Object.values(logs).reverse();
-            container.innerHTML = logsArray.map(log => `<div class="log-item"><div><span class="log-user">${log.user || 'Inconnu'}</span> <span class="log-action">- ${log.action}</span></div><div class="log-time">${new Date(log.timestamp).toLocaleString('fr-FR')}</div></div>`).join('');
-        }
-
-        async function loadAllSchedules() {
-            const usersSnap = await database.ref('users').once('value');
-            const users = usersSnap.val();
-            const container = document.getElementById('allSchedulesList');
-            if (!users) { container.innerHTML = '<div style="text-align:center;padding:20px;">Aucun utilisateur</div>'; return; }
-
-            let allSchedules = [];
-            for (const [uid, userData] of Object.entries(users)) {
-                const schedulesSnap = await database.ref(`users/${uid}/schedules`).once('value');
-                const schedules = schedulesSnap.val();
-                if (schedules) {
-                    for (const [sid, schedule] of Object.entries(schedules)) {
-                        allSchedules.push({ user: userData.email || uid, schedule: schedule, id: sid });
-                    }
-                }
-            }
-
-            if (allSchedules.length === 0) { container.innerHTML = '<div style="text-align:center;padding:20px;">Aucun horaire programmé</div>'; return; }
-            container.innerHTML = allSchedules.map(s => `<div class="user-item"><div><div class="user-email">👤 ${s.user}</div><div>⏰ ${s.schedule.heure}h${s.schedule.minute} - ${s.schedule.action === 1 ? 'MARCHE' : 'ARRÊT'}</div>${s.schedule.duree ? `<div>⏱️ Durée: ${s.schedule.duree} sec</div>` : ''}</div><button class="delete-user-btn" onclick="deleteUserSchedule('${s.id}')">🗑️</button></div>`).join('');
-        }
-
-        document.getElementById('cleanHistoryBtn')?.addEventListener('click', async () => {
-            if (!confirm('Supprimer tout l\'historique des commandes ?')) return;
-            await database.ref('historique').remove();
-            showNotification('✅ Historique nettoyé');
-        });
-
-        document.getElementById('exportAllUsersBtn')?.addEventListener('click', async () => {
-            const usersSnap = await database.ref('users').once('value');
-            const users = usersSnap.val();
-            let csv = "UID,Email,Rôle,Date création\n";
-            for (const [uid, data] of Object.entries(users || {})) {
-                csv += `${uid},${data.email || ''},${data.role || 'user'},${data.createdAt ? new Date(data.createdAt).toLocaleDateString() : ''}\n`;
-            }
-            const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'utilisateurs.csv';
-            link.click();
-            showNotification('✅ Export utilisateurs terminé');
-        });
-
-        document.getElementById('exportAllCommandsBtn')?.addEventListener('click', async () => {
-            const historySnap = await database.ref('historique').once('value');
-            const history = historySnap.val();
-            let csv = "Date,Heure,Commande,Appareil,Utilisateur\n";
-            for (const item of Object.values(history || {})) {
-                const date = new Date(item.timestamp);
-                csv += `${date.toLocaleDateString()},${date.toLocaleTimeString()},${item.valeur === 1 ? 'MARCHE' : 'ARRÊT'},${item.appareil},${item.utilisateur}\n`;
-            }
-            const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'commandes.csv';
-            link.click();
-            showNotification('✅ Export commandes terminé');
-        });
-
-        document.getElementById('exportBackupBtn')?.addEventListener('click', async () => {
-            const usersSnap = await database.ref('users').once('value');
-            const historySnap = await database.ref('historique').once('value');
-            const motorSnap = await database.ref('moteur').once('value');
-            const backup = { users: usersSnap.val(), historique: historySnap.val(), moteur: motorSnap.val(), date: new Date().toISOString() };
-            const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `backup_${Date.now()}.json`;
-            link.click();
-            showNotification('✅ Backup complet terminé');
-        });
-
-        document.getElementById('saveDelayBtn')?.addEventListener('click', async () => {
-            const delay = document.getElementById('commandDelay').value;
-            await database.ref('settings/commandDelay').set(parseInt(delay));
-            showNotification('✅ Paramètre sauvegardé');
-        });
-
-        document.querySelectorAll('.admin-tab').forEach(tab => {
-            tab.onclick = () => {
-                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                document.querySelectorAll('.admin-pane').forEach(pane => pane.classList.remove('active'));
-                document.getElementById(`admin${tab.dataset.tab.charAt(0).toUpperCase() + tab.dataset.tab.slice(1)}Pane`).classList.add('active');
-                if (tab.dataset.tab === 'dashboard') loadAdminDashboard();
-                if (tab.dataset.tab === 'users') loadUsers();
-                if (tab.dataset.tab === 'logs') loadLogs();
-                if (tab.dataset.tab === 'schedules') loadAllSchedules();
-            };
-        });
-
-        document.getElementById('createUserBtn')?.addEventListener('click', () => {
-            const email = document.getElementById('newUserEmail').value;
-            const role = document.getElementById('newUserRole').value;
-            if (!email) { showNotification('❌ Entrez un email', true); return; }
-            showNotification(`📧 Invitation envoyée à ${email} (doit s'inscrire)`);
-            document.getElementById('newUserEmail').value = '';
-        });
-
-        document.getElementById('clearLogsBtn')?.addEventListener('click', async () => {
-            if (!confirm('Effacer tous les logs ?')) return;
-            await database.ref('logs').remove();
-            loadLogs();
-            showNotification('✅ Logs effacés');
-        });
-
-        // Auth
-        const loginScreen = document.getElementById('loginScreen');
-        const registerScreen = document.getElementById('registerScreen');
-        const appScreen = document.querySelector('.main-content');
-
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                const roleSnapshot = await database.ref(`users/${user.uid}/role`).once('value');
-                let role = roleSnapshot.val();
-                const usersSnapshot = await database.ref('users').once('value');
-                const userCount = usersSnapshot.numChildren();
-                if (!role) {
-                    role = userCount === 0 ? 'admin' : 'user';
-                    await database.ref(`users/${user.uid}`).set({ email: user.email, role: role, createdAt: Date.now() });
-                }
-                currentUserRole = role;
-
-                const userEmailSpan = document.getElementById('userEmail');
-                const badge = role === 'admin' ? '<span class="admin-badge">👑 Admin</span>' : '<span class="user-badge">👤 User</span>';
-                userEmailSpan.innerHTML = `${user.email} ${badge}`;
-
-                const adminMenuItem = document.getElementById('adminMenuItem');
-                if (adminMenuItem) adminMenuItem.style.display = role === 'admin' ? 'flex' : 'none';
-
-                loginScreen.style.display = 'none';
-                registerScreen.style.display = 'none';
-                appScreen.style.display = 'block';
-                loadProfilePhoto();
-                loadSchedules();
-                initApp();
-
-                if (scheduleCheckerInterval) clearInterval(scheduleCheckerInterval);
-                scheduleCheckerInterval = setInterval(checkSchedules, 60000);
-                checkSchedules();
-
-                await database.ref('logs').push({ userId: user.uid, user: user.email, action: 'Connexion', timestamp: Date.now() });
-            } else {
-                if (scheduleCheckerInterval) {
-                    clearInterval(scheduleCheckerInterval);
-                    scheduleCheckerInterval = null;
-                }
-                loginScreen.style.display = 'block';
-                registerScreen.style.display = 'none';
-                appScreen.style.display = 'none';
-            }
-        });
-
-        document.getElementById('doLogin').onclick = async () => {
-            try { await auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value); document.getElementById('loginError').textContent = ''; }
-            catch (e) { document.getElementById('loginError').textContent = e.message; }
-        };
-        document.getElementById('doRegister').onclick = async () => {
-            try { await auth.createUserWithEmailAndPassword(document.getElementById('registerEmail').value, document.getElementById('registerPassword').value); document.getElementById('registerError').textContent = ''; }
-            catch (e) { document.getElementById('registerError').textContent = e.message; }
-        };
-        document.getElementById('showRegister').onclick = () => { loginScreen.style.display = 'none'; registerScreen.style.display = 'block'; };
-        document.getElementById('showLogin').onclick = () => { loginScreen.style.display = 'block'; registerScreen.style.display = 'none'; };
-        document.getElementById('logoutBtn').onclick = () => auth.signOut();
-
-        function getDeviceType() { return /mobile|android|iphone/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC"; }
+        document.getElementById('profilePhotoUpload').onchange = (e) => e.target.files[0] && uploadProfilePhoto(e.target.files[0]);
 
         function showNotification(msg, isError = false) {
-            const d = document.createElement('div'); d.className = 'notification' + (isError ? ' error' : ''); d.textContent = msg; document.body.appendChild(d); setTimeout(() => d.remove(), 3000);
-        }
-
-        function updateLED(state) {
-            document.querySelectorAll('#led, #led2').forEach(l => l.className = state === 1 ? 'led led-on' : 'led led-off');
-            document.querySelectorAll('#motorStatus, #motorStatus2').forEach(s => s.innerHTML = state === 1 ? 'MARCHE ✅' : 'ARRÊT ❌');
-            motorState = state;
+            const d = document.createElement('div');
+            d.className = 'notification' + (isError ? ' error' : '');
+            d.textContent = msg;
+            document.body.appendChild(d);
+            setTimeout(() => d.remove(), 3000);
         }
 
         function formatDate(ts) { return new Date(ts).toLocaleString('fr-FR'); }
 
-        function formatTime(s) { let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60); return h > 0 ? `${h}h ${m}m` : m > 0 ? `${m}m` : `${s % 60}s`; }
-
-        setInterval(() => {
-            if (motorState === 1 && motorStartTime) document.getElementById('currentRunTime').innerHTML = formatTime(Math.floor((Date.now() - motorStartTime) / 1000));
-            document.getElementById('totalRunTime').innerHTML = formatTime(totalRunTimeSeconds);
-            document.getElementById('runTimeDisplay').innerHTML = motorState === 1 && motorStartTime ? formatTime(Math.floor((Date.now() - motorStartTime) / 1000)) : '0s';
-        }, 1000);
-
         async function sendCommand(value) {
-            const device = getDeviceType();
+            const device = /mobile|android|iphone/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
             try {
                 await database.ref('moteur/etat').set({ valeur: value, appareil: device, timestamp: Date.now() });
                 await database.ref('historique').push({ valeur: value, appareil: device, timestamp: Date.now(), utilisateur: auth.currentUser?.email });
                 showNotification(`✅ ${value === 1 ? 'MARCHE' : 'ARRÊT'} envoyé`);
-                await database.ref('logs').push({ userId: auth.currentUser?.uid, user: auth.currentUser?.email, action: value === 1 ? 'MARCHE' : 'ARRÊT', timestamp: Date.now() });
             } catch (e) { showNotification(`❌ Erreur`, true); }
         }
 
@@ -2248,12 +1035,13 @@
                 const d = s.val();
                 if (d) {
                     let prev = motorState;
-                    updateLED(d.valeur);
+                    updateAnimations(d.valeur);
                     document.getElementById('lastCommand').innerHTML = d.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT';
                     document.getElementById('lastDevice').innerHTML = d.appareil;
                     document.getElementById('lastTime').innerHTML = formatDate(d.timestamp);
                     if (d.valeur === 1 && prev === 0) { motorStartTime = Date.now(); cycleCount++; saveStats(); document.getElementById('statCycles').textContent = cycleCount; }
                     else if (d.valeur === 0 && prev === 1 && motorStartTime) { totalRunTimeSeconds += Math.floor((Date.now() - motorStartTime) / 1000); motorStartTime = null; saveStats(); }
+                    motorState = d.valeur;
                 }
             });
         }
@@ -2261,16 +1049,14 @@
         async function loadHistory() {
             const snap = await database.ref('historique').once('value');
             const data = snap.val();
-            commandHistory = []; onCount = 0; offCount = 0; pcCount = 0; mobileCount = 0;
+            commandHistory = []; onCount = 0; offCount = 0;
             if (data) {
                 commandHistory = Object.values(data).reverse();
-                commandHistory.forEach(i => { i.valeur === 1 ? onCount++ : offCount++; if (i.appareil?.includes('PC')) pcCount++; else if (i.appareil?.includes('Mobile')) mobileCount++; });
+                commandHistory.forEach(i => i.valeur === 1 ? onCount++ : offCount++);
             }
             document.getElementById('statTotal').textContent = onCount + offCount;
             document.getElementById('statOn').textContent = onCount;
             document.getElementById('statOff').textContent = offCount;
-            document.getElementById('pcStat').textContent = pcCount;
-            document.getElementById('mobileStat').textContent = mobileCount;
 
             const today = new Date().toDateString();
             const weekAgo = Date.now() - 7 * 24 * 3600 * 1000;
@@ -2279,10 +1065,7 @@
             document.getElementById('weekCount').textContent = commandHistory.filter(i => i.timestamp > weekAgo).length;
             document.getElementById('monthCount').textContent = commandHistory.filter(i => i.timestamp > monthAgo).length;
             document.getElementById('totalCount').textContent = onCount + offCount;
-            updateHistoryDisplay();
-        }
 
-        function updateHistoryDisplay() {
             let filtered = commandHistory;
             if (currentFilter === "on") filtered = commandHistory.filter(i => i.valeur === 1);
             if (currentFilter === "off") filtered = commandHistory.filter(i => i.valeur === 0);
@@ -2294,7 +1077,7 @@
         async function loadStats() {
             const snap = await database.ref('stats').once('value');
             const d = snap.val();
-            if (d) { cycleCount = d.cycleCount || 0; totalRunTimeSeconds = d.totalRunTime || 0; document.getElementById('statCycles').textContent = cycleCount; document.getElementById('totalRunTime').innerHTML = formatTime(totalRunTimeSeconds); }
+            if (d) { cycleCount = d.cycleCount || 0; totalRunTimeSeconds = d.totalRunTime || 0; document.getElementById('statCycles').textContent = cycleCount; }
         }
 
         async function saveStats() { await database.ref('stats').set({ cycleCount, totalRunTime: totalRunTimeSeconds, lastUpdate: Date.now() }); }
@@ -2303,16 +1086,29 @@
             if (!commandHistory.length) return showNotification('Aucune donnée', true);
             let csv = "Date,Heure,Commande,Appareil\n";
             commandHistory.forEach(i => { let d = new Date(i.timestamp); csv += `${d.toLocaleDateString()},${d.toLocaleTimeString()},${i.valeur === 1 ? 'MARCHE' : 'ARRÊT'},${i.appareil}\n`; });
-            let link = document.createElement('a'); link.href = URL.createObjectURL(new Blob(["\uFEFF" + csv], { type: 'text/csv' })); link.download = `moteur_${Date.now()}.csv`; link.click(); showNotification('✅ CSV exporté');
+            let link = document.createElement('a');
+            link.href = URL.createObjectURL(new Blob(["\uFEFF" + csv], { type: 'text/csv' }));
+            link.download = `moteur_${Date.now()}.csv`;
+            link.click();
+            showNotification('✅ CSV exporté');
         }
 
         function exportJSON() {
             if (!commandHistory.length) return showNotification('Aucune donnée', true);
-            let link = document.createElement('a'); link.href = URL.createObjectURL(new Blob([JSON.stringify(commandHistory, null, 2)], { type: 'application/json' })); link.download = `moteur_${Date.now()}.json`; link.click(); showNotification('✅ JSON exporté');
+            let link = document.createElement('a');
+            link.href = URL.createObjectURL(new Blob([JSON.stringify(commandHistory, null, 2)], { type: 'application/json' }));
+            link.download = `moteur_${Date.now()}.json`;
+            link.click();
+            showNotification('✅ JSON exporté');
         }
 
         document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.onclick = () => { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentFilter = btn.dataset.filter; updateHistoryDisplay(); };
+            btn.onclick = () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                loadHistory();
+            };
         });
 
         function initApp() {
@@ -2327,12 +1123,77 @@
             loadStats();
             setInterval(loadHistory, 5000);
             setInterval(saveStats, 10000);
+            setInterval(() => {
+                if (motorState === 1 && motorStartTime) {
+                    document.getElementById('runTimeDisplay').innerHTML = formatTime(Math.floor((Date.now() - motorStartTime) / 1000));
+                } else {
+                    document.getElementById('runTimeDisplay').innerHTML = '0s';
+                }
+            }, 1000);
         }
 
-        // Initialisation des nouvelles fonctionnalités
-        initTheme();
-        initPasswordToggle();
-        initVoiceRecognition();
+        function formatTime(s) { let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60); return h > 0 ? `${h}h ${m}m` : m > 0 ? `${m}m` : `${s % 60}s`; }
+
+        // Auth
+        const loginScreen = document.getElementById('loginScreen');
+        const registerScreen = document.getElementById('registerScreen');
+        const appScreen = document.querySelector('.main-content');
+
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const roleSnapshot = await database.ref(`users/${user.uid}/role`).once('value');
+                let role = roleSnapshot.val();
+                if (!role) {
+                    const usersSnapshot = await database.ref('users').once('value');
+                    role = usersSnapshot.numChildren() === 0 ? 'admin' : 'user';
+                    await database.ref(`users/${user.uid}`).set({ email: user.email, role: role, createdAt: Date.now() });
+                }
+                currentUserRole = role;
+                document.getElementById('userEmail').innerHTML = `${user.email} ${role === 'admin' ? '👑 Admin' : '👤 User'}`;
+                document.getElementById('adminMenuItem').style.display = role === 'admin' ? 'flex' : 'none';
+                document.getElementById('profileEmail').textContent = user.email;
+                document.getElementById('profileRole').textContent = role === 'admin' ? 'Administrateur' : 'Utilisateur';
+
+                loginScreen.style.display = 'none';
+                registerScreen.style.display = 'none';
+                appScreen.style.display = 'block';
+
+                const photoSnap = await database.ref(`users/${user.uid}/photo`).once('value');
+                if (photoSnap.val()?.data) {
+                    document.getElementById('headerProfilePhoto').src = photoSnap.val().data;
+                    document.getElementById('profileBigPhoto').src = photoSnap.val().data;
+                }
+
+                initApp();
+                initVoiceRecognition();
+                initTheme();
+                speak("Bienvenue, système prêt");
+            } else {
+                loginScreen.style.display = 'block';
+                registerScreen.style.display = 'none';
+                appScreen.style.display = 'none';
+            }
+        });
+
+        document.getElementById('doLogin').onclick = async () => {
+            try {
+                await auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value);
+                document.getElementById('loginError').textContent = '';
+            } catch (e) {
+                document.getElementById('loginError').textContent = e.message;
+            }
+        };
+        document.getElementById('doRegister').onclick = async () => {
+            try {
+                await auth.createUserWithEmailAndPassword(document.getElementById('registerEmail').value, document.getElementById('registerPassword').value);
+                document.getElementById('registerError').textContent = '';
+            } catch (e) {
+                document.getElementById('registerError').textContent = e.message;
+            }
+        };
+        document.getElementById('showRegister').onclick = () => { loginScreen.style.display = 'none'; registerScreen.style.display = 'block'; };
+        document.getElementById('showLogin').onclick = () => { loginScreen.style.display = 'block'; registerScreen.style.display = 'none'; };
+        document.getElementById('logoutBtn').onclick = () => auth.signOut();
     </script>
 </body>
 
