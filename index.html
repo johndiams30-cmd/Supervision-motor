@@ -22,6 +22,124 @@
             background: linear-gradient(135deg, #e8f0fe 0%, #d4e4fc 100%);
             min-height: 100vh;
             color: #1a2a4f;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Thème noir */
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .sidebar {
+            background: #1e1e2e;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .sidebar-header {
+            border-bottom-color: #2b7be4;
+        }
+
+        body.dark-mode .sidebar-header h2 {
+            color: #4a9eff;
+        }
+
+        body.dark-mode .nav-item {
+            color: #c0c0c0;
+        }
+
+        body.dark-mode .nav-item:hover {
+            background: #2a2a3e;
+            color: #4a9eff;
+        }
+
+        body.dark-mode .nav-item.active {
+            background: #2b7be4;
+            color: white;
+        }
+
+        body.dark-mode .header {
+            background: #1e1e2e;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .card {
+            background: #1e1e2e;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .card h3 {
+            color: #4a9eff;
+        }
+
+        body.dark-mode .stat-card {
+            background: #2a2a3e;
+        }
+
+        body.dark-mode .stat-number {
+            color: #4a9eff;
+        }
+
+        body.dark-mode .info-row {
+            border-bottom-color: #333;
+        }
+
+        body.dark-mode .info-label {
+            color: #aaa;
+        }
+
+        body.dark-mode .history-item {
+            background: #2a2a3e;
+        }
+
+        body.dark-mode .schedule-item {
+            background: #2a2a3e;
+        }
+
+        body.dark-mode .schedule-period {
+            background: #2a2a3e;
+            color: #4a9eff;
+        }
+
+        body.dark-mode .filter-btn {
+            background: #2a2a3e;
+            border-color: #4a9eff;
+            color: #4a9eff;
+        }
+
+        body.dark-mode .filter-btn.active {
+            background: #2b7be4;
+            color: white;
+        }
+
+        body.dark-mode .user-item {
+            background: #2a2a3e;
+        }
+
+        body.dark-mode .log-item {
+            background: #2a2a3e;
+        }
+
+        body.dark-mode .modal-content {
+            background: #1e1e2e;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .modal-content input,
+        body.dark-mode .modal-content select {
+            background: #2a2a3e;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .login-card {
+            background: #1e1e2e;
+        }
+
+        body.dark-mode .login-input {
+            background: #2a2a3e;
+            border-color: #444;
+            color: #e0e0e0;
         }
 
         .sidebar {
@@ -52,6 +170,10 @@
             font-size: 11px;
             color: #666;
             margin-top: 5px;
+        }
+
+        body.dark-mode .sidebar-header p {
+            color: #aaa;
         }
 
         .nav-item {
@@ -105,6 +227,10 @@
         .user-email {
             font-size: 14px;
             color: #666;
+        }
+
+        body.dark-mode .user-email {
+            color: #aaa;
         }
 
         .logout-btn {
@@ -227,6 +353,69 @@
             opacity: 0.9;
         }
 
+        /* Bouton voix */
+        .btn-voice {
+            background: #9b59b6;
+            color: white;
+            position: relative;
+        }
+
+        .btn-voice.listening {
+            animation: pulse-voice 1.5s infinite;
+            background: #e74c3c;
+        }
+
+        @keyframes pulse-voice {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Bouton thème */
+        .theme-toggle {
+            background: #2b7be4;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Password wrapper */
+        .password-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-wrapper input {
+            width: 100%;
+            padding-right: 40px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            background: none;
+            border: none;
+            z-index: 10;
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -250,6 +439,10 @@
             font-size: 12px;
             color: #666;
             margin-top: 5px;
+        }
+
+        body.dark-mode .stat-label {
+            color: #aaa;
         }
 
         .info-row {
@@ -798,6 +991,7 @@
         <div class="header">
             <h2 id="pageTitle">Tableau de bord</h2>
             <div class="user-info">
+                <button class="theme-toggle" id="themeToggleBtn">🌙 Thème sombre</button>
                 <div class="profile-photo-container" id="headerProfileContainer">
                     <img id="headerProfilePhoto" class="profile-photo" src="https://via.placeholder.com/45" alt="Photo">
                     <input type="file" id="photoUpload" accept="image/*" style="display: none;">
@@ -835,6 +1029,7 @@
                 <div class="btn-group">
                     <button class="btn btn-primary" id="btnOn">🟢 MARCHE</button>
                     <button class="btn btn-danger" id="btnOff">🔴 ARRÊT</button>
+                    <button class="btn btn-voice" id="voiceCommandBtn">🎤 Commande vocale</button>
                 </div>
             </div>
 
@@ -868,6 +1063,7 @@
                 <div class="btn-group">
                     <button class="btn btn-primary" id="btnOn2">🟢 MARCHE</button>
                     <button class="btn btn-danger" id="btnOff2">🔴 ARRÊT</button>
+                    <button class="btn btn-voice" id="voiceCommandBtn2">🎤 Commande vocale</button>
                 </div>
             </div>
             <div class="card">
@@ -1216,6 +1412,10 @@
                             temps réel</span></div>
                     <div class="info-row"><span class="info-label">⏰</span><span class="info-value">Programmation
                             horaire avancée</span></div>
+                    <div class="info-row"><span class="info-label">🎤</span><span class="info-value">Commande
+                            vocale</span></div>
+                    <div class="info-row"><span class="info-label">🌙</span><span class="info-value">Thème sombre</span>
+                    </div>
                     <div class="info-row"><span class="info-label">📜</span><span class="info-value">Historique des
                             commandes</span></div>
                     <div class="info-row"><span class="info-label">📊</span><span class="info-value">Statistiques
@@ -1245,7 +1445,10 @@
             </div>
             <h2>🔐 Accès sécurisé</h2>
             <input type="email" id="loginEmail" class="login-input" placeholder="Email">
-            <input type="password" id="loginPassword" class="login-input" placeholder="Mot de passe">
+            <div class="password-wrapper">
+                <input type="password" id="loginPassword" class="login-input" placeholder="Mot de passe">
+                <button type="button" class="toggle-password" data-target="loginPassword">👁️</button>
+            </div>
             <button id="doLogin" class="login-btn">Se connecter</button>
             <div class="switch-btn" id="showRegister">Pas de compte ? Créer un compte</div>
             <div id="loginError" class="error-msg"></div>
@@ -1256,7 +1459,11 @@
         <div class="login-card">
             <h2>📝 Créer un compte</h2>
             <input type="email" id="registerEmail" class="login-input" placeholder="Email">
-            <input type="password" id="registerPassword" class="login-input" placeholder="Mot de passe (6+ caractères)">
+            <div class="password-wrapper">
+                <input type="password" id="registerPassword" class="login-input"
+                    placeholder="Mot de passe (6+ caractères)">
+                <button type="button" class="toggle-password" data-target="registerPassword">👁️</button>
+            </div>
             <button id="doRegister" class="login-btn">Créer le compte</button>
             <div class="switch-btn" id="showLogin">Déjà un compte ? Se connecter</div>
             <div id="registerError" class="error-msg"></div>
@@ -1285,6 +1492,115 @@
         let schedules = [];
         let scheduledStops = {};
         let currentUserRole = 'user';
+        let scheduleCheckerInterval = null;
+        let recognition = null;
+
+        // ========== THÈME SOMBRE ==========
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeToggleBtn').innerHTML = '☀️ Thème clair';
+            } else {
+                document.getElementById('themeToggleBtn').innerHTML = '🌙 Thème sombre';
+            }
+        }
+
+        document.getElementById('themeToggleBtn').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                document.getElementById('themeToggleBtn').innerHTML = '☀️ Thème clair';
+            } else {
+                localStorage.setItem('theme', 'light');
+                document.getElementById('themeToggleBtn').innerHTML = '🌙 Thème sombre';
+            }
+        });
+
+        // ========== AFFICHAGE MOT DE PASSE ==========
+        function initPasswordToggle() {
+            document.querySelectorAll('.toggle-password').forEach(button => {
+                button.addEventListener('click', function () {
+                    const targetId = this.getAttribute('data-target');
+                    const input = document.getElementById(targetId);
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        this.innerHTML = '🙈';
+                    } else {
+                        input.type = 'password';
+                        this.innerHTML = '👁️';
+                    }
+                });
+            });
+        }
+
+        // ========== COMMANDE VOCALE ==========
+        function initVoiceRecognition() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                console.warn("Reconnaissance vocale non supportée");
+                document.querySelectorAll('.btn-voice').forEach(btn => {
+                    btn.disabled = true;
+                    btn.title = "Reconnaissance vocale non supportée par ce navigateur";
+                });
+                return;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.lang = 'fr-FR';
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            function startVoiceCommand(button) {
+                if (!recognition) return;
+
+                button.classList.add('listening');
+                button.innerHTML = '🎤 Écoute...';
+
+                recognition.start();
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript.toLowerCase();
+                    console.log("Commande vocale reçue:", transcript);
+
+                    let command = null;
+                    if (transcript.includes('marche') || transcript.includes('allume') || transcript.includes('activer') || transcript.includes('démarrer')) {
+                        command = 1;
+                        showNotification(`🎤 Commande vocale: MARCHE`);
+                    } else if (transcript.includes('arrêt') || transcript.includes('éteint') || transcript.includes('désactiver') || transcript.includes('couper') || transcript.includes('stop')) {
+                        command = 0;
+                        showNotification(`🎤 Commande vocale: ARRÊT`);
+                    } else {
+                        showNotification(`🎤 Commande non reconnue: "${transcript}"`, true);
+                    }
+
+                    if (command !== null) {
+                        sendCommand(command);
+                    }
+
+                    button.classList.remove('listening');
+                    button.innerHTML = '🎤 Commande vocale';
+                };
+
+                recognition.onerror = (event) => {
+                    console.error("Erreur reconnaissance vocale:", event.error);
+                    button.classList.remove('listening');
+                    button.innerHTML = '🎤 Commande vocale';
+                    if (event.error !== 'no-speech') {
+                        showNotification(`🎤 Erreur: ${event.error}`, true);
+                    }
+                };
+
+                recognition.onend = () => {
+                    button.classList.remove('listening');
+                    button.innerHTML = '🎤 Commande vocale';
+                };
+            }
+
+            document.querySelectorAll('.btn-voice').forEach(btn => {
+                btn.addEventListener('click', () => startVoiceCommand(btn));
+            });
+        }
 
         // Navigation
         function navigateTo(page) {
@@ -1566,6 +1882,65 @@
             document.getElementById('scheduleModal').style.display = 'none';
         });
 
+        // Vérification des horaires programmés
+        function checkSchedules() {
+            if (!auth.currentUser) return;
+
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentTime = currentHour * 60 + currentMinute;
+
+            schedules.forEach(schedule => {
+                let shouldExecute = false;
+                const scheduleTime = schedule.heure * 60 + schedule.minute;
+
+                const lastExecKey = `lastExec_${schedule.id}`;
+                const currentHourKey = `${now.getDate()}_${now.getMonth()}_${now.getFullYear()}_${schedule.heure}_${schedule.minute}`;
+
+                if (lastExecHour === currentHourKey) return;
+
+                switch (schedule.type) {
+                    case 'recurring':
+                        if (scheduleTime === currentTime) shouldExecute = true;
+                        break;
+                    case 'once':
+                        if (schedule.date && schedule.timestamp) {
+                            const scheduleDate = new Date(schedule.timestamp);
+                            if (now >= scheduleDate && now < new Date(scheduleDate.getTime() + 60000)) {
+                                shouldExecute = true;
+                            }
+                        }
+                        break;
+                    case 'morning':
+                        if (currentHour >= 6 && currentHour < 12 && scheduleTime === currentTime) shouldExecute = true;
+                        break;
+                    case 'afternoon':
+                        if (currentHour >= 12 && currentHour < 18 && scheduleTime === currentTime) shouldExecute = true;
+                        break;
+                    case 'weekday':
+                        if (now.getDay() >= 1 && now.getDay() <= 5 && scheduleTime === currentTime) shouldExecute = true;
+                        break;
+                    case 'weekend':
+                        if (now.getDay() === 0 || now.getDay() === 6 && scheduleTime === currentTime) shouldExecute = true;
+                        break;
+                }
+
+                if (shouldExecute) {
+                    sendCommand(schedule.action);
+                    localStorage.setItem(lastExecKey, currentHourKey);
+
+                    if (schedule.action === 1 && schedule.duree && schedule.duree > 0) {
+                        if (scheduledStops[schedule.id]) clearTimeout(scheduledStops[schedule.id]);
+                        scheduledStops[schedule.id] = setTimeout(() => {
+                            sendCommand(0);
+                            delete scheduledStops[schedule.id];
+                        }, schedule.duree * 1000);
+                    }
+                }
+            });
+        }
+
         // Admin functions
         async function loadAdminDashboard() {
             const usersSnap = await database.ref('users').once('value');
@@ -1808,8 +2183,16 @@
                 loadSchedules();
                 initApp();
 
+                if (scheduleCheckerInterval) clearInterval(scheduleCheckerInterval);
+                scheduleCheckerInterval = setInterval(checkSchedules, 60000);
+                checkSchedules();
+
                 await database.ref('logs').push({ userId: user.uid, user: user.email, action: 'Connexion', timestamp: Date.now() });
             } else {
+                if (scheduleCheckerInterval) {
+                    clearInterval(scheduleCheckerInterval);
+                    scheduleCheckerInterval = null;
+                }
                 loginScreen.style.display = 'block';
                 registerScreen.style.display = 'none';
                 appScreen.style.display = 'none';
@@ -1945,6 +2328,11 @@
             setInterval(loadHistory, 5000);
             setInterval(saveStats, 10000);
         }
+
+        // Initialisation des nouvelles fonctionnalités
+        initTheme();
+        initPasswordToggle();
+        initVoiceRecognition();
     </script>
 </body>
 
