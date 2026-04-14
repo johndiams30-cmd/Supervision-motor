@@ -165,24 +165,28 @@
             border-left-color: white;
         }
 
-        /* Animation moteur qui tourne */
+        /* Animation moteur */
         .motor-animation {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 30px;
+            gap: 40px;
             flex-wrap: wrap;
             margin: 20px 0;
         }
 
         .motor-icon {
-            width: 120px;
-            height: 120px;
-            position: relative;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            transition: all 0.3s;
         }
 
         .motor-spinning {
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin {
@@ -195,61 +199,26 @@
             }
         }
 
-        .motor-body {
-            width: 80px;
-            height: 80px;
-            background: #555;
-            border-radius: 50%;
-            position: relative;
-            margin: 0 auto;
-        }
-
-        .motor-body::before {
-            content: "⚙️";
-            font-size: 60px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
         /* Ampoule */
         .bulb {
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
             transition: all 0.3s;
         }
 
         .bulb-off {
-            background: #999;
-            box-shadow: none;
+            filter: grayscale(1);
+            opacity: 0.5;
         }
 
         .bulb-on {
-            background: radial-gradient(circle at 30% 30%, #fff, #ffeb3b, #ffaa00);
-            box-shadow: 0 0 30px #ffeb3b;
+            filter: drop-shadow(0 0 20px #ffeb3b);
             animation: pulse 1s infinite;
-        }
-
-        .bulb-on::before {
-            content: "💡";
-            font-size: 40px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .bulb-off::before {
-            content: "💡";
-            font-size: 40px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0.5;
         }
 
         @keyframes pulse {
@@ -257,12 +226,10 @@
             0%,
             100% {
                 transform: scale(1);
-                opacity: 1;
             }
 
             50% {
                 transform: scale(1.05);
-                opacity: 0.9;
             }
         }
 
@@ -333,7 +300,9 @@
         }
 
         @keyframes pulse-voice {
-            0% {
+
+            0%,
+            100% {
                 transform: scale(1);
                 opacity: 1;
             }
@@ -342,16 +311,6 @@
                 transform: scale(1.05);
                 opacity: 0.8;
             }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .btn:hover {
-            transform: scale(1.02);
-            opacity: 0.9;
         }
 
         .stats-grid {
@@ -646,10 +605,8 @@
             <div class="card motor-card">
                 <h3>⚙️ État du moteur</h3>
                 <div class="motor-animation">
-                    <div class="motor-icon">
-                        <div class="motor-body" id="motorAnimation"></div>
-                    </div>
-                    <div class="bulb bulb-off" id="bulbAnimation"></div>
+                    <div class="motor-icon" id="motorIcon">⚙️</div>
+                    <div class="bulb bulb-off" id="bulbIcon">💡</div>
                 </div>
                 <div class="led led-off" id="led"></div>
                 <div class="motor-status" id="motorStatus">ARRÊT</div>
@@ -662,14 +619,22 @@
 
             <div class="card">
                 <h3>📱 Dernière activité</h3>
-                <div class="info-row"><span class="info-label">Commande</span><span class="info-value"
-                        id="lastCommand">-</span></div>
-                <div class="info-row"><span class="info-label">Appareil</span><span class="info-value"
-                        id="lastDevice">-</span></div>
-                <div class="info-row"><span class="info-label">Date/Heure</span><span class="info-value"
-                        id="lastTime">-</span></div>
-                <div class="info-row"><span class="info-label">Temps fonctionnement</span><span class="info-value"
-                        id="runTimeDisplay">0s</span></div>
+                <div class="info-row">
+                    <span class="info-label">Commande</span>
+                    <span class="info-value" id="lastCommand">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Appareil</span>
+                    <span class="info-value" id="lastDevice">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Date/Heure</span>
+                    <span class="info-value" id="lastTime">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Temps fonctionnement</span>
+                    <span class="info-value" id="runTimeDisplay">0s</span>
+                </div>
             </div>
         </div>
 
@@ -678,10 +643,8 @@
             <div class="card motor-card">
                 <h3>🎮 Contrôle moteur</h3>
                 <div class="motor-animation">
-                    <div class="motor-icon">
-                        <div class="motor-body" id="motorAnimation2"></div>
-                    </div>
-                    <div class="bulb bulb-off" id="bulbAnimation2"></div>
+                    <div class="motor-icon" id="motorIcon2">⚙️</div>
+                    <div class="bulb bulb-off" id="bulbIcon2">💡</div>
                 </div>
                 <div class="led led-off" id="led2"></div>
                 <div class="motor-status" id="motorStatus2">ARRÊT</div>
@@ -756,10 +719,14 @@
                 <div style="text-align:center">
                     <img id="profileBigPhoto" src="https://via.placeholder.com/150"
                         style="width:150px;height:150px;border-radius:50%;object-fit:cover;border:4px solid #2b7be4;margin:20px auto;cursor:pointer">
-                    <div class="info-row"><span class="info-label">📧 Email</span><span class="info-value"
-                            id="profileEmail">-</span></div>
-                    <div class="info-row"><span class="info-label">👑 Rôle</span><span class="info-value"
-                            id="profileRole">-</span></div>
+                    <div class="info-row">
+                        <span class="info-label">📧 Email</span>
+                        <span class="info-value" id="profileEmail">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">👑 Rôle</span>
+                        <span class="info-value" id="profileRole">-</span>
+                    </div>
                     <button class="btn btn-secondary" id="changePhotoBtn">📷 Changer ma photo</button>
                     <input type="file" id="profilePhotoUpload" accept="image/*" style="display:none">
                 </div>
@@ -835,27 +802,40 @@
         let currentUserRole = 'user';
         let recognition = null;
         let synth = null;
+        let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-        // Synthèse vocale
-        function speak(text) {
+        // Synthèse vocale (fonctionne sur mobile après interaction utilisateur)
+        function speak(text, onEnd = null) {
             if (!synth) {
                 synth = window.speechSynthesis;
             }
+
+            // Annuler toute parole en cours
+            synth.cancel();
+
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'fr-FR';
             utterance.rate = 0.9;
-            synth.cancel();
-            synth.speak(utterance);
+            utterance.pitch = 1;
+
+            if (onEnd) {
+                utterance.onend = onEnd;
+            }
+
+            // Sur mobile, attendre que la synthèse soit prête
+            setTimeout(() => {
+                synth.speak(utterance);
+            }, 100);
         }
 
-        // Mise à jour des animations moteur et ampoule
+        // Mise à jour des animations
         function updateAnimations(state) {
-            const motorElements = document.querySelectorAll('#motorAnimation, #motorAnimation2');
-            const bulbElements = document.querySelectorAll('#bulbAnimation, #bulbAnimation2');
+            const motorIcons = document.querySelectorAll('#motorIcon, #motorIcon2');
+            const bulbIcons = document.querySelectorAll('#bulbIcon, #bulbIcon2');
             const ledElements = document.querySelectorAll('#led, #led2');
             const statusElements = document.querySelectorAll('#motorStatus, #motorStatus2');
 
-            motorElements.forEach(el => {
+            motorIcons.forEach(el => {
                 if (state === 1) {
                     el.classList.add('motor-spinning');
                 } else {
@@ -863,7 +843,7 @@
                 }
             });
 
-            bulbElements.forEach(el => {
+            bulbIcons.forEach(el => {
                 if (state === 1) {
                     el.classList.remove('bulb-off');
                     el.classList.add('bulb-on');
@@ -882,34 +862,16 @@
             });
         }
 
-        // Thème
-        function initTheme() {
-            if (localStorage.getItem('theme') === 'dark') {
-                document.body.classList.add('dark-mode');
-                document.getElementById('themeToggleBtn').innerHTML = '☀️ Thème clair';
-            }
-        }
-        document.getElementById('themeToggleBtn').addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            document.getElementById('themeToggleBtn').innerHTML = isDark ? '☀️ Thème clair' : '🌙 Thème sombre';
-        });
-
-        // Password toggle
-        document.querySelectorAll('.toggle-password').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const input = document.getElementById(btn.dataset.target);
-                input.type = input.type === 'password' ? 'text' : 'password';
-                btn.innerHTML = input.type === 'password' ? '👁️' : '🙈';
-            });
-        });
-
-        // Commande vocale avec confirmation vocale
+        // Commande vocale avec synthèse vocale
         function initVoiceRecognition() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
             if (!SpeechRecognition) {
                 console.warn("Reconnaissance vocale non supportée");
+                document.querySelectorAll('.btn-voice').forEach(btn => {
+                    btn.disabled = true;
+                    btn.title = "Reconnaissance vocale non supportée";
+                });
                 return;
             }
 
@@ -917,38 +879,58 @@
             recognition.lang = 'fr-FR';
             recognition.continuous = false;
             recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
 
             async function startVoiceCommand(button) {
+                // Demander la permission microphone si nécessaire
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    stream.getTracks().forEach(track => track.stop());
+                } catch (err) {
+                    console.log("Permission microphone:", err);
+                }
+
                 button.classList.add('listening');
                 const originalText = button.innerHTML;
-                button.innerHTML = '🎤 Écoute...';
+                button.innerHTML = '🎤 Écoutez...';
 
-                try {
-                    recognition.start();
-                } catch (e) {
-                    recognition.abort();
-                    setTimeout(() => recognition.start(), 100);
-                }
+                // Message vocal de début
+                speak("Je vous écoute, dites Marche ou Arrêt", () => {
+                    try {
+                        recognition.start();
+                    } catch (e) {
+                        console.log("Erreur démarrage:", e);
+                        button.classList.remove('listening');
+                        button.innerHTML = originalText;
+                    }
+                });
 
                 recognition.onresult = (event) => {
                     const transcript = event.results[0][0].transcript.toLowerCase();
                     console.log("Commande reçue:", transcript);
 
                     let command = null;
+                    let responseText = "";
+
                     if (transcript.includes('marche') || transcript.includes('allume') ||
-                        transcript.includes('activer') || transcript.includes('démarrer')) {
+                        transcript.includes('activer') || transcript.includes('démarrer') ||
+                        transcript.includes('on')) {
                         command = 1;
-                        speak("Commande reçue, je démarre le moteur");
-                        showNotification('🎤 Commande: MARCHE');
+                        responseText = "Commande reçue, je démarre le moteur";
+                        showNotification('🎤 Commande vocale: MARCHE');
                     } else if (transcript.includes('arrêt') || transcript.includes('éteint') ||
-                        transcript.includes('désactiver') || transcript.includes('couper')) {
+                        transcript.includes('désactiver') || transcript.includes('couper') ||
+                        transcript.includes('stop') || transcript.includes('off')) {
                         command = 0;
-                        speak("Commande reçue, j'arrête le moteur");
-                        showNotification('🎤 Commande: ARRÊT');
+                        responseText = "Commande reçue, j'arrête le moteur";
+                        showNotification('🎤 Commande vocale: ARRÊT');
                     } else {
-                        speak("Désolé, commande non reconnue");
+                        responseText = "Désolé, commande non reconnue. Dites Marche ou Arrêt";
                         showNotification(`🎤 Non reconnu: "${transcript}"`, true);
                     }
+
+                    // Réponse vocale
+                    speak(responseText);
 
                     if (command !== null) {
                         sendCommand(command);
@@ -959,12 +941,21 @@
                 };
 
                 recognition.onerror = (event) => {
-                    console.error("Erreur:", event.error);
+                    console.error("Erreur reconnaissance:", event.error);
                     button.classList.remove('listening');
                     button.innerHTML = originalText;
-                    if (event.error !== 'no-speech') {
-                        speak("Erreur de reconnaissance vocale");
+
+                    let errorMsg = "";
+                    if (event.error === 'not-allowed') {
+                        errorMsg = "Microphone non autorisé. Vérifiez les permissions.";
+                    } else if (event.error === 'no-speech') {
+                        errorMsg = "Je n'ai rien entendu. Réessayez.";
+                    } else {
+                        errorMsg = `Erreur: ${event.error}`;
                     }
+
+                    speak(errorMsg);
+                    showNotification(`🎤 ${errorMsg}`, true);
                 };
 
                 recognition.onend = () => {
@@ -974,7 +965,10 @@
             }
 
             document.querySelectorAll('.btn-voice').forEach(btn => {
-                btn.addEventListener('click', () => startVoiceCommand(btn));
+                // Supprimer les anciens écouteurs
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+                newBtn.addEventListener('click', () => startVoiceCommand(newBtn));
             });
         }
 
@@ -996,7 +990,10 @@
         async function uploadProfilePhoto(file) {
             const user = auth.currentUser;
             if (!user) return;
-            if (file.size > 2 * 1024 * 1024) { showNotification("❌ Photo trop grande", true); return; }
+            if (file.size > 2 * 1024 * 1024) {
+                showNotification("❌ Photo trop grande", true);
+                return;
+            }
             const reader = new FileReader();
             reader.onloadend = async () => {
                 await database.ref(`users/${user.uid}/photo`).set({ data: reader.result });
@@ -1019,15 +1016,19 @@
             setTimeout(() => d.remove(), 3000);
         }
 
-        function formatDate(ts) { return new Date(ts).toLocaleString('fr-FR'); }
+        function formatDate(ts) {
+            return new Date(ts).toLocaleString('fr-FR');
+        }
 
         async function sendCommand(value) {
-            const device = /mobile|android|iphone/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
+            const device = isMobile ? "📱 Mobile" : "💻 PC";
             try {
                 await database.ref('moteur/etat').set({ valeur: value, appareil: device, timestamp: Date.now() });
                 await database.ref('historique').push({ valeur: value, appareil: device, timestamp: Date.now(), utilisateur: auth.currentUser?.email });
                 showNotification(`✅ ${value === 1 ? 'MARCHE' : 'ARRÊT'} envoyé`);
-            } catch (e) { showNotification(`❌ Erreur`, true); }
+            } catch (e) {
+                showNotification(`❌ Erreur`, true);
+            }
         }
 
         function listenToMotorState() {
@@ -1039,8 +1040,16 @@
                     document.getElementById('lastCommand').innerHTML = d.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT';
                     document.getElementById('lastDevice').innerHTML = d.appareil;
                     document.getElementById('lastTime').innerHTML = formatDate(d.timestamp);
-                    if (d.valeur === 1 && prev === 0) { motorStartTime = Date.now(); cycleCount++; saveStats(); document.getElementById('statCycles').textContent = cycleCount; }
-                    else if (d.valeur === 0 && prev === 1 && motorStartTime) { totalRunTimeSeconds += Math.floor((Date.now() - motorStartTime) / 1000); motorStartTime = null; saveStats(); }
+                    if (d.valeur === 1 && prev === 0) {
+                        motorStartTime = Date.now();
+                        cycleCount++;
+                        saveStats();
+                        document.getElementById('statCycles').textContent = cycleCount;
+                    } else if (d.valeur === 0 && prev === 1 && motorStartTime) {
+                        totalRunTimeSeconds += Math.floor((Date.now() - motorStartTime) / 1000);
+                        motorStartTime = null;
+                        saveStats();
+                    }
                     motorState = d.valeur;
                 }
             });
@@ -1049,7 +1058,9 @@
         async function loadHistory() {
             const snap = await database.ref('historique').once('value');
             const data = snap.val();
-            commandHistory = []; onCount = 0; offCount = 0;
+            commandHistory = [];
+            onCount = 0;
+            offCount = 0;
             if (data) {
                 commandHistory = Object.values(data).reverse();
                 commandHistory.forEach(i => i.valeur === 1 ? onCount++ : offCount++);
@@ -1070,22 +1081,44 @@
             if (currentFilter === "on") filtered = commandHistory.filter(i => i.valeur === 1);
             if (currentFilter === "off") filtered = commandHistory.filter(i => i.valeur === 0);
             const list = document.getElementById('historyList');
-            if (!filtered.length) { list.innerHTML = '<div style="text-align:center;padding:30px;">Aucune commande</div>'; return; }
-            list.innerHTML = filtered.slice(0, 30).map(i => `<div class="history-item"><div><span class="${i.valeur === 1 ? 'history-on' : 'history-off'}">${i.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}</span><span style="font-size:10px;margin-left:8px;">${i.appareil || 'Inconnu'}</span></div><div class="timestamp">${formatDate(i.timestamp)}</div></div>`).join('');
+            if (!filtered.length) {
+                list.innerHTML = '<div style="text-align:center;padding:30px;">Aucune commande</div>';
+                return;
+            }
+            list.innerHTML = filtered.slice(0, 30).map(i => `
+                <div class="history-item">
+                    <div>
+                        <span class="${i.valeur === 1 ? 'history-on' : 'history-off'}">
+                            ${i.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}
+                        </span>
+                        <span style="font-size:10px;margin-left:8px;">${i.appareil || 'Inconnu'}</span>
+                    </div>
+                    <div class="timestamp">${formatDate(i.timestamp)}</div>
+                </div>
+            `).join('');
         }
 
         async function loadStats() {
             const snap = await database.ref('stats').once('value');
             const d = snap.val();
-            if (d) { cycleCount = d.cycleCount || 0; totalRunTimeSeconds = d.totalRunTime || 0; document.getElementById('statCycles').textContent = cycleCount; }
+            if (d) {
+                cycleCount = d.cycleCount || 0;
+                totalRunTimeSeconds = d.totalRunTime || 0;
+                document.getElementById('statCycles').textContent = cycleCount;
+            }
         }
 
-        async function saveStats() { await database.ref('stats').set({ cycleCount, totalRunTime: totalRunTimeSeconds, lastUpdate: Date.now() }); }
+        async function saveStats() {
+            await database.ref('stats').set({ cycleCount, totalRunTime: totalRunTimeSeconds, lastUpdate: Date.now() });
+        }
 
         function exportCSV() {
             if (!commandHistory.length) return showNotification('Aucune donnée', true);
             let csv = "Date,Heure,Commande,Appareil\n";
-            commandHistory.forEach(i => { let d = new Date(i.timestamp); csv += `${d.toLocaleDateString()},${d.toLocaleTimeString()},${i.valeur === 1 ? 'MARCHE' : 'ARRÊT'},${i.appareil}\n`; });
+            commandHistory.forEach(i => {
+                let d = new Date(i.timestamp);
+                csv += `${d.toLocaleDateString()},${d.toLocaleTimeString()},${i.valeur === 1 ? 'MARCHE' : 'ARRÊT'},${i.appareil}\n`;
+            });
             let link = document.createElement('a');
             link.href = URL.createObjectURL(new Blob(["\uFEFF" + csv], { type: 'text/csv' }));
             link.download = `moteur_${Date.now()}.csv`;
@@ -1125,14 +1158,39 @@
             setInterval(saveStats, 10000);
             setInterval(() => {
                 if (motorState === 1 && motorStartTime) {
-                    document.getElementById('runTimeDisplay').innerHTML = formatTime(Math.floor((Date.now() - motorStartTime) / 1000));
+                    const elapsed = Math.floor((Date.now() - motorStartTime) / 1000);
+                    const h = Math.floor(elapsed / 3600);
+                    const m = Math.floor((elapsed % 3600) / 60);
+                    const s = elapsed % 60;
+                    document.getElementById('runTimeDisplay').innerHTML = h > 0 ? `${h}h ${m}m` : m > 0 ? `${m}m ${s}s` : `${s}s`;
                 } else {
                     document.getElementById('runTimeDisplay').innerHTML = '0s';
                 }
             }, 1000);
         }
 
-        function formatTime(s) { let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60); return h > 0 ? `${h}h ${m}m` : m > 0 ? `${m}m` : `${s % 60}s`; }
+        // Thème
+        function initTheme() {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeToggleBtn').innerHTML = '☀️ Thème clair';
+            }
+        }
+        document.getElementById('themeToggleBtn').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.getElementById('themeToggleBtn').innerHTML = isDark ? '☀️ Thème clair' : '🌙 Thème sombre';
+        });
+
+        // Password toggle
+        document.querySelectorAll('.toggle-password').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const input = document.getElementById(btn.dataset.target);
+                input.type = input.type === 'password' ? 'text' : 'password';
+                btn.innerHTML = input.type === 'password' ? '👁️' : '🙈';
+            });
+        });
 
         // Auth
         const loginScreen = document.getElementById('loginScreen');
@@ -1167,7 +1225,11 @@
                 initApp();
                 initVoiceRecognition();
                 initTheme();
-                speak("Bienvenue, système prêt");
+
+                // Message de bienvenue vocal
+                setTimeout(() => {
+                    speak("Bienvenue dans le système de contrôle moteur");
+                }, 1000);
             } else {
                 loginScreen.style.display = 'block';
                 registerScreen.style.display = 'none';
@@ -1191,8 +1253,14 @@
                 document.getElementById('registerError').textContent = e.message;
             }
         };
-        document.getElementById('showRegister').onclick = () => { loginScreen.style.display = 'none'; registerScreen.style.display = 'block'; };
-        document.getElementById('showLogin').onclick = () => { loginScreen.style.display = 'block'; registerScreen.style.display = 'none'; };
+        document.getElementById('showRegister').onclick = () => {
+            loginScreen.style.display = 'none';
+            registerScreen.style.display = 'block';
+        };
+        document.getElementById('showLogin').onclick = () => {
+            loginScreen.style.display = 'block';
+            registerScreen.style.display = 'none';
+        };
         document.getElementById('logoutBtn').onclick = () => auth.signOut();
     </script>
 </body>
