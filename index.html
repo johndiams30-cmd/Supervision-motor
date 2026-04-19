@@ -11,7 +11,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
 
     <style>
-        /* [VOS STYLES EXISTANTS - GARDÉS INTACTS] */
         * {
             margin: 0;
             padding: 0;
@@ -159,7 +158,6 @@
             text-align: center;
         }
 
-        /* MOTEUR INDUSTRIEL REALISTE */
         .industrial-motor {
             display: inline-block;
             position: relative;
@@ -262,7 +260,6 @@
             font-size: 14px;
         }
 
-        /* LAMPE INCANDESCENTE AGRANDIE */
         .industrial-lamp {
             display: inline-block;
             position: relative;
@@ -361,7 +358,6 @@
             font-size: 14px;
         }
 
-        /* Layout */
         .equipment-row {
             display: flex;
             justify-content: center;
@@ -720,7 +716,7 @@
             cursor: pointer;
         }
 
-        /* ===== NOUVEAU STYLE POUR L'ASSISTANT VOCAL ===== */
+        /* ===== STYLES ASSISTANT VOCAL ===== */
         .assistant-container {
             text-align: center;
             padding: 20px;
@@ -830,6 +826,14 @@
             font-size: 14px;
         }
 
+        body.dark-mode .transcript-box {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        body.dark-mode .assistant-status {
+            background: rgba(155, 89, 182, 0.2);
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -893,7 +897,6 @@
         </div>
         <div class="nav-item active" data-page="dashboard">📊 Tableau de bord</div>
         <div class="nav-item" data-page="control">🎮 Contrôle moteur</div>
-        <!-- ===== NOUVEAU MODULE ASSISTANT VOCAL ===== -->
         <div class="nav-item" data-page="assistant">🎤 Assistant Vocal</div>
         <div class="nav-item" data-page="history">📜 Historique</div>
         <div class="nav-item" data-page="stats">📈 Statistiques</div>
@@ -917,9 +920,8 @@
             </div>
         </div>
 
-        <!-- Dashboard (inchangé) -->
+        <!-- Dashboard -->
         <div id="dashboardPage" class="page active">
-            <!-- [VOTRE CONTENU DASHBOARD EXISTANT] -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-number" id="statTotal">0</div>
@@ -941,6 +943,7 @@
 
             <div class="card motor-card">
                 <h3>⚙️ MOTEUR INDUSTRIEL ASYNCHRONE</h3>
+
                 <div class="equipment-row">
                     <div class="industrial-motor">
                         <div class="motor-body">
@@ -954,6 +957,7 @@
                         </div>
                         <div class="motor-label">Moteur Asynchrone Triphasé 15kW</div>
                     </div>
+
                     <div class="industrial-lamp">
                         <div class="lamp-wire-cord"></div>
                         <div class="lamp-glass lamp-glass-off" id="lampGlass">
@@ -963,15 +967,64 @@
                         <div class="lamp-label">Lampe Incandescente 150W</div>
                     </div>
                 </div>
+
                 <div class="motor-status" id="motorStatus">ARRÊT</div>
                 <div class="btn-group">
                     <button class="btn btn-primary" id="btnOn">🟢 MARCHE</button>
                     <button class="btn btn-danger" id="btnOff">🔴 ARRÊT</button>
+                    <button class="btn btn-voice" id="voiceCommandBtn">🎤 Commande vocale</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📱 Dernière activité</h3>
+                <div class="info-row"><span class="info-label">Commande</span><span class="info-value"
+                        id="lastCommand">-</span></div>
+                <div class="info-row"><span class="info-label">Appareil</span><span class="info-value"
+                        id="lastDevice">-</span></div>
+                <div class="info-row"><span class="info-label">Date/Heure</span><span class="info-value"
+                        id="lastTime">-</span></div>
+                <div class="info-row"><span class="info-label">Temps fonctionnement</span><span class="info-value"
+                        id="runTimeDisplay">0s</span></div>
+            </div>
+        </div>
+
+        <!-- Contrôle -->
+        <div id="controlPage" class="page">
+            <div class="card motor-card">
+                <h3>🎮 Contrôle Moteur Industriel</h3>
+                <div class="equipment-row">
+                    <div class="industrial-motor">
+                        <div class="motor-body">
+                            <div class="motor-coils">
+                                <div class="coil"></div>
+                                <div class="coil"></div>
+                                <div class="coil"></div>
+                            </div>
+                            <div class="motor-shaft"></div>
+                            <div class="motor-fan-blades" id="motorFanBlades2">⚙️</div>
+                        </div>
+                        <div class="motor-label">Moteur Asynchrone Triphasé 15kW</div>
+                    </div>
+                    <div class="industrial-lamp">
+                        <div class="lamp-wire-cord"></div>
+                        <div class="lamp-glass lamp-glass-off" id="lampGlass2">
+                            <div class="lamp-filament" id="lampFilament2"></div>
+                        </div>
+                        <div class="lamp-base-metal"></div>
+                        <div class="lamp-label">Lampe Incandescente 150W</div>
+                    </div>
+                </div>
+                <div class="motor-status" id="motorStatus2">ARRÊT</div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="btnOn2">🟢 MARCHE</button>
+                    <button class="btn btn-danger" id="btnOff2">🔴 ARRÊT</button>
+                    <button class="btn btn-voice" id="voiceCommandBtn2">🎤 Commande vocale</button>
                 </div>
             </div>
         </div>
 
-        <!-- ===== NOUVEAU MODULE ASSISTANT VOCAL ===== -->
+        <!-- ===== ASSISTANT VOCAL ===== -->
         <div id="assistantPage" class="page">
             <div class="card">
                 <h3>🎤 Assistant Vocal Intelligent</h3>
@@ -1011,37 +1064,162 @@
             </div>
         </div>
 
-        <!-- [AUTRES PAGES EXISTANTES - GARDÉES] -->
-        <div id="controlPage" class="page">
-            <!-- Votre contenu existant -->
-        </div>
+        <!-- Historique -->
         <div id="historyPage" class="page">
-            <!-- Votre contenu existant -->
+            <div class="card">
+                <h3>📜 Historique des commandes</h3>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">Tous</button>
+                    <button class="filter-btn" data-filter="on">MARCHE</button>
+                    <button class="filter-btn" data-filter="off">ARRÊT</button>
+                </div>
+                <div class="history-list" id="historyList">Chargement...</div>
+            </div>
         </div>
+
+        <!-- Statistiques -->
         <div id="statsPage" class="page">
-            <!-- Votre contenu existant -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="todayCount">0</div>
+                    <div class="stat-label">Aujourd'hui</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="weekCount">0</div>
+                    <div class="stat-label">Cette semaine</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="monthCount">0</div>
+                    <div class="stat-label">Ce mois</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalCount">0</div>
+                    <div class="stat-label">Total</div>
+                </div>
+            </div>
         </div>
+
+        <!-- Export -->
         <div id="exportPage" class="page">
-            <!-- Votre contenu existant -->
+            <div class="card">
+                <h3>💾 Exporter les données</h3>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" id="exportCSV">📥 CSV</button>
+                    <button class="btn btn-secondary" id="exportJSON">📄 JSON</button>
+                </div>
+            </div>
         </div>
+
+        <!-- Programmation -->
         <div id="schedulePage" class="page">
-            <!-- Votre contenu existant -->
+            <div class="card">
+                <h3>⏰ Programmation horaire</h3>
+                <p style="margin-bottom:15px;color:#666;">Programmez des horaires automatiques</p>
+                <div id="scheduleList">Chargement...</div>
+                <button class="btn btn-secondary" id="addScheduleBtn" style="margin-top:15px; width:100%">➕ Ajouter un
+                    horaire</button>
+            </div>
         </div>
+
+        <div id="scheduleModal" class="modal">
+            <div class="modal-content">
+                <h3 id="modalTitle" style="color:#2b7be4;margin-bottom:15px;">Ajouter un horaire</h3>
+                <select id="scheduleType">
+                    <option value="recurring">🔄 Tous les jours</option>
+                    <option value="once">📅 Une seule fois</option>
+                    <option value="weekday">📆 Lundi au Vendredi</option>
+                    <option value="weekend">🎉 Samedi et Dimanche</option>
+                </select>
+                <div id="dateFields" style="display:none;"><input type="date" id="scheduleDate"></div>
+                <div class="row-2">
+                    <input type="number" id="scheduleHour" placeholder="Heure (0-23)" min="0" max="23">
+                    <input type="number" id="scheduleMinute" placeholder="Minute (0-59)" min="0" max="59">
+                </div>
+                <select id="scheduleAction">
+                    <option value="1">🟢 MARCHE</option>
+                    <option value="0">🔴 ARRÊT</option>
+                </select>
+                <div class="row-2">
+                    <input type="number" id="scheduleDurationValue" placeholder="Durée" min="0">
+                    <select id="scheduleDurationUnit">
+                        <option value="seconds">Secondes</option>
+                        <option value="minutes">Minutes</option>
+                        <option value="hours">Heures</option>
+                    </select>
+                </div>
+                <div style="display:flex;gap:10px;margin-top:15px;">
+                    <button id="saveScheduleBtn" class="btn btn-secondary" style="flex:1;">Enregistrer</button>
+                    <button id="closeModalBtn" class="btn" style="flex:1;background:#ddd;">Annuler</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profil -->
         <div id="profilePage" class="page">
-            <!-- Votre contenu existant -->
+            <div class="card">
+                <h3>👤 Mon profil</h3>
+                <div style="text-align:center">
+                    <img id="profileBigPhoto" src="https://via.placeholder.com/150"
+                        style="width:150px;height:150px;border-radius:50%;object-fit:cover;border:4px solid #2b7be4;margin:20px auto;cursor:pointer">
+                    <div class="info-row"><span class="info-label">📧 Email</span><span class="info-value"
+                            id="profileEmail">-</span></div>
+                    <div class="info-row"><span class="info-label">👑 Rôle</span><span class="info-value"
+                            id="profileRole">-</span></div>
+                    <button class="btn btn-secondary" id="changePhotoBtn">📷 Changer ma photo</button>
+                    <input type="file" id="profilePhotoUpload" accept="image/*" style="display:none">
+                </div>
+            </div>
         </div>
+
+        <!-- Admin -->
         <div id="adminPage" class="page">
-            <!-- Votre contenu existant -->
+            <div class="card">
+                <h3>👑 Administration</h3>
+                <div id="adminContent">Chargement...</div>
+            </div>
         </div>
+
+        <!-- À propos -->
         <div id="aboutPage" class="page">
-            <!-- Votre contenu existant -->
+            <div class="card">
+                <h3>ℹ️ À propos</h3>
+                <p>Projet IoT - Contrôle Moteur Industriel</p>
+                <p>Version 9.0 - Assistant Vocal Féminin Intégré</p>
+            </div>
         </div>
     </div>
 
-    <!-- [VOS MODALS ET LOGIN EXISTANTS - GARDÉS] -->
+    <!-- Login -->
+    <div class="login-container" id="loginScreen">
+        <div class="login-card">
+            <h2>🔐 Connexion</h2>
+            <input type="email" id="loginEmail" class="login-input" placeholder="Email">
+            <div class="password-wrapper">
+                <input type="password" id="loginPassword" class="login-input" placeholder="Mot de passe">
+                <button type="button" class="toggle-password" data-target="loginPassword">👁️</button>
+            </div>
+            <button id="doLogin" class="login-btn">Se connecter</button>
+            <div class="switch-btn" id="showRegister">Créer un compte</div>
+            <div id="loginError" class="error-msg"></div>
+        </div>
+    </div>
+
+    <div class="login-container" id="registerScreen" style="display:none">
+        <div class="login-card">
+            <h2>📝 Inscription</h2>
+            <input type="email" id="registerEmail" class="login-input" placeholder="Email">
+            <div class="password-wrapper">
+                <input type="password" id="registerPassword" class="login-input" placeholder="Mot de passe">
+                <button type="button" class="toggle-password" data-target="registerPassword">👁️</button>
+            </div>
+            <button id="doRegister" class="login-btn">Créer le compte</button>
+            <div class="switch-btn" id="showLogin">Déjà un compte ? Se connecter</div>
+            <div id="registerError" class="error-msg"></div>
+        </div>
+    </div>
 
     <script>
-        // ===== CONFIGURATION FIREBASE (VOS IDENTIFIANTS EXISTANTS) =====
+        // ===== CONFIGURATION FIREBASE =====
         const firebaseConfig = {
             apiKey: "AIzaSyDLy3kKY6Hh0mOL07hfAT57ULiuE3fXnk8",
             authDomain: "iot-moteur-controle.firebaseapp.com",
@@ -1067,18 +1245,14 @@
         let schedules = [];
         let scheduleCheckerInterval = null;
 
-        // Variables pour l'assistant vocal
+        // Variables Assistant Vocal
         let assistantVoixDisponibles = [];
         let assistantVoixSelectionnee = null;
-        let isAssistantListening = false;
 
-        // ===== ASSISTANT VOCAL AVEC VOIX FÉMININE =====
+        // ===== ASSISTANT VOCAL =====
         function initAssistantVocal() {
-            // Initialisation de la synthèse vocale
             if ('speechSynthesis' in window) {
                 synth = window.speechSynthesis;
-
-                // Charger les voix
                 assistantVoixDisponibles = synth.getVoices();
                 if (assistantVoixDisponibles.length === 0) {
                     synth.onvoiceschanged = () => {
@@ -1092,176 +1266,41 @@
         }
 
         function choisirVoixFeminine() {
-            const preferences = ['Google français', 'Microsoft Hortense', 'Amélie', 'Samantha', 'female french', 'fr-FR'];
-
+            const preferences = ['Google français', 'Microsoft Hortense', 'Amélie', 'Samantha'];
             for (let pref of preferences) {
-                const voix = assistantVoixDisponibles.find(v =>
-                    (v.name.includes(pref) || v.lang.includes('fr')) &&
-                    (v.name.includes('female') || v.name.includes('femme') ||
-                        v.name.includes('Google') || v.name.includes('Hortense') ||
-                        v.name.includes('Amélie') || v.name.includes('Samantha'))
-                );
-                if (voix) {
-                    assistantVoixSelectionnee = voix;
-                    console.log('🗣️ Voix assistant:', voix.name);
-                    return;
-                }
+                const voix = assistantVoixDisponibles.find(v => v.name.includes(pref) && v.lang.includes('fr'));
+                if (voix) { assistantVoixSelectionnee = voix; return; }
             }
-
             const voixFr = assistantVoixDisponibles.find(v => v.lang.includes('fr'));
             if (voixFr) assistantVoixSelectionnee = voixFr;
         }
 
         function parlerAssistant(texte) {
-            if (!synth) {
-                synth = window.speechSynthesis;
-            }
-
-            // Annuler parole en cours
+            if (!synth) synth = window.speechSynthesis;
             synth.cancel();
-
             const utterance = new SpeechSynthesisUtterance(texte);
             utterance.lang = 'fr-FR';
             utterance.pitch = 1.4;
             utterance.rate = 0.9;
-            utterance.volume = 1;
+            if (assistantVoixSelectionnee) utterance.voice = assistantVoixSelectionnee;
 
-            if (assistantVoixSelectionnee) {
-                utterance.voice = assistantVoixSelectionnee;
-            }
-
-            // Animation avatar
             const avatar = document.getElementById('assistantAvatar');
             const status = document.getElementById('assistantStatus');
 
             utterance.onstart = () => {
-                avatar.classList.add('speaking');
-                status.innerHTML = `🗣️ "${texte}"`;
+                if (avatar) avatar.classList.add('speaking');
+                if (status) status.innerHTML = `🗣️ "${texte}"`;
             };
-
-            utterance.onend = () => {
-                avatar.classList.remove('speaking');
-            };
-
+            utterance.onend = () => { if (avatar) avatar.classList.remove('speaking'); };
             utterance.onerror = () => {
-                avatar.classList.remove('speaking');
-                // Fallback
+                if (avatar) avatar.classList.remove('speaking');
                 const utterance2 = new SpeechSynthesisUtterance(texte);
                 utterance2.lang = 'fr-FR';
-                utterance2.pitch = 1.4;
-                utterance2.rate = 0.9;
                 synth.speak(utterance2);
             };
-
             synth.speak(utterance);
         }
 
-        function initAssistantRecognition() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) return null;
-
-            const rec = new SpeechRecognition();
-            rec.lang = 'fr-FR';
-            rec.continuous = false;
-            rec.interimResults = false;
-
-            return rec;
-        }
-
-        async function startAssistantListening() {
-            const btn = document.getElementById('assistantVoiceBtn');
-            const transcriptBox = document.getElementById('transcriptBox');
-            const status = document.getElementById('assistantStatus');
-
-            // Demander permission micro
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                stream.getTracks().forEach(track => track.stop());
-            } catch (err) {
-                transcriptBox.innerHTML = '❌ Accès au micro refusé';
-                return;
-            }
-
-            const rec = initAssistantRecognition();
-            if (!rec) {
-                transcriptBox.innerHTML = '❌ Reconnaissance vocale non supportée';
-                return;
-            }
-
-            btn.classList.add('listening');
-            btn.innerHTML = '🎙️<br>Écoute...';
-            status.innerHTML = '🎤 Je vous écoute...';
-            transcriptBox.innerHTML = '💬 Parlez maintenant...';
-
-            // Message vocal
-            parlerAssistant("Je vous écoute. Dites Marche ou Arrêt.");
-
-            rec.onstart = () => {
-                isAssistantListening = true;
-            };
-
-            rec.onresult = (event) => {
-                const parole = event.results[0][0].transcript.toLowerCase().trim();
-                transcriptBox.innerHTML = `🗣️ Vous avez dit : "${parole}"`;
-
-                let commande = null;
-                let reponse = "";
-
-                // Détection MARCHE
-                if (parole.includes('marche') || parole.includes('allume') ||
-                    parole.includes('activer') || parole.includes('démarrer') ||
-                    parole.includes('demarre') || parole.includes('on')) {
-                    commande = 1;
-                    reponse = "Je mets le moteur en marche";
-                    showNotification('🎤 Assistant: MARCHE');
-                }
-                // Détection ARRÊT
-                else if (parole.includes('arrêt') || parole.includes('arret') ||
-                    parole.includes('éteint') || parole.includes('eteint') ||
-                    parole.includes('stop') || parole.includes('off') ||
-                    parole.includes('couper') || parole.includes('éteindre')) {
-                    commande = 0;
-                    reponse = "J'arrête le moteur";
-                    showNotification('🎤 Assistant: ARRÊT');
-                }
-                else {
-                    reponse = "Je n'ai pas compris. Dites Marche ou Arrêt.";
-                    transcriptBox.innerHTML = `❓ Non reconnu : "${parole}"`;
-                }
-
-                if (commande !== null) {
-                    sendCommand(commande);
-                    status.innerHTML = `✅ ${reponse}`;
-                }
-
-                parlerAssistant(reponse);
-            };
-
-            rec.onerror = (event) => {
-                btn.classList.remove('listening');
-                btn.innerHTML = '🎤<br>Parler';
-                isAssistantListening = false;
-
-                if (event.error === 'no-speech') {
-                    transcriptBox.innerHTML = '⚠️ Aucune parole détectée';
-                    parlerAssistant("Je n'ai rien entendu. Réessayez.");
-                } else {
-                    transcriptBox.innerHTML = `❌ Erreur: ${event.error}`;
-                }
-                status.innerHTML = '👋 Prête à vous écouter';
-            };
-
-            rec.onend = () => {
-                btn.classList.remove('listening');
-                btn.innerHTML = '🎤<br>Parler';
-                isAssistantListening = false;
-                status.innerHTML = '👋 Prête à vous écouter';
-            };
-
-            rec.start();
-        }
-
-        // ===== VOS FONCTIONS EXISTANTES (GARDÉES) =====
         function speak(text) {
             if (!synth) synth = window.speechSynthesis;
             synth.cancel();
@@ -1271,6 +1310,7 @@
             setTimeout(() => synth.speak(utterance), 100);
         }
 
+        // ===== FONCTIONS EXISTANTES (INTACTES) =====
         function updateAnimations(state) {
             const fans = document.querySelectorAll('#motorFanBlades, #motorFanBlades2');
             const lamps = document.querySelectorAll('#lampGlass, #lampGlass2');
@@ -1302,21 +1342,259 @@
             });
         }
 
-        // [GARDEZ TOUTES VOS AUTRES FONCTIONS EXISTANTES : sendCommand, loadHistory, etc.]
+        function initVoiceRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) return;
 
-        function sendCommand(value) {
-            const device = /mobile/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
-            database.ref('moteur/etat').set({ valeur: value, appareil: device, timestamp: Date.now() })
-                .then(() => {
-                    database.ref('historique').push({
-                        valeur: value,
-                        appareil: device,
-                        timestamp: Date.now(),
-                        utilisateur: auth.currentUser?.email
-                    });
-                    showNotification(`✅ ${value === 1 ? 'MARCHE' : 'ARRÊT'} envoyé`);
-                })
-                .catch(e => showNotification(`❌ Erreur`, true));
+            recognition = new SpeechRecognition();
+            recognition.lang = 'fr-FR';
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            async function startVoiceCommand(button) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    stream.getTracks().forEach(track => track.stop());
+                } catch (err) { }
+
+                button.classList.add('listening');
+                const originalText = button.innerHTML;
+                button.innerHTML = '🎤 Écoutez...';
+                speak("Je vous écoute, dites Marche ou Arrêt");
+
+                setTimeout(() => { try { recognition.start(); } catch (e) { } }, 500);
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript.toLowerCase();
+                    let command = null, response = "";
+
+                    if (transcript.includes('marche') || transcript.includes('allume') || transcript.includes('activer') || transcript.includes('démarrer') || transcript.includes('on')) {
+                        command = 1;
+                        response = "Commande reçue, je démarre le moteur industriel";
+                        showNotification('🎤 Commande vocale: MARCHE');
+                    } else if (transcript.includes('arrêt') || transcript.includes('arret') || transcript.includes('éteint') || transcript.includes('eteint') || transcript.includes('stop') || transcript.includes('off')) {
+                        command = 0;
+                        response = "Commande reçue, j'arrête le moteur industriel";
+                        showNotification('🎤 Commande vocale: ARRÊT');
+                    } else {
+                        response = "Désolé, commande non reconnue. Dites Marche ou Arrêt";
+                    }
+
+                    speak(response);
+                    if (command !== null) sendCommand(command);
+                    button.classList.remove('listening');
+                    button.innerHTML = originalText;
+                };
+
+                recognition.onerror = (event) => {
+                    button.classList.remove('listening');
+                    button.innerHTML = originalText;
+                    if (event.error !== 'no-speech') speak("Erreur de reconnaissance");
+                };
+
+                recognition.onend = () => {
+                    button.classList.remove('listening');
+                    button.innerHTML = originalText;
+                };
+            }
+
+            document.querySelectorAll('.btn-voice').forEach(btn => {
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+                newBtn.addEventListener('click', () => startVoiceCommand(newBtn));
+            });
+        }
+
+        // Assistant Vocal Recognition
+        async function startAssistantListening() {
+            const btn = document.getElementById('assistantVoiceBtn');
+            const transcriptBox = document.getElementById('transcriptBox');
+            const status = document.getElementById('assistantStatus');
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                stream.getTracks().forEach(track => track.stop());
+            } catch (err) {
+                transcriptBox.innerHTML = '❌ Accès au micro refusé';
+                return;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                transcriptBox.innerHTML = '❌ Reconnaissance vocale non supportée';
+                return;
+            }
+
+            const rec = new SpeechRecognition();
+            rec.lang = 'fr-FR';
+            rec.continuous = false;
+            rec.interimResults = false;
+
+            btn.classList.add('listening');
+            btn.innerHTML = '🎙️<br>Écoute...';
+            status.innerHTML = '🎤 Je vous écoute...';
+            transcriptBox.innerHTML = '💬 Parlez maintenant...';
+
+            parlerAssistant("Je vous écoute. Dites Marche ou Arrêt.");
+
+            rec.onstart = () => { };
+
+            rec.onresult = (event) => {
+                const parole = event.results[0][0].transcript.toLowerCase().trim();
+                transcriptBox.innerHTML = `🗣️ Vous avez dit : "${parole}"`;
+
+                let commande = null, reponse = "";
+
+                if (parole.includes('marche') || parole.includes('allume') || parole.includes('activer') || parole.includes('démarrer') || parole.includes('demarre') || parole.includes('on')) {
+                    commande = 1;
+                    reponse = "Je mets le moteur en marche";
+                    showNotification('🎤 Assistant: MARCHE');
+                } else if (parole.includes('arrêt') || parole.includes('arret') || parole.includes('éteint') || parole.includes('eteint') || parole.includes('stop') || parole.includes('off') || parole.includes('couper') || parole.includes('éteindre')) {
+                    commande = 0;
+                    reponse = "J'arrête le moteur";
+                    showNotification('🎤 Assistant: ARRÊT');
+                } else {
+                    reponse = "Je n'ai pas compris. Dites Marche ou Arrêt.";
+                    transcriptBox.innerHTML = `❓ Non reconnu : "${parole}"`;
+                }
+
+                if (commande !== null) {
+                    sendCommand(commande);
+                    status.innerHTML = `✅ ${reponse}`;
+                }
+
+                parlerAssistant(reponse);
+            };
+
+            rec.onerror = (event) => {
+                btn.classList.remove('listening');
+                btn.innerHTML = '🎤<br>Parler';
+                if (event.error === 'no-speech') {
+                    transcriptBox.innerHTML = '⚠️ Aucune parole détectée';
+                    parlerAssistant("Je n'ai rien entendu. Réessayez.");
+                } else {
+                    transcriptBox.innerHTML = `❌ Erreur: ${event.error}`;
+                }
+                status.innerHTML = '👋 Prête à vous écouter';
+            };
+
+            rec.onend = () => {
+                btn.classList.remove('listening');
+                btn.innerHTML = '🎤<br>Parler';
+                status.innerHTML = '👋 Prête à vous écouter';
+            };
+
+            rec.start();
+        }
+
+        async function loadSchedules() {
+            const user = auth.currentUser;
+            if (!user) return;
+            const snapshot = await database.ref(`users/${user.uid}/schedules`).once('value');
+            const data = snapshot.val();
+            schedules = data ? Object.entries(data).map(([id, s]) => ({ id, ...s })) : [];
+            displaySchedules();
+        }
+
+        function formatDuration(seconds) {
+            if (!seconds) return '';
+            if (seconds >= 3600) return `${seconds / 3600} heure${seconds / 3600 > 1 ? 's' : ''}`;
+            if (seconds >= 60) return `${seconds / 60} minute${seconds / 60 > 1 ? 's' : ''}`;
+            return `${seconds} seconde${seconds > 1 ? 's' : ''}`;
+        }
+
+        function getTypeLabel(type) {
+            const labels = { recurring: 'Tous les jours', once: 'Unique', weekday: 'Lundi-Vendredi', weekend: 'Weekend' };
+            return labels[type] || type;
+        }
+
+        function displaySchedules() {
+            const container = document.getElementById('scheduleList');
+            if (!container) return;
+            if (schedules.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:20px;">Aucun horaire programmé</div>';
+                return;
+            }
+            container.innerHTML = schedules.map(s => `
+                <div class="schedule-item">
+                    <div>
+                        <div class="schedule-time">⏰ ${s.heure.toString().padStart(2, '0')}h${s.minute.toString().padStart(2, '0')}
+                            <span class="schedule-period">${getTypeLabel(s.type)}</span>
+                        </div>
+                        ${s.date ? `<div style="font-size:11px;color:#888;">📅 ${s.date}</div>` : ''}
+                        ${s.duration ? `<div class="schedule-duration">⏱️ Durée: ${formatDuration(s.duration)}</div>` : ''}
+                    </div>
+                    <div><span class="schedule-action ${s.action === 1 ? 'on' : 'off'}">${s.action === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}</span></div>
+                    <div><button class="schedule-delete" onclick="deleteSchedule('${s.id}')">🗑️</button></div>
+                </div>
+            `).join('');
+        }
+
+        window.deleteSchedule = async function (id) {
+            if (!confirm('Supprimer cet horaire ?')) return;
+            const user = auth.currentUser;
+            if (!user) return;
+            await database.ref(`users/${user.uid}/schedules/${id}`).remove();
+            await loadSchedules();
+            showNotification('🗑️ Horaire supprimé');
+        };
+
+        function checkSchedules() {
+            if (!auth.currentUser || schedules.length === 0) return;
+            const now = new Date();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            const today = now.getDay();
+            const todayStr = now.toISOString().split('T')[0];
+
+            schedules.forEach(schedule => {
+                const scheduleTime = schedule.heure * 60 + schedule.minute;
+                const lastExecKey = `lastExec_${schedule.id}_${todayStr}`;
+                if (localStorage.getItem(lastExecKey) === 'executed') return;
+
+                let shouldExecute = false;
+                switch (schedule.type) {
+                    case 'recurring': if (scheduleTime === currentTime) shouldExecute = true; break;
+                    case 'once': if (schedule.date === todayStr && scheduleTime === currentTime) shouldExecute = true; break;
+                    case 'weekday': if (today >= 1 && today <= 5 && scheduleTime === currentTime) shouldExecute = true; break;
+                    case 'weekend': if ((today === 0 || today === 6) && scheduleTime === currentTime) shouldExecute = true; break;
+                }
+
+                if (shouldExecute) {
+                    sendCommand(schedule.action);
+                    localStorage.setItem(lastExecKey, 'executed');
+                    if (schedule.action === 1 && schedule.duration && schedule.duration > 0) {
+                        setTimeout(() => sendCommand(0), schedule.duration * 1000);
+                    }
+                }
+            });
+        }
+
+        function navigateTo(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(page + 'Page').classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
+            const titles = { dashboard: 'Tableau de bord', control: 'Contrôle moteur', assistant: '🎤 Assistant Vocal', history: 'Historique', stats: 'Statistiques', export: 'Export', schedule: 'Programmation', profile: 'Mon profil', admin: 'Administration', about: 'À propos' };
+            document.getElementById('pageTitle').textContent = titles[page];
+            if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
+            if (page === 'schedule') loadSchedules();
+            if (page === 'assistant') {
+                setTimeout(() => parlerAssistant("Bonjour. Je suis votre assistante vocale. Dites Marche ou Arrêt pour contrôler le moteur."), 300);
+            }
+        }
+
+        async function uploadProfilePhoto(file) {
+            const user = auth.currentUser;
+            if (!user) return;
+            if (file.size > 2 * 1024 * 1024) { showNotification("❌ Photo trop grande", true); return; }
+            const reader = new FileReader();
+            reader.onloadend = async () => {
+                await database.ref(`users/${user.uid}/photo`).set({ data: reader.result });
+                document.getElementById('headerProfilePhoto').src = reader.result;
+                document.getElementById('profileBigPhoto').src = reader.result;
+                showNotification("✅ Photo mise à jour");
+            };
+            reader.readAsDataURL(file);
         }
 
         function showNotification(msg, isError = false) {
@@ -1327,62 +1605,264 @@
             setTimeout(() => d.remove(), 3000);
         }
 
-        function navigateTo(page) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(page + 'Page').classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
+        function formatDate(ts) { return new Date(ts).toLocaleString('fr-FR'); }
 
-            const titles = {
-                dashboard: 'Tableau de bord',
-                control: 'Contrôle moteur',
-                assistant: '🎤 Assistant Vocal',
-                history: 'Historique',
-                stats: 'Statistiques',
-                export: 'Export',
-                schedule: 'Programmation',
-                profile: 'Mon profil',
-                admin: 'Administration',
-                about: 'À propos'
-            };
-            document.getElementById('pageTitle').textContent = titles[page];
-
-            if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
-
-            // Message de bienvenue sur la page assistant
-            if (page === 'assistant') {
-                setTimeout(() => {
-                    parlerAssistant("Bonjour. Je suis votre assistante vocale. Dites Marche ou Arrêt pour contrôler le moteur.");
-                }, 300);
-            }
+        function sendCommand(value) {
+            const device = /mobile/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
+            database.ref('moteur/etat').set({ valeur: value, appareil: device, timestamp: Date.now() })
+                .then(() => {
+                    database.ref('historique').push({ valeur: value, appareil: device, timestamp: Date.now(), utilisateur: auth.currentUser?.email });
+                    showNotification(`✅ ${value === 1 ? 'MARCHE' : 'ARRÊT'} envoyé`);
+                })
+                .catch(e => showNotification(`❌ Erreur`, true));
         }
 
-        // ===== INITIALISATION =====
-        document.addEventListener('DOMContentLoaded', () => {
-            // Navigation
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.onclick = () => navigateTo(item.dataset.page);
+        function listenToMotorState() {
+            database.ref('moteur/etat').on('value', (s) => {
+                const d = s.val();
+                if (d) {
+                    let prev = motorState;
+                    updateAnimations(d.valeur);
+                    document.getElementById('lastCommand').innerHTML = d.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT';
+                    document.getElementById('lastDevice').innerHTML = d.appareil;
+                    document.getElementById('lastTime').innerHTML = formatDate(d.timestamp);
+                    if (d.valeur === 1 && prev === 0) {
+                        motorStartTime = Date.now();
+                        cycleCount++;
+                        saveStats();
+                        document.getElementById('statCycles').textContent = cycleCount;
+                    } else if (d.valeur === 0 && prev === 1 && motorStartTime) {
+                        totalRunTimeSeconds += Math.floor((Date.now() - motorStartTime) / 1000);
+                        motorStartTime = null;
+                        saveStats();
+                    }
+                    motorState = d.valeur;
+                }
             });
+        }
 
-            // Initialiser l'assistant
-            initAssistantVocal();
-
-            // Événements assistant
-            const assistantBtn = document.getElementById('assistantVoiceBtn');
-            if (assistantBtn) {
-                assistantBtn.addEventListener('click', startAssistantListening);
+        async function loadHistory() {
+            const snap = await database.ref('historique').once('value');
+            const data = snap.val();
+            commandHistory = [];
+            onCount = offCount = 0;
+            if (data) {
+                commandHistory = Object.values(data).reverse();
+                commandHistory.forEach(i => i.valeur === 1 ? onCount++ : offCount++);
             }
+            document.getElementById('statTotal').textContent = onCount + offCount;
+            document.getElementById('statOn').textContent = onCount;
+            document.getElementById('statOff').textContent = offCount;
 
+            const today = new Date().toDateString();
+            const weekAgo = Date.now() - 7 * 24 * 3600 * 1000;
+            const monthAgo = Date.now() - 30 * 24 * 3600 * 1000;
+            document.getElementById('todayCount').textContent = commandHistory.filter(i => new Date(i.timestamp).toDateString() === today).length;
+            document.getElementById('weekCount').textContent = commandHistory.filter(i => i.timestamp > weekAgo).length;
+            document.getElementById('monthCount').textContent = commandHistory.filter(i => i.timestamp > monthAgo).length;
+            document.getElementById('totalCount').textContent = onCount + offCount;
+
+            let filtered = commandHistory;
+            if (currentFilter === "on") filtered = commandHistory.filter(i => i.valeur === 1);
+            if (currentFilter === "off") filtered = commandHistory.filter(i => i.valeur === 0);
+            const list = document.getElementById('historyList');
+            if (!filtered.length) { list.innerHTML = '<div style="text-align:center;padding:30px;">Aucune commande</div>'; return; }
+            list.innerHTML = filtered.slice(0, 30).map(i => `<div class="history-item"><div><span class="${i.valeur === 1 ? 'history-on' : 'history-off'}">${i.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}</span><span style="font-size:10px;margin-left:8px;">${i.appareil || 'Inconnu'}</span></div><div class="timestamp">${formatDate(i.timestamp)}</div></div>`).join('');
+        }
+
+        async function loadStats() {
+            const snap = await database.ref('stats').once('value');
+            const d = snap.val();
+            if (d) { cycleCount = d.cycleCount || 0; totalRunTimeSeconds = d.totalRunTime || 0; document.getElementById('statCycles').textContent = cycleCount; }
+        }
+
+        async function saveStats() { await database.ref('stats').set({ cycleCount, totalRunTime: totalRunTimeSeconds, lastUpdate: Date.now() }); }
+
+        function exportCSV() {
+            if (!commandHistory.length) return showNotification('Aucune donnée', true);
+            let csv = "Date,Heure,Commande,Appareil\n";
+            commandHistory.forEach(i => { let d = new Date(i.timestamp); csv += `${d.toLocaleDateString()},${d.toLocaleTimeString()},${i.valeur === 1 ? 'MARCHE' : 'ARRÊT'},${i.appareil}\n`; });
+            let link = document.createElement('a');
+            link.href = URL.createObjectURL(new Blob(["\uFEFF" + csv], { type: 'text/csv' }));
+            link.download = `moteur_${Date.now()}.csv`;
+            link.click();
+            showNotification('✅ CSV exporté');
+        }
+
+        function exportJSON() {
+            if (!commandHistory.length) return showNotification('Aucune donnée', true);
+            let link = document.createElement('a');
+            link.href = URL.createObjectURL(new Blob([JSON.stringify(commandHistory, null, 2)], { type: 'application/json' }));
+            link.download = `moteur_${Date.now()}.json`;
+            link.click();
+            showNotification('✅ JSON exporté');
+        }
+
+        function initApp() {
+            document.getElementById('btnOn').onclick = () => sendCommand(1);
+            document.getElementById('btnOff').onclick = () => sendCommand(0);
+            document.getElementById('btnOn2').onclick = () => sendCommand(1);
+            document.getElementById('btnOff2').onclick = () => sendCommand(0);
+            document.getElementById('exportCSV').onclick = exportCSV;
+            document.getElementById('exportJSON').onclick = exportJSON;
+
+            // Assistant Vocal
+            const assistantBtn = document.getElementById('assistantVoiceBtn');
+            if (assistantBtn) assistantBtn.addEventListener('click', startAssistantListening);
             const testVoiceBtn = document.getElementById('testAssistantVoice');
-            if (testVoiceBtn) {
-                testVoiceBtn.addEventListener('click', () => {
-                    parlerAssistant("Bonjour, je fonctionne correctement. La synthèse vocale est active.");
-                });
+            if (testVoiceBtn) testVoiceBtn.addEventListener('click', () => parlerAssistant("Bonjour, je fonctionne correctement. La synthèse vocale est active."));
+
+            listenToMotorState();
+            loadHistory();
+            loadStats();
+            loadSchedules();
+            setInterval(loadHistory, 5000);
+            setInterval(saveStats, 10000);
+            setInterval(() => {
+                if (motorState === 1 && motorStartTime) {
+                    const elapsed = Math.floor((Date.now() - motorStartTime) / 1000);
+                    const h = Math.floor(elapsed / 3600), m = Math.floor((elapsed % 3600) / 60), s = elapsed % 60;
+                    document.getElementById('runTimeDisplay').innerHTML = h > 0 ? `${h}h ${m}m` : m > 0 ? `${m}m ${s}s` : `${s}s`;
+                } else { document.getElementById('runTimeDisplay').innerHTML = '0s'; }
+            }, 1000);
+            if (scheduleCheckerInterval) clearInterval(scheduleCheckerInterval);
+            scheduleCheckerInterval = setInterval(checkSchedules, 60000);
+            checkSchedules();
+            initAssistantVocal();
+        }
+
+        // ===== EVENT LISTENERS =====
+        document.querySelectorAll('.nav-item').forEach(item => item.onclick = () => navigateTo(item.dataset.page));
+        document.getElementById('menuToggle').onclick = () => document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('photoUpload').onchange = (e) => e.target.files[0] && uploadProfilePhoto(e.target.files[0]);
+        document.getElementById('changePhotoBtn').onclick = () => document.getElementById('profilePhotoUpload').click();
+        document.getElementById('profilePhotoUpload').onchange = (e) => e.target.files[0] && uploadProfilePhoto(e.target.files[0]);
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                loadHistory();
+            };
+        });
+
+        function initTheme() {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeToggleBtn').innerHTML = '☀️ Thème clair';
+            }
+        }
+        document.getElementById('themeToggleBtn').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.getElementById('themeToggleBtn').innerHTML = isDark ? '☀️ Thème clair' : '🌙 Thème sombre';
+        });
+
+        document.querySelectorAll('.toggle-password').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const input = document.getElementById(btn.dataset.target);
+                input.type = input.type === 'password' ? 'text' : 'password';
+                btn.innerHTML = input.type === 'password' ? '👁️' : '🙈';
+            });
+        });
+
+        // Modal
+        document.getElementById('scheduleType').onchange = function () {
+            document.getElementById('dateFields').style.display = this.value === 'once' ? 'block' : 'none';
+        };
+        document.getElementById('addScheduleBtn').onclick = () => {
+            document.getElementById('scheduleType').value = 'recurring';
+            document.getElementById('dateFields').style.display = 'none';
+            document.getElementById('scheduleHour').value = '';
+            document.getElementById('scheduleMinute').value = '';
+            document.getElementById('scheduleAction').value = '1';
+            document.getElementById('scheduleDurationValue').value = '';
+            document.getElementById('scheduleModal').style.display = 'flex';
+        };
+        document.getElementById('closeModalBtn').onclick = () => document.getElementById('scheduleModal').style.display = 'none';
+        document.getElementById('saveScheduleBtn').onclick = async () => {
+            const type = document.getElementById('scheduleType').value;
+            const heure = parseInt(document.getElementById('scheduleHour').value);
+            const minute = parseInt(document.getElementById('scheduleMinute').value);
+            const action = parseInt(document.getElementById('scheduleAction').value);
+            const durationValue = document.getElementById('scheduleDurationValue').value;
+            const durationUnit = document.getElementById('scheduleDurationUnit').value;
+            if (isNaN(heure) || isNaN(minute)) { showNotification('❌ Heure requise', true); return; }
+            let scheduleData = { type, heure, minute, action };
+            if (type === 'once') {
+                const date = document.getElementById('scheduleDate').value;
+                if (!date) { showNotification('❌ Date requise', true); return; }
+                scheduleData.date = date;
+            }
+            const user = auth.currentUser;
+            if (!user) return;
+            if (durationValue && parseInt(durationValue) > 0) {
+                const val = parseInt(durationValue);
+                if (durationUnit === 'minutes') scheduleData.duration = val * 60;
+                else if (durationUnit === 'hours') scheduleData.duration = val * 3600;
+                else scheduleData.duration = val;
+            }
+            await database.ref(`users/${user.uid}/schedules`).push(scheduleData);
+            await loadSchedules();
+            showNotification('✅ Horaire enregistré');
+            document.getElementById('scheduleModal').style.display = 'none';
+        };
+
+        // Auth
+        const loginScreen = document.getElementById('loginScreen');
+        const registerScreen = document.getElementById('registerScreen');
+        const appScreen = document.querySelector('.main-content');
+
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const roleSnapshot = await database.ref(`users/${user.uid}/role`).once('value');
+                let role = roleSnapshot.val();
+                if (!role) {
+                    const usersSnapshot = await database.ref('users').once('value');
+                    role = usersSnapshot.numChildren() === 0 ? 'admin' : 'user';
+                    await database.ref(`users/${user.uid}`).set({ email: user.email, role: role, createdAt: Date.now() });
+                }
+                currentUserRole = role;
+                document.getElementById('userEmail').innerHTML = `${user.email} ${role === 'admin' ? '👑 Admin' : '👤 User'}`;
+                document.getElementById('adminMenuItem').style.display = role === 'admin' ? 'flex' : 'none';
+                document.getElementById('profileEmail').textContent = user.email;
+                document.getElementById('profileRole').textContent = role === 'admin' ? 'Administrateur' : 'Utilisateur';
+
+                loginScreen.style.display = 'none';
+                registerScreen.style.display = 'none';
+                appScreen.style.display = 'block';
+
+                const photoSnap = await database.ref(`users/${user.uid}/photo`).once('value');
+                if (photoSnap.val()?.data) {
+                    document.getElementById('headerProfilePhoto').src = photoSnap.val().data;
+                    document.getElementById('profileBigPhoto').src = photoSnap.val().data;
+                }
+
+                initApp();
+                initVoiceRecognition();
+                initTheme();
+                speak("Bienvenue dans le système de contrôle du moteur industriel");
+            } else {
+                if (scheduleCheckerInterval) clearInterval(scheduleCheckerInterval);
+                loginScreen.style.display = 'block';
+                registerScreen.style.display = 'none';
+                appScreen.style.display = 'none';
             }
         });
 
-        // [LE RESTE DE VOTRE CODE EXISTANT RESTE IDENTIQUE]
-        // [Auth, loadHistory, stats, etc. - NE PAS MODIFIER]
+        document.getElementById('doLogin').onclick = async () => {
+            try { await auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value); document.getElementById('loginError').textContent = ''; }
+            catch (e) { document.getElementById('loginError').textContent = e.message; }
+        };
+        document.getElementById('doRegister').onclick = async () => {
+            try { await auth.createUserWithEmailAndPassword(document.getElementById('registerEmail').value, document.getElementById('registerPassword').value); document.getElementById('registerError').textContent = ''; }
+            catch (e) { document.getElementById('registerError').textContent = e.message; }
+        };
+        document.getElementById('showRegister').onclick = () => { loginScreen.style.display = 'none'; registerScreen.style.display = 'block'; };
+        document.getElementById('showLogin').onclick = () => { loginScreen.style.display = 'block'; registerScreen.style.display = 'none'; };
+        document.getElementById('logoutBtn').onclick = () => auth.signOut();
     </script>
 </body>
 
