@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Pro IoT - Moteur Industriel & Lampe</title>
+    <title>MasterSlave - Contrôle Moteur Industriel & Lampe</title>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
@@ -38,7 +38,8 @@
 
         body.dark-mode .stat-card,
         body.dark-mode .history-item,
-        body.dark-mode .schedule-item {
+        body.dark-mode .schedule-item,
+        body.dark-mode .user-item {
             background: #2a2a3e;
         }
 
@@ -416,6 +417,11 @@
             background: #e74c3c;
         }
 
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+
         @keyframes pulse-voice {
 
             0%,
@@ -563,13 +569,76 @@
             color: white;
         }
 
-        .schedule-delete {
+        .schedule-delete,
+        .schedule-edit {
             background: #ff6b6b;
             border: none;
-            padding: 5px 12px;
+            padding: 5px 10px;
             border-radius: 8px;
             color: white;
             cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .schedule-edit {
+            background: #f39c12;
+        }
+
+        .user-item {
+            background: #f8fafd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .user-role {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .user-role.admin {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .user-role.user {
+            background: #3498db;
+            color: white;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .user-edit,
+        .user-delete,
+        .user-reset {
+            padding: 5px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            color: white;
+        }
+
+        .user-edit {
+            background: #2b7be4;
+        }
+
+        .user-delete {
+            background: #ff6b6b;
+        }
+
+        .user-reset {
+            background: #f39c12;
         }
 
         .modal {
@@ -589,7 +658,7 @@
             background: white;
             border-radius: 20px;
             padding: 25px;
-            max-width: 400px;
+            max-width: 450px;
             margin: auto;
             max-height: 90vh;
             overflow-y: auto;
@@ -716,7 +785,7 @@
             cursor: pointer;
         }
 
-        /* ===== STYLES ASSISTANT VOCAL ===== */
+        /* Assistant Vocal */
         .assistant-container {
             text-align: center;
             padding: 20px;
@@ -834,6 +903,63 @@
             background: rgba(155, 89, 182, 0.2);
         }
 
+        /* About Page */
+        .about-company {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .company-logo {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .company-name {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2b7be4;
+            margin-bottom: 5px;
+        }
+
+        .company-tagline {
+            font-size: 16px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .about-description {
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(43, 123, 228, 0.05);
+            border-radius: 12px;
+        }
+
+        .feature-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .version-info {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -892,8 +1018,8 @@
 
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2>🔧 Pro Moteur IoT</h2>
-            <p>Moteur Industriel - Lampe Incandescente</p>
+            <h2>🔧 MasterSlave</h2>
+            <p>Contrôle Industriel Intelligent</p>
         </div>
         <div class="nav-item active" data-page="dashboard">📊 Tableau de bord</div>
         <div class="nav-item" data-page="control">🎮 Contrôle moteur</div>
@@ -1024,30 +1150,18 @@
             </div>
         </div>
 
-        <!-- ===== ASSISTANT VOCAL ===== -->
+        <!-- Assistant Vocal -->
         <div id="assistantPage" class="page">
             <div class="card">
                 <h3>🎤 Assistant Vocal Intelligent</h3>
                 <div class="assistant-container">
-                    <div class="assistant-avatar" id="assistantAvatar">
-                        🎤
+                    <div class="assistant-avatar" id="assistantAvatar">🎤</div>
+                    <div class="assistant-status" id="assistantStatus">👋 Bonjour ! Je suis votre assistante vocale.
                     </div>
-                    <div class="assistant-status" id="assistantStatus">
-                        👋 Bonjour ! Je suis votre assistante vocale.
+                    <button class="voice-command-btn" id="assistantVoiceBtn">🎤<br>Parler</button>
+                    <button class="voice-test-btn" id="testAssistantVoice">🔊 Tester ma voix</button>
+                    <div class="transcript-box" id="transcriptBox">💬 Dites "Marche" ou "Arrêt" pour contrôler le moteur
                     </div>
-
-                    <button class="voice-command-btn" id="assistantVoiceBtn">
-                        🎤<br>Parler
-                    </button>
-
-                    <button class="voice-test-btn" id="testAssistantVoice">
-                        🔊 Tester ma voix
-                    </button>
-
-                    <div class="transcript-box" id="transcriptBox">
-                        💬 Dites "Marche" ou "Arrêt" pour contrôler le moteur
-                    </div>
-
                     <div class="command-examples">
                         <span class="example-cmd">"Marche"</span>
                         <span class="example-cmd">"Arrêt"</span>
@@ -1055,10 +1169,6 @@
                         <span class="example-cmd">"Éteins"</span>
                         <span class="example-cmd">"Démarre"</span>
                         <span class="example-cmd">"Stop"</span>
-                    </div>
-
-                    <div style="margin-top:20px; font-size:12px; color:#888;">
-                        🎙️ Cliquez sur le micro et parlez clairement
                     </div>
                 </div>
             </div>
@@ -1121,9 +1231,11 @@
             </div>
         </div>
 
+        <!-- Modal Programmation -->
         <div id="scheduleModal" class="modal">
             <div class="modal-content">
                 <h3 id="modalTitle" style="color:#2b7be4;margin-bottom:15px;">Ajouter un horaire</h3>
+                <input type="hidden" id="editScheduleId">
                 <select id="scheduleType">
                     <option value="recurring">🔄 Tous les jours</option>
                     <option value="once">📅 Une seule fois</option>
@@ -1171,20 +1283,146 @@
             </div>
         </div>
 
-        <!-- Admin -->
+        <!-- Administration -->
         <div id="adminPage" class="page">
             <div class="card">
-                <h3>👑 Administration</h3>
-                <div id="adminContent">Chargement...</div>
+                <h3>👑 Administration des utilisateurs</h3>
+
+                <!-- Création d'utilisateur -->
+                <div
+                    style="background: rgba(43, 123, 228, 0.1); padding: 20px; border-radius: 15px; margin-bottom: 25px;">
+                    <h4 style="color: #2b7be4; margin-bottom: 15px;">➕ Créer un nouvel utilisateur</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end;">
+                        <div>
+                            <label style="font-size: 12px; color: #666;">Email</label>
+                            <input type="email" id="newUserEmail" class="login-input"
+                                placeholder="utilisateur@exemple.com" style="margin:0; padding:10px;">
+                        </div>
+                        <div>
+                            <label style="font-size: 12px; color: #666;">Mot de passe</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="newUserPassword" class="login-input"
+                                    placeholder="Mot de passe" style="margin:0; padding:10px;">
+                                <button type="button" class="toggle-password" data-target="newUserPassword">👁️</button>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" id="createUserBtn"
+                            style="padding: 10px 20px; white-space: nowrap;">Créer</button>
+                    </div>
+                    <div id="createUserError" style="color: #ff6b6b; font-size: 12px; margin-top: 8px;"></div>
+                </div>
+
+                <!-- Liste des utilisateurs -->
+                <h4 style="color: #2b7be4; margin-bottom: 15px;">👥 Utilisateurs enregistrés</h4>
+                <div id="usersList">Chargement...</div>
+            </div>
+        </div>
+
+        <!-- Modal édition utilisateur -->
+        <div id="editUserModal" class="modal">
+            <div class="modal-content">
+                <h3 style="color:#2b7be4;margin-bottom:15px;">✏️ Modifier l'utilisateur</h3>
+                <input type="hidden" id="editUserId">
+                <div style="margin-bottom:15px;">
+                    <label>📧 Email</label>
+                    <input type="email" id="editUserEmail" class="login-input" disabled style="background:#f0f0f0;">
+                </div>
+                <div style="margin-bottom:15px;">
+                    <label>👑 Rôle</label>
+                    <select id="editUserRole" class="login-input">
+                        <option value="user">Utilisateur</option>
+                        <option value="admin">Administrateur</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:15px;">
+                    <label>🔐 Nouveau mot de passe (laisser vide pour ne pas changer)</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="editUserPassword" class="login-input"
+                            placeholder="Nouveau mot de passe">
+                        <button type="button" class="toggle-password" data-target="editUserPassword">👁️</button>
+                    </div>
+                </div>
+                <div style="display:flex;gap:10px;margin-top:15px;">
+                    <button id="saveUserBtn" class="btn btn-secondary" style="flex:1;">Enregistrer</button>
+                    <button id="closeUserModalBtn" class="btn" style="flex:1;background:#ddd;">Annuler</button>
+                </div>
             </div>
         </div>
 
         <!-- À propos -->
         <div id="aboutPage" class="page">
             <div class="card">
-                <h3>ℹ️ À propos</h3>
-                <p>Projet IoT - Contrôle Moteur Industriel</p>
-                <p>Version 9.0 - Assistant Vocal Féminin Intégré</p>
+                <div class="about-company">
+                    <div class="company-logo">🏭</div>
+                    <div class="company-name">MasterSlave</div>
+                    <div class="company-tagline">Contrôle Industriel Intelligent</div>
+                </div>
+
+                <div class="about-description">
+                    <p style="margin-bottom: 15px;">
+                        <strong>MasterSlave</strong> est une solution IoT professionnelle de contrôle industriel
+                        permettant la supervision et la commande à distance de moteurs asynchrones triphasés
+                        et d'équipements d'éclairage industriel.
+                    </p>
+                    <p style="margin-bottom: 15px;">
+                        Notre plateforme combine une interface web intuitive avec une architecture cloud sécurisée,
+                        offrant aux opérateurs et responsables de maintenance un contrôle total sur leurs équipements,
+                        où qu'ils se trouvent.
+                    </p>
+                </div>
+
+                <h4 style="color: #2b7be4; margin: 20px 0 15px;">✨ Fonctionnalités principales</h4>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">🎤</div>
+                        <div><strong>Commande Vocale</strong></div>
+                        <div style="font-size: 12px; color: #888;">Assistant vocal intelligent</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📊</div>
+                        <div><strong>Monitoring</strong></div>
+                        <div style="font-size: 12px; color: #888;">Statistiques en temps réel</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">⏰</div>
+                        <div><strong>Programmation</strong></div>
+                        <div style="font-size: 12px; color: #888;">Horaires automatiques</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📱</div>
+                        <div><strong>Multi-support</strong></div>
+                        <div style="font-size: 12px; color: #888;">PC, tablette, mobile</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔐</div>
+                        <div><strong>Sécurisé</strong></div>
+                        <div style="font-size: 12px; color: #888;">Authentification Firebase</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🌙</div>
+                        <div><strong>Thème sombre</strong></div>
+                        <div style="font-size: 12px; color: #888;">Interface adaptative</div>
+                    </div>
+                </div>
+
+                <h4 style="color: #2b7be4; margin: 20px 0 15px;">📋 Spécifications techniques</h4>
+                <div class="info-row"><span class="info-label">Moteur</span><span class="info-value">Asynchrone triphasé
+                        15kW - 400V</span></div>
+                <div class="info-row"><span class="info-label">Lampe</span><span class="info-value">Incandescente
+                        industrielle 150W</span></div>
+                <div class="info-row"><span class="info-label">Communication</span><span class="info-value">Firebase
+                        Realtime Database</span></div>
+                <div class="info-row"><span class="info-label">Microcontrôleur</span><span class="info-value">ESP32 /
+                        Arduino</span></div>
+
+                <div class="version-info">
+                    <p>🏭 MasterSlave - Solution IoT Professionnelle</p>
+                    <p>Version 10.0 • © 2024 MasterSlave Industries</p>
+                    <p style="margin-top: 10px; font-size: 12px;">
+                        Développé avec ❤️ pour l'industrie 4.0<br>
+                        Contact : contact@masterslave-industries.com
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -1200,7 +1438,7 @@
             </div>
             <button id="doLogin" class="login-btn">Se connecter</button>
             <div class="switch-btn" id="showRegister">Créer un compte</div>
-            <div id="loginError" class="error-msg"></div>
+            <div id="loginError" style="color:#ff6b6b;font-size:12px;margin-top:10px;"></div>
         </div>
     </div>
 
@@ -1214,7 +1452,7 @@
             </div>
             <button id="doRegister" class="login-btn">Créer le compte</button>
             <div class="switch-btn" id="showLogin">Déjà un compte ? Se connecter</div>
-            <div id="registerError" class="error-msg"></div>
+            <div id="registerError" style="color:#ff6b6b;font-size:12px;margin-top:10px;"></div>
         </div>
     </div>
 
@@ -1244,8 +1482,6 @@
         let synth = null;
         let schedules = [];
         let scheduleCheckerInterval = null;
-
-        // Variables Assistant Vocal
         let assistantVoixDisponibles = [];
         let assistantVoixSelectionnee = null;
 
@@ -1292,12 +1528,6 @@
                 if (status) status.innerHTML = `🗣️ "${texte}"`;
             };
             utterance.onend = () => { if (avatar) avatar.classList.remove('speaking'); };
-            utterance.onerror = () => {
-                if (avatar) avatar.classList.remove('speaking');
-                const utterance2 = new SpeechSynthesisUtterance(texte);
-                utterance2.lang = 'fr-FR';
-                synth.speak(utterance2);
-            };
             synth.speak(utterance);
         }
 
@@ -1310,7 +1540,7 @@
             setTimeout(() => synth.speak(utterance), 100);
         }
 
-        // ===== FONCTIONS EXISTANTES (INTACTES) =====
+        // ===== ANIMATIONS =====
         function updateAnimations(state) {
             const fans = document.querySelectorAll('#motorFanBlades, #motorFanBlades2');
             const lamps = document.querySelectorAll('#lampGlass, #lampGlass2');
@@ -1342,6 +1572,7 @@
             });
         }
 
+        // ===== COMMANDE VOCALE =====
         function initVoiceRecognition() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) return;
@@ -1389,7 +1620,6 @@
                 recognition.onerror = (event) => {
                     button.classList.remove('listening');
                     button.innerHTML = originalText;
-                    if (event.error !== 'no-speech') speak("Erreur de reconnaissance");
                 };
 
                 recognition.onend = () => {
@@ -1405,7 +1635,6 @@
             });
         }
 
-        // Assistant Vocal Recognition
         async function startAssistantListening() {
             const btn = document.getElementById('assistantVoiceBtn');
             const transcriptBox = document.getElementById('transcriptBox');
@@ -1436,8 +1665,6 @@
             transcriptBox.innerHTML = '💬 Parlez maintenant...';
 
             parlerAssistant("Je vous écoute. Dites Marche ou Arrêt.");
-
-            rec.onstart = () => { };
 
             rec.onresult = (event) => {
                 const parole = event.results[0][0].transcript.toLowerCase().trim();
@@ -1487,6 +1714,7 @@
             rec.start();
         }
 
+        // ===== PROGRAMMATION =====
         async function loadSchedules() {
             const user = auth.currentUser;
             if (!user) return;
@@ -1525,10 +1753,40 @@
                         ${s.duration ? `<div class="schedule-duration">⏱️ Durée: ${formatDuration(s.duration)}</div>` : ''}
                     </div>
                     <div><span class="schedule-action ${s.action === 1 ? 'on' : 'off'}">${s.action === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}</span></div>
-                    <div><button class="schedule-delete" onclick="deleteSchedule('${s.id}')">🗑️</button></div>
+                    <div>
+                        <button class="schedule-edit" onclick="editSchedule('${s.id}')">✏️</button>
+                        <button class="schedule-delete" onclick="deleteSchedule('${s.id}')">🗑️</button>
+                    </div>
                 </div>
             `).join('');
         }
+
+        window.editSchedule = function (id) {
+            const schedule = schedules.find(s => s.id === id);
+            if (!schedule) return;
+
+            document.getElementById('modalTitle').textContent = '✏️ Modifier l\'horaire';
+            document.getElementById('editScheduleId').value = id;
+            document.getElementById('scheduleType').value = schedule.type;
+            document.getElementById('dateFields').style.display = schedule.type === 'once' ? 'block' : 'none';
+            if (schedule.date) document.getElementById('scheduleDate').value = schedule.date;
+            document.getElementById('scheduleHour').value = schedule.heure;
+            document.getElementById('scheduleMinute').value = schedule.minute;
+            document.getElementById('scheduleAction').value = schedule.action;
+
+            if (schedule.duration) {
+                let val = schedule.duration;
+                let unit = 'seconds';
+                if (val >= 3600 && val % 3600 === 0) { val = val / 3600; unit = 'hours'; }
+                else if (val >= 60 && val % 60 === 0) { val = val / 60; unit = 'minutes'; }
+                document.getElementById('scheduleDurationValue').value = val;
+                document.getElementById('scheduleDurationUnit').value = unit;
+            } else {
+                document.getElementById('scheduleDurationValue').value = '';
+            }
+
+            document.getElementById('scheduleModal').style.display = 'flex';
+        };
 
         window.deleteSchedule = async function (id) {
             if (!confirm('Supprimer cet horaire ?')) return;
@@ -1539,62 +1797,96 @@
             showNotification('🗑️ Horaire supprimé');
         };
 
-        function checkSchedules() {
-            if (!auth.currentUser || schedules.length === 0) return;
-            const now = new Date();
-            const currentTime = now.getHours() * 60 + now.getMinutes();
-            const today = now.getDay();
-            const todayStr = now.toISOString().split('T')[0];
+        // ===== ADMINISTRATION =====
+        async function loadUsers() {
+            if (currentUserRole !== 'admin') return;
 
-            schedules.forEach(schedule => {
-                const scheduleTime = schedule.heure * 60 + schedule.minute;
-                const lastExecKey = `lastExec_${schedule.id}_${todayStr}`;
-                if (localStorage.getItem(lastExecKey) === 'executed') return;
+            const usersSnapshot = await database.ref('users').once('value');
+            const users = usersSnapshot.val();
 
-                let shouldExecute = false;
-                switch (schedule.type) {
-                    case 'recurring': if (scheduleTime === currentTime) shouldExecute = true; break;
-                    case 'once': if (schedule.date === todayStr && scheduleTime === currentTime) shouldExecute = true; break;
-                    case 'weekday': if (today >= 1 && today <= 5 && scheduleTime === currentTime) shouldExecute = true; break;
-                    case 'weekend': if ((today === 0 || today === 6) && scheduleTime === currentTime) shouldExecute = true; break;
-                }
+            const container = document.getElementById('usersList');
+            if (!users) {
+                container.innerHTML = '<div style="text-align:center;padding:20px;">Aucun utilisateur</div>';
+                return;
+            }
 
-                if (shouldExecute) {
-                    sendCommand(schedule.action);
-                    localStorage.setItem(lastExecKey, 'executed');
-                    if (schedule.action === 1 && schedule.duration && schedule.duration > 0) {
-                        setTimeout(() => sendCommand(0), schedule.duration * 1000);
-                    }
-                }
-            });
+            let html = '';
+            for (const [uid, userData] of Object.entries(users)) {
+                html += `
+                    <div class="user-item">
+                        <div>
+                            <div style="font-weight:bold;">${userData.email || 'Sans email'}</div>
+                            <div style="font-size:11px;color:#888;">ID: ${uid.substring(0, 8)}...</div>
+                        </div>
+                        <div>
+                            <span class="user-role ${userData.role || 'user'}">${userData.role === 'admin' ? '👑 Admin' : '👤 User'}</span>
+                        </div>
+                        <div class="user-actions">
+                            <button class="user-edit" onclick="editUser('${uid}')">✏️</button>
+                            <button class="user-reset" onclick="resetUserPassword('${uid}')">🔑</button>
+                            <button class="user-delete" onclick="deleteUser('${uid}')">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
         }
 
+        window.editUser = function (uid) {
+            database.ref(`users/${uid}`).once('value').then(snapshot => {
+                const userData = snapshot.val();
+                document.getElementById('editUserId').value = uid;
+                document.getElementById('editUserEmail').value = userData.email || '';
+                document.getElementById('editUserRole').value = userData.role || 'user';
+                document.getElementById('editUserPassword').value = '';
+                document.getElementById('editUserModal').style.display = 'flex';
+            });
+        };
+
+        window.resetUserPassword = function (uid) {
+            const newPass = prompt('Nouveau mot de passe (minimum 6 caractères) :');
+            if (!newPass || newPass.length < 6) {
+                showNotification('❌ Mot de passe trop court (6 caractères minimum)', true);
+                return;
+            }
+            // Note: La réinitialisation de mot de passe nécessite une Cloud Function
+            showNotification('ℹ️ Contactez l\'administrateur système pour réinitialiser le mot de passe');
+        };
+
+        window.deleteUser = function (uid) {
+            if (!confirm('Supprimer définitivement cet utilisateur ?')) return;
+            if (uid === auth.currentUser.uid) {
+                showNotification('❌ Vous ne pouvez pas supprimer votre propre compte', true);
+                return;
+            }
+            database.ref(`users/${uid}`).remove()
+                .then(() => {
+                    showNotification('✅ Utilisateur supprimé');
+                    loadUsers();
+                })
+                .catch(e => showNotification('❌ Erreur: ' + e.message, true));
+        };
+
+        // ===== FONCTIONS PRINCIPALES =====
         function navigateTo(page) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(page + 'Page').classList.add('active');
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
-            const titles = { dashboard: 'Tableau de bord', control: 'Contrôle moteur', assistant: '🎤 Assistant Vocal', history: 'Historique', stats: 'Statistiques', export: 'Export', schedule: 'Programmation', profile: 'Mon profil', admin: 'Administration', about: 'À propos' };
+
+            const titles = {
+                dashboard: 'Tableau de bord', control: 'Contrôle moteur', assistant: '🎤 Assistant Vocal',
+                history: 'Historique', stats: 'Statistiques', export: 'Export', schedule: 'Programmation',
+                profile: 'Mon profil', admin: 'Administration', about: 'À propos'
+            };
             document.getElementById('pageTitle').textContent = titles[page];
+
             if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
             if (page === 'schedule') loadSchedules();
+            if (page === 'admin') loadUsers();
             if (page === 'assistant') {
                 setTimeout(() => parlerAssistant("Bonjour. Je suis votre assistante vocale. Dites Marche ou Arrêt pour contrôler le moteur."), 300);
             }
-        }
-
-        async function uploadProfilePhoto(file) {
-            const user = auth.currentUser;
-            if (!user) return;
-            if (file.size > 2 * 1024 * 1024) { showNotification("❌ Photo trop grande", true); return; }
-            const reader = new FileReader();
-            reader.onloadend = async () => {
-                await database.ref(`users/${user.uid}/photo`).set({ data: reader.result });
-                document.getElementById('headerProfilePhoto').src = reader.result;
-                document.getElementById('profileBigPhoto').src = reader.result;
-                showNotification("✅ Photo mise à jour");
-            };
-            reader.readAsDataURL(file);
         }
 
         function showNotification(msg, isError = false) {
@@ -1667,7 +1959,7 @@
             if (currentFilter === "off") filtered = commandHistory.filter(i => i.valeur === 0);
             const list = document.getElementById('historyList');
             if (!filtered.length) { list.innerHTML = '<div style="text-align:center;padding:30px;">Aucune commande</div>'; return; }
-            list.innerHTML = filtered.slice(0, 30).map(i => `<div class="history-item"><div><span class="${i.valeur === 1 ? 'history-on' : 'history-off'}">${i.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}</span><span style="font-size:10px;margin-left:8px;">${i.appareil || 'Inconnu'}</span></div><div class="timestamp">${formatDate(i.timestamp)}</div></div>`).join('');
+            list.innerHTML = filtered.slice(0, 30).map(i => `<div class="history-item"><div><span>${i.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}</span><span style="font-size:10px;margin-left:8px;">${i.appareil || 'Inconnu'}</span></div><div>${formatDate(i.timestamp)}</div></div>`).join('');
         }
 
         async function loadStats() {
@@ -1676,7 +1968,9 @@
             if (d) { cycleCount = d.cycleCount || 0; totalRunTimeSeconds = d.totalRunTime || 0; document.getElementById('statCycles').textContent = cycleCount; }
         }
 
-        async function saveStats() { await database.ref('stats').set({ cycleCount, totalRunTime: totalRunTimeSeconds, lastUpdate: Date.now() }); }
+        async function saveStats() {
+            await database.ref('stats').set({ cycleCount, totalRunTime: totalRunTimeSeconds, lastUpdate: Date.now() });
+        }
 
         function exportCSV() {
             if (!commandHistory.length) return showNotification('Aucune donnée', true);
@@ -1698,6 +1992,21 @@
             showNotification('✅ JSON exporté');
         }
 
+        async function uploadProfilePhoto(file) {
+            const user = auth.currentUser;
+            if (!user) return;
+            if (file.size > 2 * 1024 * 1024) { showNotification("❌ Photo trop grande", true); return; }
+            const reader = new FileReader();
+            reader.onloadend = async () => {
+                await database.ref(`users/${user.uid}/photo`).set({ data: reader.result });
+                document.getElementById('headerProfilePhoto').src = reader.result;
+                document.getElementById('profileBigPhoto').src = reader.result;
+                showNotification("✅ Photo mise à jour");
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ===== INITIALISATION =====
         function initApp() {
             document.getElementById('btnOn').onclick = () => sendCommand(1);
             document.getElementById('btnOff').onclick = () => sendCommand(0);
@@ -1706,11 +2015,10 @@
             document.getElementById('exportCSV').onclick = exportCSV;
             document.getElementById('exportJSON').onclick = exportJSON;
 
-            // Assistant Vocal
             const assistantBtn = document.getElementById('assistantVoiceBtn');
             if (assistantBtn) assistantBtn.addEventListener('click', startAssistantListening);
             const testVoiceBtn = document.getElementById('testAssistantVoice');
-            if (testVoiceBtn) testVoiceBtn.addEventListener('click', () => parlerAssistant("Bonjour, je fonctionne correctement. La synthèse vocale est active."));
+            if (testVoiceBtn) testVoiceBtn.addEventListener('click', () => parlerAssistant("Bonjour, je fonctionne correctement."));
 
             listenToMotorState();
             loadHistory();
@@ -1725,9 +2033,6 @@
                     document.getElementById('runTimeDisplay').innerHTML = h > 0 ? `${h}h ${m}m` : m > 0 ? `${m}m ${s}s` : `${s}s`;
                 } else { document.getElementById('runTimeDisplay').innerHTML = '0s'; }
             }, 1000);
-            if (scheduleCheckerInterval) clearInterval(scheduleCheckerInterval);
-            scheduleCheckerInterval = setInterval(checkSchedules, 60000);
-            checkSchedules();
             initAssistantVocal();
         }
 
@@ -1747,6 +2052,7 @@
             };
         });
 
+        // Theme
         function initTheme() {
             if (localStorage.getItem('theme') === 'dark') {
                 document.body.classList.add('dark-mode');
@@ -1760,19 +2066,24 @@
             document.getElementById('themeToggleBtn').innerHTML = isDark ? '☀️ Thème clair' : '🌙 Thème sombre';
         });
 
+        // Toggle password
         document.querySelectorAll('.toggle-password').forEach(btn => {
             btn.addEventListener('click', () => {
                 const input = document.getElementById(btn.dataset.target);
-                input.type = input.type === 'password' ? 'text' : 'password';
-                btn.innerHTML = input.type === 'password' ? '👁️' : '🙈';
+                if (input) {
+                    input.type = input.type === 'password' ? 'text' : 'password';
+                    btn.innerHTML = input.type === 'password' ? '👁️' : '🙈';
+                }
             });
         });
 
-        // Modal
+        // Modal programmation
         document.getElementById('scheduleType').onchange = function () {
             document.getElementById('dateFields').style.display = this.value === 'once' ? 'block' : 'none';
         };
         document.getElementById('addScheduleBtn').onclick = () => {
+            document.getElementById('modalTitle').textContent = 'Ajouter un horaire';
+            document.getElementById('editScheduleId').value = '';
             document.getElementById('scheduleType').value = 'recurring';
             document.getElementById('dateFields').style.display = 'none';
             document.getElementById('scheduleHour').value = '';
@@ -1783,31 +2094,92 @@
         };
         document.getElementById('closeModalBtn').onclick = () => document.getElementById('scheduleModal').style.display = 'none';
         document.getElementById('saveScheduleBtn').onclick = async () => {
+            const editId = document.getElementById('editScheduleId').value;
             const type = document.getElementById('scheduleType').value;
             const heure = parseInt(document.getElementById('scheduleHour').value);
             const minute = parseInt(document.getElementById('scheduleMinute').value);
             const action = parseInt(document.getElementById('scheduleAction').value);
             const durationValue = document.getElementById('scheduleDurationValue').value;
             const durationUnit = document.getElementById('scheduleDurationUnit').value;
+
             if (isNaN(heure) || isNaN(minute)) { showNotification('❌ Heure requise', true); return; }
+
             let scheduleData = { type, heure, minute, action };
             if (type === 'once') {
                 const date = document.getElementById('scheduleDate').value;
                 if (!date) { showNotification('❌ Date requise', true); return; }
                 scheduleData.date = date;
             }
-            const user = auth.currentUser;
-            if (!user) return;
+
             if (durationValue && parseInt(durationValue) > 0) {
                 const val = parseInt(durationValue);
                 if (durationUnit === 'minutes') scheduleData.duration = val * 60;
                 else if (durationUnit === 'hours') scheduleData.duration = val * 3600;
                 else scheduleData.duration = val;
             }
-            await database.ref(`users/${user.uid}/schedules`).push(scheduleData);
+
+            const user = auth.currentUser;
+            if (!user) return;
+
+            if (editId) {
+                await database.ref(`users/${user.uid}/schedules/${editId}`).update(scheduleData);
+            } else {
+                await database.ref(`users/${user.uid}/schedules`).push(scheduleData);
+            }
+
             await loadSchedules();
-            showNotification('✅ Horaire enregistré');
+            showNotification(editId ? '✅ Horaire modifié' : '✅ Horaire enregistré');
             document.getElementById('scheduleModal').style.display = 'none';
+        };
+
+        // Modal utilisateur
+        document.getElementById('closeUserModalBtn').onclick = () => document.getElementById('editUserModal').style.display = 'none';
+        document.getElementById('saveUserBtn').onclick = async () => {
+            const uid = document.getElementById('editUserId').value;
+            const role = document.getElementById('editUserRole').value;
+            const password = document.getElementById('editUserPassword').value;
+
+            await database.ref(`users/${uid}`).update({ role });
+
+            if (password && password.length >= 6) {
+                showNotification('ℹ️ Le mot de passe doit être changé via la console Firebase');
+            }
+
+            showNotification('✅ Utilisateur modifié');
+            document.getElementById('editUserModal').style.display = 'none';
+            loadUsers();
+        };
+
+        // Création utilisateur
+        document.getElementById('createUserBtn').onclick = async () => {
+            const email = document.getElementById('newUserEmail').value;
+            const password = document.getElementById('newUserPassword').value;
+            const errorDiv = document.getElementById('createUserError');
+
+            if (!email || !password) {
+                errorDiv.textContent = 'Email et mot de passe requis';
+                return;
+            }
+            if (password.length < 6) {
+                errorDiv.textContent = 'Mot de passe : 6 caractères minimum';
+                return;
+            }
+
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                await database.ref(`users/${userCredential.user.uid}`).set({
+                    email: email,
+                    role: 'user',
+                    createdAt: Date.now()
+                });
+                showNotification('✅ Utilisateur créé');
+                document.getElementById('newUserEmail').value = '';
+                document.getElementById('newUserPassword').value = '';
+                errorDiv.textContent = '';
+                loadUsers();
+            } catch (e) {
+                errorDiv.textContent = e.message;
+            }
         };
 
         // Auth
@@ -1821,8 +2193,8 @@
                 let role = roleSnapshot.val();
                 if (!role) {
                     const usersSnapshot = await database.ref('users').once('value');
-                    role = usersSnapshot.numChildren() === 0 ? 'admin' : 'user';
-                    await database.ref(`users/${user.uid}`).set({ email: user.email, role: role, createdAt: Date.now() });
+                    role = usersSnapshot.numChildren() === 1 ? 'admin' : 'user';
+                    await database.ref(`users/${user.uid}`).update({ email: user.email, role: role });
                 }
                 currentUserRole = role;
                 document.getElementById('userEmail').innerHTML = `${user.email} ${role === 'admin' ? '👑 Admin' : '👤 User'}`;
@@ -1843,9 +2215,8 @@
                 initApp();
                 initVoiceRecognition();
                 initTheme();
-                speak("Bienvenue dans le système de contrôle du moteur industriel");
+                speak("Bienvenue dans MasterSlave, système de contrôle industriel");
             } else {
-                if (scheduleCheckerInterval) clearInterval(scheduleCheckerInterval);
                 loginScreen.style.display = 'block';
                 registerScreen.style.display = 'none';
                 appScreen.style.display = 'none';
@@ -1853,12 +2224,20 @@
         });
 
         document.getElementById('doLogin').onclick = async () => {
-            try { await auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value); document.getElementById('loginError').textContent = ''; }
-            catch (e) { document.getElementById('loginError').textContent = e.message; }
+            try {
+                await auth.signInWithEmailAndPassword(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value);
+                document.getElementById('loginError').textContent = '';
+            } catch (e) {
+                document.getElementById('loginError').textContent = e.message;
+            }
         };
         document.getElementById('doRegister').onclick = async () => {
-            try { await auth.createUserWithEmailAndPassword(document.getElementById('registerEmail').value, document.getElementById('registerPassword').value); document.getElementById('registerError').textContent = ''; }
-            catch (e) { document.getElementById('registerError').textContent = e.message; }
+            try {
+                await auth.createUserWithEmailAndPassword(document.getElementById('registerEmail').value, document.getElementById('registerPassword').value);
+                document.getElementById('registerError').textContent = '';
+            } catch (e) {
+                document.getElementById('registerError').textContent = e.message;
+            }
         };
         document.getElementById('showRegister').onclick = () => { loginScreen.style.display = 'none'; registerScreen.style.display = 'block'; };
         document.getElementById('showLogin').onclick = () => { loginScreen.style.display = 'block'; registerScreen.style.display = 'none'; };
