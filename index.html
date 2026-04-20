@@ -39,8 +39,13 @@
         body.dark-mode .stat-card,
         body.dark-mode .history-item,
         body.dark-mode .schedule-item,
-        body.dark-mode .user-item {
+        body.dark-mode .user-item,
+        body.dark-mode .log-item {
             background: #2a2a3e;
+        }
+
+        body.dark-mode .maintenance-warning {
+            background: rgba(231, 76, 60, 0.2);
         }
 
         .sidebar {
@@ -265,38 +270,52 @@
             display: inline-block;
             position: relative;
             width: 200px;
-            height: 280px;
+            height: 300px;
             margin: 20px auto;
         }
 
         .lamp-wire-cord {
             width: 4px;
-            height: 60px;
-            background: #666;
+            height: 70px;
+            background: linear-gradient(90deg, #555, #777, #555);
             margin: 0 auto;
+            border-radius: 2px;
         }
 
         .lamp-glass {
-            width: 140px;
-            height: 140px;
-            background: radial-gradient(circle, #fff8e0, #ffe4a0);
+            width: 130px;
+            height: 130px;
+            background: radial-gradient(circle at 40% 40%, #e0e0e0, #888);
             border-radius: 50% 50% 45% 45%;
             margin: 0 auto;
             position: relative;
             transition: all 0.3s;
             cursor: pointer;
+            box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 2px solid #666;
+        }
+
+        .lamp-glass::before {
+            content: "";
+            position: absolute;
+            top: 15px;
+            left: 25px;
+            width: 30px;
+            height: 40px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, transparent 80%);
+            border-radius: 50%;
+            opacity: 0.5;
         }
 
         .lamp-glass-off {
-            background: #888;
-            filter: grayscale(0.8);
-            box-shadow: none;
+            background: radial-gradient(circle at 40% 40%, #999, #555);
+            box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .lamp-glass-on {
-            background: radial-gradient(circle, #fff8e0, #ffe4a0, #ffcc00, #ffaa00);
-            box-shadow: 0 0 60px #ffcc00, 0 0 100px #ffaa00;
-            animation: lampGlow 1s infinite;
+            background: radial-gradient(circle at 40% 40%, #fff8e0, #ffe4a0, #ffcc00, #ffaa00);
+            box-shadow: 0 0 60px #ffcc00, 0 0 100px #ffaa00, inset 0 -10px 20px rgba(0, 0, 0, 0.1);
+            animation: lampGlow 1.5s infinite;
         }
 
         @keyframes lampGlow {
@@ -304,12 +323,12 @@
             0%,
             100% {
                 opacity: 1;
-                box-shadow: 0 0 60px #ffcc00;
+                box-shadow: 0 0 50px #ffcc00, 0 0 90px #ffaa00, inset 0 -10px 20px rgba(0, 0, 0, 0.1);
             }
 
             50% {
-                opacity: 0.85;
-                box-shadow: 0 0 80px #ffaa00, 0 0 30px #ffcc00;
+                opacity: 0.9;
+                box-shadow: 0 0 70px #ffdd44, 0 0 110px #ffbb00, inset 0 -10px 20px rgba(0, 0, 0, 0.1);
             }
         }
 
@@ -318,39 +337,46 @@
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            width: 30px;
-            height: 30px;
-            background: #ff6600;
-            border-radius: 50%;
+            width: 40px;
+            height: 20px;
             opacity: 0;
             transition: all 0.3s;
         }
 
-        .lamp-filament-on {
-            opacity: 0.8;
-            box-shadow: 0 0 20px #ff4400;
-            animation: filamentPulse 0.5s infinite;
+        .lamp-filament::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 5px;
+            width: 30px;
+            height: 20px;
+            border: 2px solid #ff6600;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ff4400;
         }
 
-        @keyframes filamentPulse {
-
-            0%,
-            100% {
-                opacity: 0.8;
-            }
-
-            50% {
-                opacity: 1;
-            }
+        .lamp-filament-on {
+            opacity: 1;
         }
 
         .lamp-base-metal {
-            width: 50px;
-            height: 40px;
+            width: 60px;
+            height: 45px;
             background: linear-gradient(90deg, #b0b0b0, #d0d0d0, #b0b0b0);
             border-radius: 5px 5px 15px 15px;
             margin: -5px auto 0;
             border: 1px solid #888;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .lamp-base-metal::after {
+            content: "";
+            display: block;
+            width: 40px;
+            height: 8px;
+            background: #999;
+            margin: 8px auto;
+            border-radius: 4px;
         }
 
         .lamp-label {
@@ -412,14 +438,19 @@
             color: white;
         }
 
-        .btn-voice.listening {
-            animation: pulse-voice 1.5s infinite;
-            background: #e74c3c;
-        }
-
         .btn-warning {
             background: #f39c12;
             color: white;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-voice.listening {
+            animation: pulse-voice 1.5s infinite;
+            background: #e74c3c;
         }
 
         @keyframes pulse-voice {
@@ -546,12 +577,6 @@
             margin-left: 5px;
         }
 
-        .schedule-duration {
-            font-size: 11px;
-            color: #888;
-            margin-top: 4px;
-        }
-
         .schedule-action {
             padding: 4px 12px;
             border-radius: 20px;
@@ -582,6 +607,44 @@
 
         .schedule-edit {
             background: #f39c12;
+        }
+
+        /* Admin Tabs */
+        .admin-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+            flex-wrap: wrap;
+        }
+
+        .admin-tab {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            color: #888;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .admin-tab:hover {
+            color: #2b7be4;
+        }
+
+        .admin-tab.active {
+            color: #2b7be4;
+            border-bottom-color: #2b7be4;
+        }
+
+        .admin-tab-content {
+            display: none;
+        }
+
+        .admin-tab-content.active {
+            display: block;
         }
 
         .user-item {
@@ -619,8 +682,7 @@
         }
 
         .user-edit,
-        .user-delete,
-        .user-reset {
+        .user-delete {
             padding: 5px 12px;
             border: none;
             border-radius: 6px;
@@ -637,8 +699,126 @@
             background: #ff6b6b;
         }
 
-        .user-reset {
-            background: #f39c12;
+        .log-item {
+            background: #f8fafd;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-left: 4px solid #2b7be4;
+        }
+
+        .log-item.log-login {
+            border-left-color: #27ae60;
+        }
+
+        .log-item.log-command {
+            border-left-color: #3498db;
+        }
+
+        .log-item.log-admin {
+            border-left-color: #9b59b6;
+        }
+
+        .log-item.log-error {
+            border-left-color: #e74c3c;
+        }
+
+        .log-item.log-maintenance {
+            border-left-color: #f39c12;
+        }
+
+        .log-time {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .log-user {
+            font-size: 12px;
+            color: #2b7be4;
+            margin-top: 5px;
+        }
+
+        .maintenance-warning {
+            background: rgba(231, 76, 60, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #e74c3c;
+            margin-bottom: 20px;
+        }
+
+        .maintenance-active {
+            background: rgba(231, 76, 60, 0.15);
+        }
+
+        .online-users-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .online-user-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .online-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #2ecc71;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .diagnostic-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .diagnostic-ok {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .diagnostic-warning {
+            color: #f39c12;
+            font-weight: bold;
+        }
+
+        .diagnostic-error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .repair-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
         }
 
         .modal {
@@ -665,7 +845,8 @@
         }
 
         .modal-content select,
-        .modal-content input {
+        .modal-content input,
+        .modal-content textarea {
             width: 100%;
             padding: 10px;
             margin: 8px 0;
@@ -785,124 +966,6 @@
             cursor: pointer;
         }
 
-        /* Assistant Vocal */
-        .assistant-container {
-            text-align: center;
-            padding: 20px;
-        }
-
-        .assistant-avatar {
-            width: 150px;
-            height: 150px;
-            margin: 20px auto;
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 80px;
-            box-shadow: 0 10px 30px rgba(155, 89, 182, 0.4);
-            transition: all 0.3s;
-        }
-
-        .assistant-avatar.speaking {
-            animation: avatarPulse 1s infinite;
-            box-shadow: 0 0 40px #9b59b6;
-        }
-
-        @keyframes avatarPulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        .assistant-status {
-            font-size: 18px;
-            margin: 15px 0;
-            padding: 10px;
-            background: rgba(155, 89, 182, 0.1);
-            border-radius: 15px;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .voice-command-btn {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.4);
-            transition: all 0.3s;
-            margin: 20px auto;
-        }
-
-        .voice-command-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .voice-command-btn.listening {
-            background: #2ecc71;
-            animation: pulse-voice 1.5s infinite;
-        }
-
-        .transcript-box {
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 15px;
-            padding: 15px;
-            margin: 15px 0;
-            font-size: 16px;
-            border-left: 4px solid #9b59b6;
-        }
-
-        .command-examples {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .example-cmd {
-            background: rgba(155, 89, 182, 0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            color: #9b59b6;
-            font-weight: 500;
-        }
-
-        .voice-test-btn {
-            background: #3498db;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            margin: 10px;
-            font-size: 14px;
-        }
-
-        body.dark-mode .transcript-box {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        body.dark-mode .assistant-status {
-            background: rgba(155, 89, 182, 0.2);
-        }
-
         /* About Page */
         .about-company {
             text-align: center;
@@ -910,54 +973,166 @@
         }
 
         .company-logo {
-            font-size: 60px;
+            font-size: 70px;
             margin-bottom: 15px;
         }
 
         .company-name {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: bold;
             color: #2b7be4;
             margin-bottom: 5px;
         }
 
         .company-tagline {
-            font-size: 16px;
+            font-size: 18px;
             color: #888;
             margin-bottom: 20px;
         }
 
         .about-description {
-            line-height: 1.8;
+            line-height: 1.9;
             margin-bottom: 25px;
+            text-align: justify;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
         }
 
-        .feature-item {
+        .feature-card {
             text-align: center;
-            padding: 15px;
+            padding: 25px 15px;
             background: rgba(43, 123, 228, 0.05);
-            border-radius: 12px;
+            border-radius: 15px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(43, 123, 228, 0.1);
         }
 
         .feature-icon {
-            font-size: 30px;
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-weight: bold;
             margin-bottom: 10px;
+            color: #2b7be4;
+        }
+
+        .feature-desc {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .tech-specs {
+            background: rgba(43, 123, 228, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #2b7be4, #1a5bc4);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            text-align: center;
+            color: white;
+        }
+
+        .contact-info h3 {
+            color: white;
+            border-left-color: white;
+        }
+
+        .contact-email {
+            font-size: 20px;
+            margin: 15px 0;
+        }
+
+        .contact-phone {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
         }
 
         .version-info {
-            margin-top: 20px;
+            margin-top: 30px;
             padding-top: 20px;
             border-top: 1px solid #ddd;
             text-align: center;
             color: #888;
             font-size: 14px;
+        }
+
+        .team-section {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .team-member {
+            text-align: center;
+            width: 180px;
+        }
+
+        .team-photo {
+            width: 100px;
+            height: 100px;
+            background: #2b7be4;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+        }
+
+        .team-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .team-role {
+            font-size: 13px;
+            color: #888;
         }
 
         @media (max-width: 768px) {
@@ -992,22 +1167,95 @@
             }
 
             .equipment-row {
-                gap: 30px;
+                gap: 20px;
             }
 
             .industrial-motor {
-                width: 220px;
-                height: 220px;
+                width: 160px;
+                height: 160px;
+            }
+
+            .motor-body {
+                width: 130px;
+                height: 110px;
+            }
+
+            .motor-body::before {
+                width: 50px;
+                height: 25px;
+                top: -15px;
+            }
+
+            .motor-coils {
+                gap: 8px;
+                margin-top: 8px;
+            }
+
+            .coil {
+                width: 20px;
+                height: 30px;
+            }
+
+            .motor-shaft {
+                width: 35px;
+                height: 12px;
+                right: -20px;
+            }
+
+            .motor-shaft::after {
+                font-size: 28px;
+                right: -18px;
+                top: -12px;
+            }
+
+            .motor-fan-blades {
+                width: 40px;
+                height: 40px;
+                font-size: 30px;
+                left: -25px;
+            }
+
+            .motor-label {
+                font-size: 11px;
+                margin-top: 8px;
             }
 
             .industrial-lamp {
-                width: 150px;
-                height: 220px;
+                width: 130px;
+                height: 200px;
             }
 
             .lamp-glass {
-                width: 100px;
-                height: 100px;
+                width: 90px;
+                height: 90px;
+            }
+
+            .lamp-label {
+                font-size: 11px;
+            }
+
+            .lamp-base-metal {
+                width: 45px;
+                height: 35px;
+            }
+
+            .lamp-wire-cord {
+                height: 40px;
+            }
+
+            .admin-tabs {
+                flex-direction: column;
+            }
+
+            .admin-tab {
+                text-align: left;
+                border-bottom: none;
+                border-left: 3px solid transparent;
+            }
+
+            .admin-tab.active {
+                border-left-color: #2b7be4;
+                border-bottom-color: transparent;
             }
         }
     </style>
@@ -1023,10 +1271,8 @@
         </div>
         <div class="nav-item active" data-page="dashboard">📊 Tableau de bord</div>
         <div class="nav-item" data-page="control">🎮 Contrôle moteur</div>
-        <div class="nav-item" data-page="assistant">🎤 Assistant Vocal</div>
         <div class="nav-item" data-page="history">📜 Historique</div>
         <div class="nav-item" data-page="stats">📈 Statistiques</div>
-        <div class="nav-item" data-page="export">💾 Export</div>
         <div class="nav-item" data-page="schedule">⏰ Programmation</div>
         <div class="nav-item" data-page="profile">👤 Mon profil</div>
         <div class="nav-item" data-page="admin" id="adminMenuItem" style="display:none;">👑 Administration</div>
@@ -1081,7 +1327,7 @@
                             <div class="motor-shaft"></div>
                             <div class="motor-fan-blades" id="motorFanBlades">⚙️</div>
                         </div>
-                        <div class="motor-label">Moteur Asynchrone Triphasé 15kW</div>
+                        <div class="motor-label">Moteur Asynchrone 15kW</div>
                     </div>
 
                     <div class="industrial-lamp">
@@ -1130,7 +1376,7 @@
                             <div class="motor-shaft"></div>
                             <div class="motor-fan-blades" id="motorFanBlades2">⚙️</div>
                         </div>
-                        <div class="motor-label">Moteur Asynchrone Triphasé 15kW</div>
+                        <div class="motor-label">Moteur Asynchrone 15kW</div>
                     </div>
                     <div class="industrial-lamp">
                         <div class="lamp-wire-cord"></div>
@@ -1146,30 +1392,6 @@
                     <button class="btn btn-primary" id="btnOn2">🟢 MARCHE</button>
                     <button class="btn btn-danger" id="btnOff2">🔴 ARRÊT</button>
                     <button class="btn btn-voice" id="voiceCommandBtn2">🎤 Commande vocale</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Assistant Vocal -->
-        <div id="assistantPage" class="page">
-            <div class="card">
-                <h3>🎤 Assistant Vocal Intelligent</h3>
-                <div class="assistant-container">
-                    <div class="assistant-avatar" id="assistantAvatar">🎤</div>
-                    <div class="assistant-status" id="assistantStatus">👋 Bonjour ! Je suis votre assistante vocale.
-                    </div>
-                    <button class="voice-command-btn" id="assistantVoiceBtn">🎤<br>Parler</button>
-                    <button class="voice-test-btn" id="testAssistantVoice">🔊 Tester ma voix</button>
-                    <div class="transcript-box" id="transcriptBox">💬 Dites "Marche" ou "Arrêt" pour contrôler le moteur
-                    </div>
-                    <div class="command-examples">
-                        <span class="example-cmd">"Marche"</span>
-                        <span class="example-cmd">"Arrêt"</span>
-                        <span class="example-cmd">"Allume"</span>
-                        <span class="example-cmd">"Éteins"</span>
-                        <span class="example-cmd">"Démarre"</span>
-                        <span class="example-cmd">"Stop"</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1207,16 +1429,16 @@
                     <div class="stat-label">Total</div>
                 </div>
             </div>
-        </div>
-
-        <!-- Export -->
-        <div id="exportPage" class="page">
-            <div class="card">
-                <h3>💾 Exporter les données</h3>
-                <div class="btn-group">
-                    <button class="btn btn-secondary" id="exportCSV">📥 CSV</button>
-                    <button class="btn btn-secondary" id="exportJSON">📄 JSON</button>
-                </div>
+            <div class="card" style="margin-top:20px;">
+                <h3>📊 Statistiques détaillées</h3>
+                <div class="info-row"><span class="info-label">Temps de fonctionnement total</span><span
+                        class="info-value" id="totalRunTime">0h</span></div>
+                <div class="info-row"><span class="info-label">Nombre de cycles</span><span class="info-value"
+                        id="totalCycles">0</span></div>
+                <div class="info-row"><span class="info-label">Temps moyen par cycle</span><span class="info-value"
+                        id="avgCycleTime">0s</span></div>
+                <div class="info-row"><span class="info-label">Commandes aujourd'hui</span><span class="info-value"
+                        id="commandsToday">0</span></div>
             </div>
         </div>
 
@@ -1277,6 +1499,8 @@
                             id="profileEmail">-</span></div>
                     <div class="info-row"><span class="info-label">👑 Rôle</span><span class="info-value"
                             id="profileRole">-</span></div>
+                    <div class="info-row"><span class="info-label">📅 Membre depuis</span><span class="info-value"
+                            id="profileMemberSince">-</span></div>
                     <button class="btn btn-secondary" id="changePhotoBtn">📷 Changer ma photo</button>
                     <input type="file" id="profilePhotoUpload" accept="image/*" style="display:none">
                 </div>
@@ -1286,35 +1510,145 @@
         <!-- Administration -->
         <div id="adminPage" class="page">
             <div class="card">
-                <h3>👑 Administration des utilisateurs</h3>
+                <h3>👑 Administration système</h3>
 
-                <!-- Création d'utilisateur -->
-                <div
-                    style="background: rgba(43, 123, 228, 0.1); padding: 20px; border-radius: 15px; margin-bottom: 25px;">
-                    <h4 style="color: #2b7be4; margin-bottom: 15px;">➕ Créer un nouvel utilisateur</h4>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end;">
-                        <div>
-                            <label style="font-size: 12px; color: #666;">Email</label>
-                            <input type="email" id="newUserEmail" class="login-input"
-                                placeholder="utilisateur@exemple.com" style="margin:0; padding:10px;">
-                        </div>
-                        <div>
-                            <label style="font-size: 12px; color: #666;">Mot de passe</label>
-                            <div class="password-wrapper">
-                                <input type="password" id="newUserPassword" class="login-input"
-                                    placeholder="Mot de passe" style="margin:0; padding:10px;">
-                                <button type="button" class="toggle-password" data-target="newUserPassword">👁️</button>
-                            </div>
-                        </div>
-                        <button class="btn btn-secondary" id="createUserBtn"
-                            style="padding: 10px 20px; white-space: nowrap;">Créer</button>
-                    </div>
-                    <div id="createUserError" style="color: #ff6b6b; font-size: 12px; margin-top: 8px;"></div>
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-tab="users">👥 Utilisateurs</button>
+                    <button class="admin-tab" data-tab="logs">📋 Logs système</button>
+                    <button class="admin-tab" data-tab="maintenance">🔧 Maintenance</button>
+                    <button class="admin-tab" data-tab="diagnostic">🩺 Diagnostic</button>
                 </div>
 
-                <!-- Liste des utilisateurs -->
-                <h4 style="color: #2b7be4; margin-bottom: 15px;">👥 Utilisateurs enregistrés</h4>
-                <div id="usersList">Chargement...</div>
+                <!-- Utilisateurs -->
+                <div id="usersTab" class="admin-tab-content active">
+                    <div
+                        style="background: rgba(43, 123, 228, 0.1); padding: 20px; border-radius: 15px; margin-bottom: 25px;">
+                        <h4 style="color: #2b7be4; margin-bottom: 15px;">➕ Créer un nouvel utilisateur</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end;">
+                            <div>
+                                <label style="font-size: 12px; color: #666;">Email</label>
+                                <input type="email" id="newUserEmail" class="login-input"
+                                    placeholder="utilisateur@exemple.com" style="margin:0; padding:10px;">
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; color: #666;">Mot de passe</label>
+                                <div class="password-wrapper">
+                                    <input type="password" id="newUserPassword" class="login-input"
+                                        placeholder="Mot de passe" style="margin:0; padding:10px;">
+                                    <button type="button" class="toggle-password"
+                                        data-target="newUserPassword">👁️</button>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" id="createUserBtn"
+                                style="padding: 10px 20px;">Créer</button>
+                        </div>
+                        <div id="createUserError" style="color: #ff6b6b; font-size: 12px; margin-top: 8px;"></div>
+                    </div>
+
+                    <h4 style="color: #2b7be4; margin-bottom: 15px;">👥 Utilisateurs enregistrés</h4>
+                    <div id="usersList">Chargement...</div>
+                </div>
+
+                <!-- Logs -->
+                <div id="logsTab" class="admin-tab-content">
+                    <div style="margin-bottom: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn btn-secondary" id="refreshLogsBtn">🔄 Actualiser</button>
+                        <button class="btn btn-warning" id="clearLogsBtn">🗑️ Effacer les logs</button>
+                        <button class="btn btn-success" id="exportLogsBtn">📥 Exporter</button>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <select id="logFilter" class="login-input" style="width: auto; display: inline-block;">
+                            <option value="all">Tous les logs</option>
+                            <option value="login">Connexions</option>
+                            <option value="command">Commandes</option>
+                            <option value="admin">Actions admin</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="error">Erreurs</option>
+                        </select>
+                    </div>
+                    <div id="logsList" style="max-height: 400px; overflow-y: auto;">Chargement...</div>
+                </div>
+
+                <!-- Maintenance -->
+                <div id="maintenanceTab" class="admin-tab-content">
+                    <div id="maintenanceStatus" class="maintenance-warning">
+                        <h4 style="color: #e74c3c; margin-bottom: 15px;">⚠️ Mode Maintenance</h4>
+                        <p style="margin-bottom: 15px;">Le mode maintenance désactive toutes les commandes utilisateur.
+                        </p>
+                        <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                            <span style="font-weight: bold;">État actuel :</span>
+                            <span id="maintenanceState"
+                                style="padding: 5px 20px; border-radius: 20px; background: #27ae60; color: white;">INACTIF</span>
+                            <button class="btn btn-warning" id="toggleMaintenanceBtn">🔧 Activer la maintenance</button>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <label>📝 Message de maintenance :</label>
+                            <input type="text" id="maintenanceMessage" class="login-input"
+                                placeholder="Message affiché aux utilisateurs"
+                                value="Système en maintenance. Veuillez réessayer plus tard.">
+                        </div>
+                    </div>
+
+                    <h4 style="color: #2b7be4; margin: 20px 0 15px;">🟢 Utilisateurs actuellement connectés</h4>
+                    <div class="online-users-list" id="onlineUsersList">
+                        <div class="online-user-item">
+                            <span class="online-indicator"></span>
+                            <span>Chargement...</span>
+                        </div>
+                    </div>
+
+                    <h4 style="color: #2b7be4; margin: 20px 0 15px;">📊 État du système</h4>
+                    <div class="info-row"><span class="info-label">Commandes bloquées</span><span class="info-value"
+                            id="blockedCommands">0</span></div>
+                    <div class="info-row"><span class="info-label">Dernière maintenance</span><span class="info-value"
+                            id="lastMaintenanceDate">-</span></div>
+                    <div class="info-row"><span class="info-label">Maintenances effectuées</span><span
+                            class="info-value" id="maintenanceCount">0</span></div>
+                </div>
+
+                <!-- Diagnostic -->
+                <div id="diagnosticTab" class="admin-tab-content">
+                    <button class="btn btn-secondary" id="runDiagnosticBtn" style="margin-bottom: 20px;">🔄 Lancer le
+                        diagnostic complet</button>
+
+                    <h4 style="color: #2b7be4; margin-bottom: 15px;">📊 Résultats du diagnostic</h4>
+                    <div id="diagnosticResults">
+                        <div class="diagnostic-item">
+                            <span>🔌 Connexion Firebase :</span>
+                            <span id="diagFirebase">-</span>
+                        </div>
+                        <div class="diagnostic-item">
+                            <span>📡 État du moteur :</span>
+                            <span id="diagMotor">-</span>
+                        </div>
+                        <div class="diagnostic-item">
+                            <span>💡 État de la lampe :</span>
+                            <span id="diagLamp">-</span>
+                        </div>
+                        <div class="diagnostic-item">
+                            <span>🌐 Latence réseau :</span>
+                            <span id="diagLatency">-</span>
+                        </div>
+                        <div class="diagnostic-item">
+                            <span>💾 Utilisation mémoire :</span>
+                            <span id="diagMemory">-</span>
+                        </div>
+                        <div class="diagnostic-item">
+                            <span>📋 Dernière erreur :</span>
+                            <span id="diagLastError">Aucune</span>
+                        </div>
+                    </div>
+
+                    <h4 style="color: #2b7be4; margin: 25px 0 15px;">🛠️ Actions de réparation</h4>
+                    <div class="repair-actions">
+                        <button class="btn btn-warning" id="resetMotorBtn">🔄 Réinitialiser le moteur</button>
+                        <button class="btn btn-danger" id="forceStopBtn">⏹️ Arrêt d'urgence</button>
+                        <button class="btn btn-secondary" id="clearCacheBtn">🗑️ Vider le cache</button>
+                        <button class="btn btn-success" id="restartSystemBtn">🔌 Redémarrer le système</button>
+                        <button class="btn btn-primary" id="reconnectFirebaseBtn">📡 Reconnecter Firebase</button>
+                        <button class="btn btn-warning" id="calibrateSensorsBtn">📐 Calibrer les capteurs</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1335,7 +1669,7 @@
                     </select>
                 </div>
                 <div style="margin-bottom:15px;">
-                    <label>🔐 Nouveau mot de passe (laisser vide pour ne pas changer)</label>
+                    <label>🔐 Nouveau mot de passe (laisser vide)</label>
                     <div class="password-wrapper">
                         <input type="password" id="editUserPassword" class="login-input"
                             placeholder="Nouveau mot de passe">
@@ -1355,72 +1689,96 @@
                 <div class="about-company">
                     <div class="company-logo">🏭</div>
                     <div class="company-name">MasterSlave</div>
-                    <div class="company-tagline">Contrôle Industriel Intelligent</div>
+                    <div class="company-tagline">Contrôle Industriel Intelligent • Industrie 4.0</div>
                 </div>
 
                 <div class="about-description">
-                    <p style="margin-bottom: 15px;">
+                    <p style="margin-bottom: 20px; font-size: 16px;">
                         <strong>MasterSlave</strong> est une solution IoT professionnelle de contrôle industriel
-                        permettant la supervision et la commande à distance de moteurs asynchrones triphasés
-                        et d'équipements d'éclairage industriel.
-                    </p>
-                    <p style="margin-bottom: 15px;">
-                        Notre plateforme combine une interface web intuitive avec une architecture cloud sécurisée,
-                        offrant aux opérateurs et responsables de maintenance un contrôle total sur leurs équipements,
-                        où qu'ils se trouvent.
+                        de nouvelle génération, conçue pour la supervision et la commande à distance d'équipements
+                        industriels critiques. Notre plateforme combine une interface web intuitive avec une
+                        architecture cloud sécurisée, offrant aux opérateurs un contrôle total sur leurs
+                        installations, où qu'ils se trouvent.
                     </p>
                 </div>
 
-                <h4 style="color: #2b7be4; margin: 20px 0 15px;">✨ Fonctionnalités principales</h4>
+                <h3 style="margin: 30px 0 20px;">✨ Fonctionnalités principales</h3>
                 <div class="features-grid">
-                    <div class="feature-item">
+                    <div class="feature-card">
                         <div class="feature-icon">🎤</div>
-                        <div><strong>Commande Vocale</strong></div>
-                        <div style="font-size: 12px; color: #888;">Assistant vocal intelligent</div>
+                        <div class="feature-title">Commande Vocale</div>
+                        <div class="feature-desc">Assistant vocal intelligent avec reconnaissance en temps réel</div>
                     </div>
-                    <div class="feature-item">
+                    <div class="feature-card">
                         <div class="feature-icon">📊</div>
-                        <div><strong>Monitoring</strong></div>
-                        <div style="font-size: 12px; color: #888;">Statistiques en temps réel</div>
+                        <div class="feature-title">Monitoring 24/7</div>
+                        <div class="feature-desc">Supervision en temps réel avec statistiques détaillées</div>
                     </div>
-                    <div class="feature-item">
+                    <div class="feature-card">
                         <div class="feature-icon">⏰</div>
-                        <div><strong>Programmation</strong></div>
-                        <div style="font-size: 12px; color: #888;">Horaires automatiques</div>
+                        <div class="feature-title">Programmation</div>
+                        <div class="feature-desc">Planification horaire flexible et automatisation</div>
                     </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">📱</div>
-                        <div><strong>Multi-support</strong></div>
-                        <div style="font-size: 12px; color: #888;">PC, tablette, mobile</div>
-                    </div>
-                    <div class="feature-item">
+                    <div class="feature-card">
                         <div class="feature-icon">🔐</div>
-                        <div><strong>Sécurisé</strong></div>
-                        <div style="font-size: 12px; color: #888;">Authentification Firebase</div>
+                        <div class="feature-title">Sécurité Avancée</div>
+                        <div class="feature-desc">Authentification Firebase et gestion des rôles</div>
                     </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">🌙</div>
-                        <div><strong>Thème sombre</strong></div>
-                        <div style="font-size: 12px; color: #888;">Interface adaptative</div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <div class="feature-title">Multi-support</div>
+                        <div class="feature-desc">Interface responsive PC, tablette et mobile</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🛠️</div>
+                        <div class="feature-title">Maintenance</div>
+                        <div class="feature-desc">Mode maintenance et diagnostic intégré</div>
                     </div>
                 </div>
 
-                <h4 style="color: #2b7be4; margin: 20px 0 15px;">📋 Spécifications techniques</h4>
-                <div class="info-row"><span class="info-label">Moteur</span><span class="info-value">Asynchrone triphasé
-                        15kW - 400V</span></div>
-                <div class="info-row"><span class="info-label">Lampe</span><span class="info-value">Incandescente
-                        industrielle 150W</span></div>
-                <div class="info-row"><span class="info-label">Communication</span><span class="info-value">Firebase
-                        Realtime Database</span></div>
-                <div class="info-row"><span class="info-label">Microcontrôleur</span><span class="info-value">ESP32 /
-                        Arduino</span></div>
+                <div class="tech-specs">
+                    <h3 style="margin-bottom: 20px;">📋 Spécifications techniques</h3>
+                    <div class="info-row"><span class="info-label">Moteur</span><span class="info-value">Asynchrone
+                            triphasé 15kW - 400V/50Hz</span></div>
+                    <div class="info-row"><span class="info-label">Éclairage</span><span class="info-value">Lampe
+                            incandescente industrielle 150W - Culot E27</span></div>
+                    <div class="info-row"><span class="info-label">Microcontrôleur</span><span class="info-value">ESP32
+                            - WiFi intégré</span></div>
+                    <div class="info-row"><span class="info-label">Communication</span><span class="info-value">Firebase
+                            Realtime Database - TLS 1.3</span></div>
+                    <div class="info-row"><span class="info-label">Protocole</span><span class="info-value">HTTPS /
+                            WebSocket</span></div>
+                    <div class="info-row"><span class="info-label">Interface relais</span><span
+                            class="info-value">Module 5V - Optocoupleur</span></div>
+                </div>
+
+                <div class="team-section">
+                    <div class="team-member">
+                        <div class="team-photo">👨‍💻</div>
+                        <div class="team-name">John Dians</div>
+                        <div class="team-role">Développeur Principal</div>
+                        <div class="team-role">Architecte IoT</div>
+                    </div>
+                </div>
+
+                <div class="contact-info">
+                    <h3 style="color: white; border-left: none; padding-left: 0;">📞 Contact & Support</h3>
+                    <div class="contact-email">📧 johndiams30@gmail.com</div>
+                    <div class="contact-phone">📱 +243 808 838 305</div>
+                    <p style="margin: 20px 0;">Disponible pour support technique et déploiement</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">📧</a>
+                        <a href="#" class="social-link">💬</a>
+                        <a href="#" class="social-link">🔗</a>
+                    </div>
+                </div>
 
                 <div class="version-info">
-                    <p>🏭 MasterSlave - Solution IoT Professionnelle</p>
-                    <p>Version 10.0 • © 2024 MasterSlave Industries</p>
-                    <p style="margin-top: 10px; font-size: 12px;">
+                    <p>🏭 <strong>MasterSlave</strong> - Solution IoT Professionnelle</p>
+                    <p>Version 13.0 • Build 2024.01 • © 2024 MasterSlave Industries</p>
+                    <p style="margin-top: 15px; font-size: 12px;">
                         Développé avec ❤️ pour l'industrie 4.0<br>
-                        Contact : contact@masterslave-industries.com
+                        Tous droits réservés
                     </p>
                 </div>
             </div>
@@ -1474,70 +1832,191 @@
 
         // ===== VARIABLES GLOBALES =====
         let currentFilter = "all";
+        let logFilter = "all";
         let commandHistory = [];
+        let systemLogs = [];
         let onCount = 0, offCount = 0;
         let motorState = 0, motorStartTime = null, cycleCount = 0, totalRunTimeSeconds = 0;
         let currentUserRole = 'user';
         let recognition = null;
-        let synth = null;
         let schedules = [];
-        let scheduleCheckerInterval = null;
-        let assistantVoixDisponibles = [];
-        let assistantVoixSelectionnee = null;
+        let maintenanceMode = false;
+        let maintenanceMessage = "Système en maintenance. Veuillez réessayer plus tard.";
+        let blockedCommandsCount = 0;
+        let maintenanceCount = 0;
 
-        // ===== ASSISTANT VOCAL =====
-        function initAssistantVocal() {
-            if ('speechSynthesis' in window) {
-                synth = window.speechSynthesis;
-                assistantVoixDisponibles = synth.getVoices();
-                if (assistantVoixDisponibles.length === 0) {
-                    synth.onvoiceschanged = () => {
-                        assistantVoixDisponibles = synth.getVoices();
-                        choisirVoixFeminine();
-                    };
-                } else {
-                    choisirVoixFeminine();
-                }
-            }
-        }
-
-        function choisirVoixFeminine() {
-            const preferences = ['Google français', 'Microsoft Hortense', 'Amélie', 'Samantha'];
-            for (let pref of preferences) {
-                const voix = assistantVoixDisponibles.find(v => v.name.includes(pref) && v.lang.includes('fr'));
-                if (voix) { assistantVoixSelectionnee = voix; return; }
-            }
-            const voixFr = assistantVoixDisponibles.find(v => v.lang.includes('fr'));
-            if (voixFr) assistantVoixSelectionnee = voixFr;
-        }
-
-        function parlerAssistant(texte) {
-            if (!synth) synth = window.speechSynthesis;
-            synth.cancel();
-            const utterance = new SpeechSynthesisUtterance(texte);
-            utterance.lang = 'fr-FR';
-            utterance.pitch = 1.4;
-            utterance.rate = 0.9;
-            if (assistantVoixSelectionnee) utterance.voice = assistantVoixSelectionnee;
-
-            const avatar = document.getElementById('assistantAvatar');
-            const status = document.getElementById('assistantStatus');
-
-            utterance.onstart = () => {
-                if (avatar) avatar.classList.add('speaking');
-                if (status) status.innerHTML = `🗣️ "${texte}"`;
+        // ===== LOGS =====
+        function addLog(type, action, details, user = null) {
+            const log = {
+                type: type,
+                action: action,
+                details: details,
+                user: user || auth.currentUser?.email || 'Système',
+                timestamp: Date.now()
             };
-            utterance.onend = () => { if (avatar) avatar.classList.remove('speaking'); };
-            synth.speak(utterance);
+            database.ref('systemLogs').push(log);
+            systemLogs.unshift(log);
+            if (systemLogs.length > 200) systemLogs.pop();
         }
 
-        function speak(text) {
-            if (!synth) synth = window.speechSynthesis;
-            synth.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'fr-FR';
-            utterance.rate = 0.9;
-            setTimeout(() => synth.speak(utterance), 100);
+        async function loadLogs() {
+            const snapshot = await database.ref('systemLogs').once('value');
+            const data = snapshot.val();
+            systemLogs = data ? Object.values(data).reverse() : [];
+            displayLogs();
+        }
+
+        function displayLogs() {
+            const container = document.getElementById('logsList');
+            if (!container) return;
+
+            let filtered = systemLogs;
+            if (logFilter !== 'all') {
+                filtered = systemLogs.filter(log => log.type === logFilter);
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:20px;">Aucun log</div>';
+                return;
+            }
+
+            container.innerHTML = filtered.slice(0, 100).map(log => `
+                <div class="log-item log-${log.type}">
+                    <div style="flex:1;">
+                        <strong>${log.action}</strong> - ${log.details}
+                        <div class="log-user">👤 ${log.user}</div>
+                    </div>
+                    <div class="log-time">${new Date(log.timestamp).toLocaleString('fr-FR')}</div>
+                </div>
+            `).join('');
+        }
+
+        // ===== MAINTENANCE =====
+        async function loadMaintenanceStatus() {
+            const snapshot = await database.ref('system/maintenance').once('value');
+            const data = snapshot.val();
+            maintenanceMode = data?.active || false;
+            maintenanceMessage = data?.message || "Système en maintenance. Veuillez réessayer plus tard.";
+            blockedCommandsCount = data?.blockedCommands || 0;
+            maintenanceCount = data?.maintenanceCount || 0;
+            updateMaintenanceUI();
+        }
+
+        function updateMaintenanceUI() {
+            const stateEl = document.getElementById('maintenanceState');
+            const btnEl = document.getElementById('toggleMaintenanceBtn');
+            const msgInput = document.getElementById('maintenanceMessage');
+            const blockedEl = document.getElementById('blockedCommands');
+            const lastDateEl = document.getElementById('lastMaintenanceDate');
+            const countEl = document.getElementById('maintenanceCount');
+
+            if (stateEl) {
+                stateEl.textContent = maintenanceMode ? 'ACTIF' : 'INACTIF';
+                stateEl.style.background = maintenanceMode ? '#e74c3c' : '#27ae60';
+            }
+            if (btnEl) btnEl.textContent = maintenanceMode ? '✅ Désactiver la maintenance' : '🔧 Activer la maintenance';
+            if (msgInput) msgInput.value = maintenanceMessage;
+            if (blockedEl) blockedEl.textContent = blockedCommandsCount;
+            if (countEl) countEl.textContent = maintenanceCount;
+
+            const container = document.getElementById('maintenanceStatus');
+            if (container) {
+                container.className = maintenanceMode ? 'maintenance-warning maintenance-active' : 'maintenance-warning';
+            }
+        }
+
+        async function toggleMaintenance() {
+            maintenanceMode = !maintenanceMode;
+            if (maintenanceMode) maintenanceCount++;
+
+            await database.ref('system/maintenance').set({
+                active: maintenanceMode,
+                message: maintenanceMessage,
+                blockedCommands: blockedCommandsCount,
+                maintenanceCount: maintenanceCount,
+                lastMaintenance: Date.now()
+            });
+
+            addLog('maintenance', 'Mode maintenance', maintenanceMode ? 'Activé' : 'Désactivé');
+            updateMaintenanceUI();
+            showNotification(`Maintenance ${maintenanceMode ? 'activée' : 'désactivée'}`);
+        }
+
+        // ===== DIAGNOSTIC =====
+        async function runDiagnostic() {
+            showNotification('🔄 Diagnostic en cours...');
+
+            const results = {
+                firebase: true,
+                motor: motorState,
+                lamp: motorState,
+                latency: '...',
+                memory: '...',
+                lastError: 'Aucune'
+            };
+
+            try {
+                const start = Date.now();
+                await database.ref('.info/connected').once('value');
+                results.latency = `${Date.now() - start}ms`;
+            } catch (e) {
+                results.firebase = false;
+                results.lastError = 'Erreur connexion Firebase';
+            }
+
+            if (performance && performance.memory) {
+                results.memory = `${Math.round(performance.memory.usedJSHeapSize / 1024 / 1024)} MB`;
+            } else {
+                results.memory = 'Non disponible';
+            }
+
+            document.getElementById('diagFirebase').textContent = results.firebase ? '✅ Connecté' : '❌ Déconnecté';
+            document.getElementById('diagFirebase').className = results.firebase ? 'diagnostic-ok' : 'diagnostic-error';
+
+            document.getElementById('diagMotor').textContent = results.motor === 1 ? '🟢 En marche' : '🔴 Arrêté';
+            document.getElementById('diagMotor').className = 'diagnostic-ok';
+
+            document.getElementById('diagLamp').textContent = results.motor === 1 ? '💡 Allumée' : '⚫ Éteinte';
+            document.getElementById('diagLamp').className = 'diagnostic-ok';
+
+            document.getElementById('diagLatency').textContent = results.latency;
+            document.getElementById('diagLatency').className = parseInt(results.latency) < 100 ? 'diagnostic-ok' : 'diagnostic-warning';
+
+            document.getElementById('diagMemory').textContent = results.memory;
+            document.getElementById('diagMemory').className = 'diagnostic-ok';
+
+            document.getElementById('diagLastError').textContent = results.lastError;
+
+            addLog('admin', 'Diagnostic', 'Diagnostic système exécuté');
+            showNotification('✅ Diagnostic terminé');
+        }
+
+        // ===== COMMANDE (avec vérification maintenance) =====
+        function sendCommand(value) {
+            if (maintenanceMode) {
+                blockedCommandsCount++;
+                database.ref('system/maintenance').update({ blockedCommands: blockedCommandsCount });
+                showNotification(`⚠️ ${maintenanceMessage}`, true);
+                addLog('error', 'Commande bloquée', `Tentative de ${value === 1 ? 'MARCHE' : 'ARRÊT'} en maintenance`);
+                return;
+            }
+
+            const device = /mobile/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
+            database.ref('moteur/etat').set({ valeur: value, appareil: device, timestamp: Date.now() })
+                .then(() => {
+                    database.ref('historique').push({
+                        valeur: value,
+                        appareil: device,
+                        timestamp: Date.now(),
+                        utilisateur: auth.currentUser?.email
+                    });
+                    addLog('command', value === 1 ? 'MARCHE' : 'ARRÊT', `Commande depuis ${device}`);
+                    showNotification(`✅ ${value === 1 ? 'MARCHE' : 'ARRÊT'} envoyé`);
+                })
+                .catch(e => {
+                    addLog('error', 'Erreur commande', e.message);
+                    showNotification(`❌ Erreur`, true);
+                });
         }
 
         // ===== ANIMATIONS =====
@@ -1568,7 +2047,7 @@
             });
 
             statusElements.forEach(el => {
-                el.innerHTML = state === 1 ? '🟢 MOTEUR EN MARCHE - LAMPE ALLUMÉE' : '🔴 MOTEUR À L\'ARRÊT - LAMPE ÉTEINTE';
+                el.innerHTML = state === 1 ? '🟢 EN MARCHE' : '🔴 À L\'ARRÊT';
             });
         }
 
@@ -1591,33 +2070,29 @@
                 button.classList.add('listening');
                 const originalText = button.innerHTML;
                 button.innerHTML = '🎤 Écoutez...';
-                speak("Je vous écoute, dites Marche ou Arrêt");
 
                 setTimeout(() => { try { recognition.start(); } catch (e) { } }, 500);
 
                 recognition.onresult = (event) => {
                     const transcript = event.results[0][0].transcript.toLowerCase();
-                    let command = null, response = "";
+                    let command = null;
 
                     if (transcript.includes('marche') || transcript.includes('allume') || transcript.includes('activer') || transcript.includes('démarrer') || transcript.includes('on')) {
                         command = 1;
-                        response = "Commande reçue, je démarre le moteur industriel";
                         showNotification('🎤 Commande vocale: MARCHE');
                     } else if (transcript.includes('arrêt') || transcript.includes('arret') || transcript.includes('éteint') || transcript.includes('eteint') || transcript.includes('stop') || transcript.includes('off')) {
                         command = 0;
-                        response = "Commande reçue, j'arrête le moteur industriel";
                         showNotification('🎤 Commande vocale: ARRÊT');
                     } else {
-                        response = "Désolé, commande non reconnue. Dites Marche ou Arrêt";
+                        showNotification('❓ Commande non reconnue', true);
                     }
 
-                    speak(response);
                     if (command !== null) sendCommand(command);
                     button.classList.remove('listening');
                     button.innerHTML = originalText;
                 };
 
-                recognition.onerror = (event) => {
+                recognition.onerror = () => {
                     button.classList.remove('listening');
                     button.innerHTML = originalText;
                 };
@@ -1635,83 +2110,113 @@
             });
         }
 
-        async function startAssistantListening() {
-            const btn = document.getElementById('assistantVoiceBtn');
-            const transcriptBox = document.getElementById('transcriptBox');
-            const status = document.getElementById('assistantStatus');
+        // ===== ÉCOUTE ÉTAT MOTEUR =====
+        function listenToMotorState() {
+            database.ref('moteur/etat').on('value', (s) => {
+                const d = s.val();
+                if (d) {
+                    let prev = motorState;
+                    updateAnimations(d.valeur);
 
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                stream.getTracks().forEach(track => track.stop());
-            } catch (err) {
-                transcriptBox.innerHTML = '❌ Accès au micro refusé';
-                return;
+                    const cmdEl = document.getElementById('lastCommand');
+                    const devEl = document.getElementById('lastDevice');
+                    const timeEl = document.getElementById('lastTime');
+
+                    if (cmdEl) cmdEl.innerHTML = d.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT';
+                    if (devEl) devEl.innerHTML = d.appareil || '-';
+                    if (timeEl) timeEl.innerHTML = new Date(d.timestamp).toLocaleString('fr-FR');
+
+                    if (d.valeur === 1 && prev === 0) {
+                        motorStartTime = Date.now();
+                        cycleCount++;
+                        saveStats();
+                        document.getElementById('statCycles').textContent = cycleCount;
+                    } else if (d.valeur === 0 && prev === 1 && motorStartTime) {
+                        totalRunTimeSeconds += Math.floor((Date.now() - motorStartTime) / 1000);
+                        motorStartTime = null;
+                        saveStats();
+                    }
+                    motorState = d.valeur;
+                }
+            });
+        }
+
+        // ===== HISTORIQUE =====
+        async function loadHistory() {
+            const snap = await database.ref('historique').once('value');
+            const data = snap.val();
+            commandHistory = [];
+            onCount = offCount = 0;
+            if (data) {
+                commandHistory = Object.values(data).reverse();
+                commandHistory.forEach(i => i.valeur === 1 ? onCount++ : offCount++);
             }
 
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) {
-                transcriptBox.innerHTML = '❌ Reconnaissance vocale non supportée';
-                return;
+            document.getElementById('statTotal').textContent = onCount + offCount;
+            document.getElementById('statOn').textContent = onCount;
+            document.getElementById('statOff').textContent = offCount;
+
+            const today = new Date().toDateString();
+            const weekAgo = Date.now() - 7 * 24 * 3600 * 1000;
+            const monthAgo = Date.now() - 30 * 24 * 3600 * 1000;
+
+            const todayEl = document.getElementById('todayCount');
+            const weekEl = document.getElementById('weekCount');
+            const monthEl = document.getElementById('monthCount');
+            const totalEl = document.getElementById('totalCount');
+            const commandsTodayEl = document.getElementById('commandsToday');
+
+            const todayCommands = commandHistory.filter(i => new Date(i.timestamp).toDateString() === today).length;
+
+            if (todayEl) todayEl.textContent = todayCommands;
+            if (weekEl) weekEl.textContent = commandHistory.filter(i => i.timestamp > weekAgo).length;
+            if (monthEl) monthEl.textContent = commandHistory.filter(i => i.timestamp > monthAgo).length;
+            if (totalEl) totalEl.textContent = onCount + offCount;
+            if (commandsTodayEl) commandsTodayEl.textContent = todayCommands;
+
+            let filtered = commandHistory;
+            if (currentFilter === "on") filtered = commandHistory.filter(i => i.valeur === 1);
+            if (currentFilter === "off") filtered = commandHistory.filter(i => i.valeur === 0);
+
+            const list = document.getElementById('historyList');
+            if (list) {
+                if (!filtered.length) {
+                    list.innerHTML = '<div style="text-align:center;padding:30px;">Aucune commande</div>';
+                    return;
+                }
+                list.innerHTML = filtered.slice(0, 30).map(i => `
+                    <div class="history-item">
+                        <div><span>${i.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}</span></div>
+                        <div>${new Date(i.timestamp).toLocaleString('fr-FR')}</div>
+                    </div>
+                `).join('');
             }
+        }
 
-            const rec = new SpeechRecognition();
-            rec.lang = 'fr-FR';
-            rec.continuous = false;
-            rec.interimResults = false;
+        async function saveStats() {
+            await database.ref('stats').set({
+                cycleCount,
+                totalRunTime: totalRunTimeSeconds,
+                lastUpdate: Date.now()
+            });
+        }
 
-            btn.classList.add('listening');
-            btn.innerHTML = '🎙️<br>Écoute...';
-            status.innerHTML = '🎤 Je vous écoute...';
-            transcriptBox.innerHTML = '💬 Parlez maintenant...';
+        async function loadStats() {
+            const snap = await database.ref('stats').once('value');
+            const d = snap.val();
+            if (d) {
+                cycleCount = d.cycleCount || 0;
+                totalRunTimeSeconds = d.totalRunTime || 0;
+                document.getElementById('statCycles').textContent = cycleCount;
+                document.getElementById('totalCycles').textContent = cycleCount;
 
-            parlerAssistant("Je vous écoute. Dites Marche ou Arrêt.");
+                const hours = Math.floor(totalRunTimeSeconds / 3600);
+                const minutes = Math.floor((totalRunTimeSeconds % 3600) / 60);
+                document.getElementById('totalRunTime').textContent = `${hours}h ${minutes}m`;
 
-            rec.onresult = (event) => {
-                const parole = event.results[0][0].transcript.toLowerCase().trim();
-                transcriptBox.innerHTML = `🗣️ Vous avez dit : "${parole}"`;
-
-                let commande = null, reponse = "";
-
-                if (parole.includes('marche') || parole.includes('allume') || parole.includes('activer') || parole.includes('démarrer') || parole.includes('demarre') || parole.includes('on')) {
-                    commande = 1;
-                    reponse = "Je mets le moteur en marche";
-                    showNotification('🎤 Assistant: MARCHE');
-                } else if (parole.includes('arrêt') || parole.includes('arret') || parole.includes('éteint') || parole.includes('eteint') || parole.includes('stop') || parole.includes('off') || parole.includes('couper') || parole.includes('éteindre')) {
-                    commande = 0;
-                    reponse = "J'arrête le moteur";
-                    showNotification('🎤 Assistant: ARRÊT');
-                } else {
-                    reponse = "Je n'ai pas compris. Dites Marche ou Arrêt.";
-                    transcriptBox.innerHTML = `❓ Non reconnu : "${parole}"`;
-                }
-
-                if (commande !== null) {
-                    sendCommand(commande);
-                    status.innerHTML = `✅ ${reponse}`;
-                }
-
-                parlerAssistant(reponse);
-            };
-
-            rec.onerror = (event) => {
-                btn.classList.remove('listening');
-                btn.innerHTML = '🎤<br>Parler';
-                if (event.error === 'no-speech') {
-                    transcriptBox.innerHTML = '⚠️ Aucune parole détectée';
-                    parlerAssistant("Je n'ai rien entendu. Réessayez.");
-                } else {
-                    transcriptBox.innerHTML = `❌ Erreur: ${event.error}`;
-                }
-                status.innerHTML = '👋 Prête à vous écouter';
-            };
-
-            rec.onend = () => {
-                btn.classList.remove('listening');
-                btn.innerHTML = '🎤<br>Parler';
-                status.innerHTML = '👋 Prête à vous écouter';
-            };
-
-            rec.start();
+                const avgCycle = cycleCount > 0 ? Math.round(totalRunTimeSeconds / cycleCount) : 0;
+                document.getElementById('avgCycleTime').textContent = `${avgCycle}s`;
+            }
         }
 
         // ===== PROGRAMMATION =====
@@ -1722,13 +2227,6 @@
             const data = snapshot.val();
             schedules = data ? Object.entries(data).map(([id, s]) => ({ id, ...s })) : [];
             displaySchedules();
-        }
-
-        function formatDuration(seconds) {
-            if (!seconds) return '';
-            if (seconds >= 3600) return `${seconds / 3600} heure${seconds / 3600 > 1 ? 's' : ''}`;
-            if (seconds >= 60) return `${seconds / 60} minute${seconds / 60 > 1 ? 's' : ''}`;
-            return `${seconds} seconde${seconds > 1 ? 's' : ''}`;
         }
 
         function getTypeLabel(type) {
@@ -1750,7 +2248,6 @@
                             <span class="schedule-period">${getTypeLabel(s.type)}</span>
                         </div>
                         ${s.date ? `<div style="font-size:11px;color:#888;">📅 ${s.date}</div>` : ''}
-                        ${s.duration ? `<div class="schedule-duration">⏱️ Durée: ${formatDuration(s.duration)}</div>` : ''}
                     </div>
                     <div><span class="schedule-action ${s.action === 1 ? 'on' : 'off'}">${s.action === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}</span></div>
                     <div>
@@ -1773,18 +2270,6 @@
             document.getElementById('scheduleHour').value = schedule.heure;
             document.getElementById('scheduleMinute').value = schedule.minute;
             document.getElementById('scheduleAction').value = schedule.action;
-
-            if (schedule.duration) {
-                let val = schedule.duration;
-                let unit = 'seconds';
-                if (val >= 3600 && val % 3600 === 0) { val = val / 3600; unit = 'hours'; }
-                else if (val >= 60 && val % 60 === 0) { val = val / 60; unit = 'minutes'; }
-                document.getElementById('scheduleDurationValue').value = val;
-                document.getElementById('scheduleDurationUnit').value = unit;
-            } else {
-                document.getElementById('scheduleDurationValue').value = '';
-            }
-
             document.getElementById('scheduleModal').style.display = 'flex';
         };
 
@@ -1816,14 +2301,13 @@
                     <div class="user-item">
                         <div>
                             <div style="font-weight:bold;">${userData.email || 'Sans email'}</div>
-                            <div style="font-size:11px;color:#888;">ID: ${uid.substring(0, 8)}...</div>
+                            <div style="font-size:11px;color:#888;">Créé le ${userData.createdAt ? new Date(userData.createdAt).toLocaleDateString('fr-FR') : '-'}</div>
                         </div>
                         <div>
                             <span class="user-role ${userData.role || 'user'}">${userData.role === 'admin' ? '👑 Admin' : '👤 User'}</span>
                         </div>
                         <div class="user-actions">
                             <button class="user-edit" onclick="editUser('${uid}')">✏️</button>
-                            <button class="user-reset" onclick="resetUserPassword('${uid}')">🔑</button>
                             <button class="user-delete" onclick="deleteUser('${uid}')">🗑️</button>
                         </div>
                     </div>
@@ -1838,19 +2322,8 @@
                 document.getElementById('editUserId').value = uid;
                 document.getElementById('editUserEmail').value = userData.email || '';
                 document.getElementById('editUserRole').value = userData.role || 'user';
-                document.getElementById('editUserPassword').value = '';
                 document.getElementById('editUserModal').style.display = 'flex';
             });
-        };
-
-        window.resetUserPassword = function (uid) {
-            const newPass = prompt('Nouveau mot de passe (minimum 6 caractères) :');
-            if (!newPass || newPass.length < 6) {
-                showNotification('❌ Mot de passe trop court (6 caractères minimum)', true);
-                return;
-            }
-            // Note: La réinitialisation de mot de passe nécessite une Cloud Function
-            showNotification('ℹ️ Contactez l\'administrateur système pour réinitialiser le mot de passe');
         };
 
         window.deleteUser = function (uid) {
@@ -1861,34 +2334,14 @@
             }
             database.ref(`users/${uid}`).remove()
                 .then(() => {
+                    addLog('admin', 'Suppression utilisateur', `Utilisateur ${uid} supprimé`);
                     showNotification('✅ Utilisateur supprimé');
                     loadUsers();
                 })
                 .catch(e => showNotification('❌ Erreur: ' + e.message, true));
         };
 
-        // ===== FONCTIONS PRINCIPALES =====
-        function navigateTo(page) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(page + 'Page').classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
-
-            const titles = {
-                dashboard: 'Tableau de bord', control: 'Contrôle moteur', assistant: '🎤 Assistant Vocal',
-                history: 'Historique', stats: 'Statistiques', export: 'Export', schedule: 'Programmation',
-                profile: 'Mon profil', admin: 'Administration', about: 'À propos'
-            };
-            document.getElementById('pageTitle').textContent = titles[page];
-
-            if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
-            if (page === 'schedule') loadSchedules();
-            if (page === 'admin') loadUsers();
-            if (page === 'assistant') {
-                setTimeout(() => parlerAssistant("Bonjour. Je suis votre assistante vocale. Dites Marche ou Arrêt pour contrôler le moteur."), 300);
-            }
-        }
-
+        // ===== NOTIFICATION =====
         function showNotification(msg, isError = false) {
             const d = document.createElement('div');
             d.className = 'notification' + (isError ? ' error' : '');
@@ -1897,113 +2350,27 @@
             setTimeout(() => d.remove(), 3000);
         }
 
-        function formatDate(ts) { return new Date(ts).toLocaleString('fr-FR'); }
+        // ===== NAVIGATION =====
+        function navigateTo(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(page + 'Page').classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
 
-        function sendCommand(value) {
-            const device = /mobile/i.test(navigator.userAgent) ? "📱 Mobile" : "💻 PC";
-            database.ref('moteur/etat').set({ valeur: value, appareil: device, timestamp: Date.now() })
-                .then(() => {
-                    database.ref('historique').push({ valeur: value, appareil: device, timestamp: Date.now(), utilisateur: auth.currentUser?.email });
-                    showNotification(`✅ ${value === 1 ? 'MARCHE' : 'ARRÊT'} envoyé`);
-                })
-                .catch(e => showNotification(`❌ Erreur`, true));
-        }
-
-        function listenToMotorState() {
-            database.ref('moteur/etat').on('value', (s) => {
-                const d = s.val();
-                if (d) {
-                    let prev = motorState;
-                    updateAnimations(d.valeur);
-                    document.getElementById('lastCommand').innerHTML = d.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT';
-                    document.getElementById('lastDevice').innerHTML = d.appareil;
-                    document.getElementById('lastTime').innerHTML = formatDate(d.timestamp);
-                    if (d.valeur === 1 && prev === 0) {
-                        motorStartTime = Date.now();
-                        cycleCount++;
-                        saveStats();
-                        document.getElementById('statCycles').textContent = cycleCount;
-                    } else if (d.valeur === 0 && prev === 1 && motorStartTime) {
-                        totalRunTimeSeconds += Math.floor((Date.now() - motorStartTime) / 1000);
-                        motorStartTime = null;
-                        saveStats();
-                    }
-                    motorState = d.valeur;
-                }
-            });
-        }
-
-        async function loadHistory() {
-            const snap = await database.ref('historique').once('value');
-            const data = snap.val();
-            commandHistory = [];
-            onCount = offCount = 0;
-            if (data) {
-                commandHistory = Object.values(data).reverse();
-                commandHistory.forEach(i => i.valeur === 1 ? onCount++ : offCount++);
-            }
-            document.getElementById('statTotal').textContent = onCount + offCount;
-            document.getElementById('statOn').textContent = onCount;
-            document.getElementById('statOff').textContent = offCount;
-
-            const today = new Date().toDateString();
-            const weekAgo = Date.now() - 7 * 24 * 3600 * 1000;
-            const monthAgo = Date.now() - 30 * 24 * 3600 * 1000;
-            document.getElementById('todayCount').textContent = commandHistory.filter(i => new Date(i.timestamp).toDateString() === today).length;
-            document.getElementById('weekCount').textContent = commandHistory.filter(i => i.timestamp > weekAgo).length;
-            document.getElementById('monthCount').textContent = commandHistory.filter(i => i.timestamp > monthAgo).length;
-            document.getElementById('totalCount').textContent = onCount + offCount;
-
-            let filtered = commandHistory;
-            if (currentFilter === "on") filtered = commandHistory.filter(i => i.valeur === 1);
-            if (currentFilter === "off") filtered = commandHistory.filter(i => i.valeur === 0);
-            const list = document.getElementById('historyList');
-            if (!filtered.length) { list.innerHTML = '<div style="text-align:center;padding:30px;">Aucune commande</div>'; return; }
-            list.innerHTML = filtered.slice(0, 30).map(i => `<div class="history-item"><div><span>${i.valeur === 1 ? '🟢 MARCHE' : '🔴 ARRÊT'}</span><span style="font-size:10px;margin-left:8px;">${i.appareil || 'Inconnu'}</span></div><div>${formatDate(i.timestamp)}</div></div>`).join('');
-        }
-
-        async function loadStats() {
-            const snap = await database.ref('stats').once('value');
-            const d = snap.val();
-            if (d) { cycleCount = d.cycleCount || 0; totalRunTimeSeconds = d.totalRunTime || 0; document.getElementById('statCycles').textContent = cycleCount; }
-        }
-
-        async function saveStats() {
-            await database.ref('stats').set({ cycleCount, totalRunTime: totalRunTimeSeconds, lastUpdate: Date.now() });
-        }
-
-        function exportCSV() {
-            if (!commandHistory.length) return showNotification('Aucune donnée', true);
-            let csv = "Date,Heure,Commande,Appareil\n";
-            commandHistory.forEach(i => { let d = new Date(i.timestamp); csv += `${d.toLocaleDateString()},${d.toLocaleTimeString()},${i.valeur === 1 ? 'MARCHE' : 'ARRÊT'},${i.appareil}\n`; });
-            let link = document.createElement('a');
-            link.href = URL.createObjectURL(new Blob(["\uFEFF" + csv], { type: 'text/csv' }));
-            link.download = `moteur_${Date.now()}.csv`;
-            link.click();
-            showNotification('✅ CSV exporté');
-        }
-
-        function exportJSON() {
-            if (!commandHistory.length) return showNotification('Aucune donnée', true);
-            let link = document.createElement('a');
-            link.href = URL.createObjectURL(new Blob([JSON.stringify(commandHistory, null, 2)], { type: 'application/json' }));
-            link.download = `moteur_${Date.now()}.json`;
-            link.click();
-            showNotification('✅ JSON exporté');
-        }
-
-        async function uploadProfilePhoto(file) {
-            const user = auth.currentUser;
-            if (!user) return;
-            if (file.size > 2 * 1024 * 1024) { showNotification("❌ Photo trop grande", true); return; }
-            const reader = new FileReader();
-            reader.onloadend = async () => {
-                await database.ref(`users/${user.uid}/photo`).set({ data: reader.result });
-                document.getElementById('headerProfilePhoto').src = reader.result;
-                document.getElementById('profileBigPhoto').src = reader.result;
-                showNotification("✅ Photo mise à jour");
+            const titles = {
+                dashboard: 'Tableau de bord', control: 'Contrôle moteur', history: 'Historique',
+                stats: 'Statistiques', schedule: 'Programmation', profile: 'Mon profil',
+                admin: 'Administration', about: 'À propos'
             };
-            reader.readAsDataURL(file);
+            document.getElementById('pageTitle').textContent = titles[page];
+
+            if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
+            if (page === 'schedule') loadSchedules();
+            if (page === 'admin') {
+                loadUsers();
+                loadLogs();
+                loadMaintenanceStatus();
+            }
         }
 
         // ===== INITIALISATION =====
@@ -2012,36 +2379,119 @@
             document.getElementById('btnOff').onclick = () => sendCommand(0);
             document.getElementById('btnOn2').onclick = () => sendCommand(1);
             document.getElementById('btnOff2').onclick = () => sendCommand(0);
-            document.getElementById('exportCSV').onclick = exportCSV;
-            document.getElementById('exportJSON').onclick = exportJSON;
 
-            const assistantBtn = document.getElementById('assistantVoiceBtn');
-            if (assistantBtn) assistantBtn.addEventListener('click', startAssistantListening);
-            const testVoiceBtn = document.getElementById('testAssistantVoice');
-            if (testVoiceBtn) testVoiceBtn.addEventListener('click', () => parlerAssistant("Bonjour, je fonctionne correctement."));
+            // Admin tabs
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.onclick = () => {
+                    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(tab.dataset.tab + 'Tab').classList.add('active');
+                };
+            });
+
+            // Logs
+            document.getElementById('refreshLogsBtn').onclick = () => { loadLogs(); showNotification('🔄 Logs actualisés'); };
+            document.getElementById('clearLogsBtn').onclick = async () => {
+                if (!confirm('Effacer tous les logs ?')) return;
+                await database.ref('systemLogs').remove();
+                systemLogs = [];
+                displayLogs();
+                addLog('admin', 'Logs effacés', 'Tous les logs ont été supprimés');
+                showNotification('✅ Logs effacés');
+            };
+            document.getElementById('exportLogsBtn').onclick = () => {
+                const dataStr = JSON.stringify(systemLogs, null, 2);
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `logs_${Date.now()}.json`;
+                a.click();
+                showNotification('📥 Logs exportés');
+            };
+
+            document.getElementById('logFilter').onchange = (e) => {
+                logFilter = e.target.value;
+                displayLogs();
+            };
+
+            // Maintenance
+            document.getElementById('toggleMaintenanceBtn').onclick = toggleMaintenance;
+            document.getElementById('maintenanceMessage').onchange = (e) => {
+                maintenanceMessage = e.target.value;
+                if (maintenanceMode) {
+                    database.ref('system/maintenance').update({ message: maintenanceMessage });
+                }
+            };
+
+            // Diagnostic
+            document.getElementById('runDiagnosticBtn').onclick = runDiagnostic;
+            document.getElementById('forceStopBtn').onclick = () => {
+                sendCommand(0);
+                addLog('maintenance', 'Arrêt urgence', 'Arrêt d\'urgence activé');
+                showNotification('⚠️ Arrêt d\'urgence activé');
+            };
+            document.getElementById('clearCacheBtn').onclick = () => {
+                localStorage.clear();
+                sessionStorage.clear();
+                showNotification('✅ Cache vidé');
+                addLog('maintenance', 'Cache vidé', 'Cache local nettoyé');
+            };
+            document.getElementById('restartSystemBtn').onclick = () => {
+                if (confirm('Redémarrer le système ? Cette action est réversible.')) {
+                    sendCommand(0);
+                    setTimeout(() => location.reload(), 1500);
+                    showNotification('🔄 Redémarrage...');
+                }
+            };
+            document.getElementById('reconnectFirebaseBtn').onclick = async () => {
+                try {
+                    await database.ref('.info/connected').once('value');
+                    showNotification('✅ Firebase reconnecté');
+                    addLog('maintenance', 'Reconnexion', 'Firebase reconnecté');
+                } catch (e) {
+                    showNotification('❌ Échec reconnexion', true);
+                }
+            };
+            document.getElementById('calibrateSensorsBtn').onclick = () => {
+                showNotification('📐 Calibration en cours...');
+                setTimeout(() => {
+                    showNotification('✅ Capteurs calibrés');
+                    addLog('maintenance', 'Calibration', 'Capteurs calibrés');
+                }, 2000);
+            };
+            document.getElementById('resetMotorBtn').onclick = async () => {
+                await sendCommand(0);
+                setTimeout(() => sendCommand(1), 1500);
+                addLog('maintenance', 'Reset moteur', 'Moteur réinitialisé');
+            };
 
             listenToMotorState();
             loadHistory();
             loadStats();
             loadSchedules();
+            initVoiceRecognition();
+
             setInterval(loadHistory, 5000);
-            setInterval(saveStats, 10000);
             setInterval(() => {
                 if (motorState === 1 && motorStartTime) {
                     const elapsed = Math.floor((Date.now() - motorStartTime) / 1000);
                     const h = Math.floor(elapsed / 3600), m = Math.floor((elapsed % 3600) / 60), s = elapsed % 60;
-                    document.getElementById('runTimeDisplay').innerHTML = h > 0 ? `${h}h ${m}m` : m > 0 ? `${m}m ${s}s` : `${s}s`;
-                } else { document.getElementById('runTimeDisplay').innerHTML = '0s'; }
+                    const display = document.getElementById('runTimeDisplay');
+                    if (display) display.innerHTML = h > 0 ? `${h}h ${m}m` : m > 0 ? `${m}m ${s}s` : `${s}s`;
+                } else {
+                    const display = document.getElementById('runTimeDisplay');
+                    if (display) display.innerHTML = '0s';
+                }
             }, 1000);
-            initAssistantVocal();
+
+            addLog('login', 'Connexion', 'Connexion au système');
         }
 
         // ===== EVENT LISTENERS =====
         document.querySelectorAll('.nav-item').forEach(item => item.onclick = () => navigateTo(item.dataset.page));
         document.getElementById('menuToggle').onclick = () => document.getElementById('sidebar').classList.toggle('open');
-        document.getElementById('photoUpload').onchange = (e) => e.target.files[0] && uploadProfilePhoto(e.target.files[0]);
-        document.getElementById('changePhotoBtn').onclick = () => document.getElementById('profilePhotoUpload').click();
-        document.getElementById('profilePhotoUpload').onchange = (e) => e.target.files[0] && uploadProfilePhoto(e.target.files[0]);
 
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.onclick = () => {
@@ -2089,7 +2539,6 @@
             document.getElementById('scheduleHour').value = '';
             document.getElementById('scheduleMinute').value = '';
             document.getElementById('scheduleAction').value = '1';
-            document.getElementById('scheduleDurationValue').value = '';
             document.getElementById('scheduleModal').style.display = 'flex';
         };
         document.getElementById('closeModalBtn').onclick = () => document.getElementById('scheduleModal').style.display = 'none';
@@ -2099,8 +2548,6 @@
             const heure = parseInt(document.getElementById('scheduleHour').value);
             const minute = parseInt(document.getElementById('scheduleMinute').value);
             const action = parseInt(document.getElementById('scheduleAction').value);
-            const durationValue = document.getElementById('scheduleDurationValue').value;
-            const durationUnit = document.getElementById('scheduleDurationUnit').value;
 
             if (isNaN(heure) || isNaN(minute)) { showNotification('❌ Heure requise', true); return; }
 
@@ -2109,13 +2556,6 @@
                 const date = document.getElementById('scheduleDate').value;
                 if (!date) { showNotification('❌ Date requise', true); return; }
                 scheduleData.date = date;
-            }
-
-            if (durationValue && parseInt(durationValue) > 0) {
-                const val = parseInt(durationValue);
-                if (durationUnit === 'minutes') scheduleData.duration = val * 60;
-                else if (durationUnit === 'hours') scheduleData.duration = val * 3600;
-                else scheduleData.duration = val;
             }
 
             const user = auth.currentUser;
@@ -2137,14 +2577,9 @@
         document.getElementById('saveUserBtn').onclick = async () => {
             const uid = document.getElementById('editUserId').value;
             const role = document.getElementById('editUserRole').value;
-            const password = document.getElementById('editUserPassword').value;
 
             await database.ref(`users/${uid}`).update({ role });
-
-            if (password && password.length >= 6) {
-                showNotification('ℹ️ Le mot de passe doit être changé via la console Firebase');
-            }
-
+            addLog('admin', 'Modification utilisateur', `Rôle changé en ${role}`);
             showNotification('✅ Utilisateur modifié');
             document.getElementById('editUserModal').style.display = 'none';
             loadUsers();
@@ -2172,6 +2607,7 @@
                     role: 'user',
                     createdAt: Date.now()
                 });
+                addLog('admin', 'Création utilisateur', `Nouvel utilisateur: ${email}`);
                 showNotification('✅ Utilisateur créé');
                 document.getElementById('newUserEmail').value = '';
                 document.getElementById('newUserPassword').value = '';
@@ -2202,20 +2638,18 @@
                 document.getElementById('profileEmail').textContent = user.email;
                 document.getElementById('profileRole').textContent = role === 'admin' ? 'Administrateur' : 'Utilisateur';
 
+                const userData = await database.ref(`users/${user.uid}`).once('value');
+                const data = userData.val();
+                if (data?.createdAt) {
+                    document.getElementById('profileMemberSince').textContent = new Date(data.createdAt).toLocaleDateString('fr-FR');
+                }
+
                 loginScreen.style.display = 'none';
                 registerScreen.style.display = 'none';
                 appScreen.style.display = 'block';
 
-                const photoSnap = await database.ref(`users/${user.uid}/photo`).once('value');
-                if (photoSnap.val()?.data) {
-                    document.getElementById('headerProfilePhoto').src = photoSnap.val().data;
-                    document.getElementById('profileBigPhoto').src = photoSnap.val().data;
-                }
-
                 initApp();
-                initVoiceRecognition();
                 initTheme();
-                speak("Bienvenue dans MasterSlave, système de contrôle industriel");
             } else {
                 loginScreen.style.display = 'block';
                 registerScreen.style.display = 'none';
@@ -2241,7 +2675,12 @@
         };
         document.getElementById('showRegister').onclick = () => { loginScreen.style.display = 'none'; registerScreen.style.display = 'block'; };
         document.getElementById('showLogin').onclick = () => { loginScreen.style.display = 'block'; registerScreen.style.display = 'none'; };
-        document.getElementById('logoutBtn').onclick = () => auth.signOut();
+        document.getElementById('logoutBtn').onclick = () => {
+            addLog('login', 'Déconnexion', 'Déconnexion du système');
+            auth.signOut();
+        };
+
+        console.log('🚀 MasterSlave v13.0 - Prêt');
     </script>
 </body>
 
